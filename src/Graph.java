@@ -1,11 +1,12 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Graph {
-
     public Graph(){
         try{
-            ReadGraph.read("graphXS.paed");
-        }catch (FileNotFoundException e){
+            String fileName = "graphXS.paed";
+            ReadGraph.read(fileName);
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
