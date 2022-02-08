@@ -24,4 +24,11 @@ public class User {
         return interests;
     }
 
+    public boolean hasInterest(String interestToCheck){
+        for(String interest: interests)
+            if(interest.equals(interestToCheck)) return true;
+
+        return false;
+    }
+
 }
