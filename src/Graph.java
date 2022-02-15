@@ -1,19 +1,18 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Graph {
-    private static User[] users;
-    private static Follow[] follows;
+    private User[] graph;
 
     public Graph(){
         try{
             String fileName = "graphXS.paed";
             ReadGraph.read(fileName);
-            users = ReadGraph.getUsers();
-            follows = ReadGraph.getFollows();
+            graph = ReadGraph.getGraph();
+            for(int i = 0; i < graph.length; i++)
+                System.out.println(graph[i]);
         }catch (IOException e){
             e.printStackTrace();
+            graph = null;
         }
     }
 
