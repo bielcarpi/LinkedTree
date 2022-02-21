@@ -24,7 +24,8 @@ public class Graph {
     }
 
     public void disconnectedDfs() {
-        for (int i = 0; i < graph[i].getFollows().size(); i++) {
+        //controlar quan graph[i].getFollows() == null
+        for (int i = 0; i < (graph[i].getFollows() == null ? 0: graph[i].getFollows().size()); i++) {
             if (!graph[i].isVisited()){
                 dfs(graph, graph[i]);
             }
