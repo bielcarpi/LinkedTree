@@ -8,6 +8,8 @@ public class User implements Comparable<User>{
     private String[] interests;
     private ArrayList<Follow> follows;
 
+    private boolean visited;
+
     /**
      * userAux is an auxiliar variable for better performance
      * on the method {@link #getUserWithId(int)}
@@ -61,6 +63,13 @@ public class User implements Comparable<User>{
         return false;
     }
 
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
     /**
      * Compares the current user to another user, using its IDs

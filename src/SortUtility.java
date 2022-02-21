@@ -86,7 +86,6 @@ public class SortUtility {
     }
 
 
-
     /**
      * Orders (using quicksort) an array of {@code T Objects} given a {@link Comparator<T>} for that same {@code object}
      * <p>The array passed as parameter will be the one modified (by reference). If you don't want this behavior,
