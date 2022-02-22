@@ -1,4 +1,4 @@
-package model;
+package model.utilities;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * {@code model.SortUtility} is a class designed to help with sorting arrays of {@code Objects}.
+ * {@code model.utilities.SortUtility} is a class designed to help with sorting arrays of {@code Objects}.
  * <p>As we want to order an Object T, we'll use {@code Generics}.
  * <br>
  * <p>The class will provide methods for sorting an array with different algorithms, such as merge sort, quick sort or bucket sort

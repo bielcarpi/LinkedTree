@@ -32,7 +32,7 @@ public class ReadGraph {
         //Once we have the array of users, let's order it using the MergeSort we implemented in the last practice
         Arrays.sort(users);
         //TODO
-        //model.SortUtility.quickSort(users, new model.User(0, null, null, null));
+        //model.utilities.SortUtility.quickSort(users, new model.User(0, null, null, null));
 
         currentLine = br.readLine();
         int numFollows = Integer.parseInt(currentLine);
