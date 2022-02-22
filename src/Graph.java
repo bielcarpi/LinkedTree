@@ -11,11 +11,15 @@ public class Graph {
 
             for(int i = 0; i < graph.length; i++)
                 System.out.println(graph[i]);
+
+            System.out.println();
+            User tmp = mostFollowedUser(graph);
+            System.out.println(tmp.toString());
             
             //Comencem a recorre el graph des del usuari 0.
             //TODO: Parlarho amb el pol, no segur que el que he fet esta be
             //dfs(graph, graph[0]);
-            disconnectedDfs();
+            //disconnectedDfs();
 
         }catch (IOException e){
             e.printStackTrace();
@@ -30,18 +34,21 @@ public class Graph {
      * @return The most followed user with the index or position specified.
      */
     private User mostFollowedUser (User[] graph){
-        int index = 0;
+        int index = 0, lenght = 0;
         //We start the algorithm by saving the number of followers of the first user in order to start comparing
-        int lenght = graph[0].getFollows().size();
-        for (int i = 1; i < graph.length; i++) {
-            //In case there are more than one user with the same number of followers (User 1 and User 2),
-            //we always keep the User 1 as the one we are comparing with.
-            if (lenght < graph[i].getFollows().size()){
-                //Update of the index of the most followed user:
-                index = i;
-                //Update of the number of followers to keep comparing:
-                lenght = graph[i].getFollows().size();
+        for (int i = 0; i < graph.length; i++) {
+            //Check if the user has any follower or not.
+            if (graph[i].getFollows() != null){
+                //In case there are more than one user with the same number of followers (User 1 and User 2),
+                //we always keep the User 1 as the one we are comparing with.
+                if (lenght < graph[i].getFollows().size()){
+                    //Update of the index of the most followed user:
+                    index = i;
+                    //Update of the number of followers to keep comparing:
+                    lenght = graph[i].getFollows().size();
+                }
             }
+            //In case it has no followers, we skip him.
         }
         return  graph[index];
     }
