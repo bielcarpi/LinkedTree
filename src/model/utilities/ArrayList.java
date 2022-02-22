@@ -57,7 +57,7 @@ public class ArrayList<T> {
      * @param t The object to be added to the ArrayList
      */
     public void add(T t){
-        if(newValue > data.length - 1) grow();
+        if(newValue >= data.length) grow();
 
         data[newValue] = t;
         newValue++;
@@ -69,7 +69,7 @@ public class ArrayList<T> {
      * @throws IllegalArgumentException If the index specified does not exist
      */
     public T get(int index){
-        if(index < 0 || index > data.length - 1) throw new IllegalArgumentException("The index specified does not exist");
+        if(index < 0 || index > newValue - 1) throw new IllegalArgumentException("The index specified does not exist");
 
         return data[index];
     }
@@ -80,13 +80,14 @@ public class ArrayList<T> {
      * @throws IllegalArgumentException If the index specified does not exist
      */
     public void remove(int index){
-        if(index < 0 || index > data.length - 1) throw new IllegalArgumentException("The index specified does not exist");
+        if(index < 0 || index > newValue-1) throw new IllegalArgumentException("The index specified does not exist");
 
         T[] oldArray = data;
 
         @SuppressWarnings("unchecked")
         T[] d = (T[]) Array.newInstance(this.tClass, data.length - 1);
         data = d;
+        newValue--;
 
         System.arraycopy(oldArray, 0, data, 0, index); //Copy from 0 to index
         System.arraycopy(oldArray, index+1, data, index, oldArray.length - index - 1); //Copy from index+1 to final
@@ -97,7 +98,7 @@ public class ArrayList<T> {
      * @param t The element to be removed
      */
     public void remove(T t){
-        for(int i = 0; i < data.length; i++){
+        for(int i = 0; i < newValue; i++){
             if(data[i].equals(t)){
                 remove(i);
                 return;
@@ -111,6 +112,14 @@ public class ArrayList<T> {
      */
     public boolean isEmpty(){
         return data[0] == null;
+    }
+
+    /**
+     * Returns the size of the ArrayList (how many elements there are)
+     * @return Int representing how many elements there are
+     */
+    public int size(){
+        return newValue;
     }
 
     /**

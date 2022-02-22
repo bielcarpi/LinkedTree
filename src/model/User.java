@@ -1,6 +1,7 @@
 package model;
 
-import java.util.ArrayList;
+import model.utilities.ArrayList;
+
 import java.util.Arrays;
 
 public class User implements Comparable<User>{
@@ -96,7 +97,7 @@ public class User implements Comparable<User>{
     }
 
     public void setNewFollow(Follow f) {
-        if(follows == null) follows = new ArrayList<>();
+        if(follows == null) follows = new ArrayList<>(Follow.class);
         follows.add(f);
     }
 }
