@@ -23,6 +23,30 @@ public class Graph {
         }
     }
 
+    /**
+     * Returns the most followed user of the structure
+     * in order to start reading or sorting the nodes of the Graph.
+     * @param graph: The Graph from which we want to get the most followed user.
+     * @return The most followed user with the index or position specified.
+     */
+    private User mostFollowedUser (User[] graph){
+        int index = 0;
+        //We start the algorithm by saving the number of followers of the first user in order to start comparing
+        int lenght = graph[0].getFollows().size();
+        for (int i = 1; i < graph.length; i++) {
+            //In case there are more than one user with the same number of followers (User 1 and User 2),
+            //we always keep the User 1 as the one we are comparing with.
+            if (lenght < graph[i].getFollows().size()){
+                //Update of the index of the most followed user:
+                index = i;
+                //Update of the number of followers to keep comparing:
+                lenght = graph[i].getFollows().size();
+            }
+        }
+        return  graph[index];
+    }
+
+
     public void disconnectedDfs() {
         //controlar quan graph[i].getFollows() == null
         for (int i = 0; i < (graph[i].getFollows() == null ? 0: graph[i].getFollows().size()); i++) {
