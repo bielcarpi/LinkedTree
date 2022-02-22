@@ -1,7 +1,11 @@
 package model.utilities;
 
-import java.util.ArrayList;
 
+/**
+ * The class Queue implements a First-In-First-Out (FIFO) behaviour for the data introduced.
+ * <p>Internally, it makes use of {@link model.utilities.ArrayList}
+ * @param <T> The type of object the queue will hold
+ */
 public class Queue<T> {
 
     /**
@@ -10,8 +14,11 @@ public class Queue<T> {
      */
     private final ArrayList<T> list;
 
-    public Queue(){
-        list = new ArrayList<>();
+    /**
+     * Queue Default Constructor
+     */
+    public Queue(Class<T> tClass){
+        list = new ArrayList<>(tClass);
     }
 
     /**
