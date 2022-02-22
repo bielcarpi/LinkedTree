@@ -51,6 +51,10 @@ public class View {
         System.out.print(LINKED_TREE_MENU);
     }
 
+    /**
+     * Metode que mostra per consola el missatge que li han enviat
+     * @param message la String que es vol imprimir per pantalla
+     */
     public void printMessage(String message){
         System.out.println(message);
     }
@@ -75,4 +79,11 @@ public class View {
             }
         }
     }
+
+    /**
+     * Metode que demana a l'usuari un caracter
+     * @return el caracter que ha escrit l'usuari
+     */
+    public char askForChar() { return scanner.next().charAt(0); }
+
 }
