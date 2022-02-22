@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,7 +28,7 @@ public class User implements Comparable<User>{
     }
 
     /**
-     * Returns a User with the ID passed as parameter
+     * Returns a model.User with the ID passed as parameter
      * <p>To be used only for user comparison, as the user returned
      * is not a valid user (all its attributes are null)
      *
@@ -84,7 +86,7 @@ public class User implements Comparable<User>{
 
     @Override
     public String toString() {
-        return "User{" +
+        return "model.User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", alias='" + alias + '\'' +

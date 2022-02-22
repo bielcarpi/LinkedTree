@@ -1,3 +1,8 @@
+package model;
+
+import model.Follow;
+import model.User;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,7 +32,7 @@ public class ReadGraph {
         //Once we have the array of users, let's order it using the MergeSort we implemented in the last practice
         Arrays.sort(users);
         //TODO
-        //SortUtility.quickSort(users, new User(0, null, null, null));
+        //model.SortUtility.quickSort(users, new model.User(0, null, null, null));
 
         currentLine = br.readLine();
         int numFollows = Integer.parseInt(currentLine);

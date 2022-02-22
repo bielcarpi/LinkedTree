@@ -1,3 +1,5 @@
+package model;
+
 public class Follow {
     private int idUserFollowed;
     private int timestamp;
@@ -21,7 +23,7 @@ public class Follow {
 
     @Override
     public String toString() {
-        return "Follow{" +
+        return "model.Follow{" +
                 "idUserFollowed=" + idUserFollowed +
                 ", timestamp=" + timestamp +
                 ", interactions=" + interactions +
