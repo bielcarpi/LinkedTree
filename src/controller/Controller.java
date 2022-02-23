@@ -60,6 +60,7 @@ public class Controller {
                         getRecommendation();
                         continue infiniteLoop;
                     case 'C':
+                        contextualizeDrama();
                         continue infiniteLoop;
                     case 'D':
                         continue infiniteLoop;
@@ -123,5 +124,10 @@ public class Controller {
 
             recommendations.remove(0);
         }
+    }
+
+    private void contextualizeDrama() {
+        //TODO: Implementar dataset no cíclics per aquesta funcionalitat. Cla fer "git ignore"?
+
     }
 }
