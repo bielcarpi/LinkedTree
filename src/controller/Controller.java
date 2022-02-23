@@ -71,5 +71,17 @@ public class Controller {
     }
 
     private void exploreNetwork(){
+        Queue<GraphNode> q = graph.getNodesBfs();
+        if(!q.isEmpty()){
+            System.out.println();
+            System.out.println("L'usuari que segueix mes comptes es:");
+            System.out.println();
+            System.out.println(q.remove().toPrettyString());
+        }
+
+        while(!q.isEmpty()){
+            System.out.println();
+            System.out.println(q.remove().toPrettyString());
+        }
     }
 }

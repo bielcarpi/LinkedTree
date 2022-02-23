@@ -19,4 +19,10 @@ public interface GraphNode extends Cloneable, Comparable<GraphNode> {
      * @return A clone of the node
      */
     GraphNode clone();
+
+    /**
+     * Returns a pretty string representing the node
+     * @return A pretty string representing the node
+     */
+    String toPrettyString();
 }

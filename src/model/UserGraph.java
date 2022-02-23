@@ -64,7 +64,7 @@ public class UserGraph implements Graph {
         if(u == null) return null; //If the GraphNode does not exist, return null
 
         ArrayList<Follow> follows = u.getFollows();
-        GraphNode[] adjacentNodes = new GraphNode[follows.size()];
+        GraphNode[] adjacentNodes = new GraphNode[follows == null? 0: follows.size()];
 
         for(int i = 0; i < adjacentNodes.length; i++)
             adjacentNodes[i] = getUser(follows.get(i).getIdUserFollowed());

@@ -111,6 +111,11 @@ public class User implements GraphNode {
                 '}';
     }
 
+    @Override
+    public String toPrettyString() {
+        return "\t" + id + " - " + name + " (@" + alias + ")\n\tInteressos:" + Arrays.toString(interests);
+    }
+
     public void setNewFollow(Follow f) {
         if(follows == null) follows = new ArrayList<>(Follow.class);
         follows.add(f);

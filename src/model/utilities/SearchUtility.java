@@ -50,7 +50,7 @@ public class SearchUtility {
         node.setVisited(true);
 
         GraphNode[] adjacents;
-        while(bfsQueue.isEmpty()){
+        while(!bfsQueue.isEmpty()){
             GraphNode tmp = bfsQueue.remove();
             resultQueue.add(tmp); //Every time we explore and pop a Node, add it to the result queue
 
