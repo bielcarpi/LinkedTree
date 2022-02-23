@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class View {
 
     private static final String LINKED_TREE_LOGO = """
+              \s\s
               _      _       _            _   _______           \s
              | |    (_)     | |          | | |__   __|          \s
              | |     _ _ __ | | _____  __| |    | |_ __ ___  ___\s
@@ -25,7 +26,9 @@ public class View {
             Escull una opció:\s""";
 
     private static final String FOLLOWERS_MENU = """
-            .*LinkedTree*.
+            
+            
+            .* Followers Menu *.
             
             A. Explorar la xarxa
             B. Recomanar usuaris
@@ -38,9 +41,8 @@ public class View {
 
     private Scanner scanner;
 
-        private static final String INTEGER_EXCEPTION_MESSAGE = """
-            Error, not an integer.
-            Please enter a valid integer:\s""";
+    private static final String INTEGER_EXCEPTION_MESSAGE = """
+        Error. Introdueix una opció valida:\s""";
 
     public View() {
         scanner = new Scanner(System.in);
@@ -71,7 +73,6 @@ public class View {
         while (true) {
             try {
                 return scanner.nextInt();
-
             } catch (InputMismatchException e) {
                 System.out.println(INTEGER_EXCEPTION_MESSAGE);
             } finally {

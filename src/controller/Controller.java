@@ -1,74 +1,75 @@
 package controller;
 
-import model.Graph;
+import model.UserGraph;
+import model.interfaces.GraphNode;
+import model.utilities.Queue;
 import view.View;
 
 public class Controller {
 
-    private Graph graph;
+    private UserGraph graph;
     private View view;
 
-    public Controller(View v, Graph g){
+    public Controller(View v, UserGraph g){
         view = v;
         graph = g;
     }
 
     public void start(){
-        view.printStartMenu();
-        int option;
-        do{
-            option = view.askForInteger();
-            switch (option){
-                case 1:
-                    // Execute Followers Option
-                    followersOption();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    view.printMessage("Good bye!");
-                    break;
-                default:
-                    view.printMessage("Error. The value ranges are from [1, 5]");
-                    break;
-            }
-        }while(option < 1 || option > 6);
+        infiniteLoop:
+        while(true) {
+            view.printStartMenu();
+            int option;
+            do {
+                option = view.askForInteger();
+                switch (option) {
+                    case 1:
+                        // Execute Followers Option
+                        followersOption();
+                        continue infiniteLoop;
+                    case 2:
+                        continue infiniteLoop;
+                    case 3:
+                        continue infiniteLoop;
+                    case 4:
+                        continue infiniteLoop;
+                    case 5:
+                        view.printMessage("Fins aviat!");
+                        return;
+                    default:
+                        view.printMessage("Error. The value ranges are from [1, 5]");
+                        break;
+                }
+            } while (option < 1 || option > 6);
+        }
     }
 
     public void followersOption(){
-        boolean correctOption;
-
-        do{
-            char grafOption = view.askForChar();
-            correctOption = false;
-
-            switch (grafOption){
-                case 'A':
-                    //Execute net exploring
-                    correctOption = true;
-                    break;
-                case 'B':
-                    correctOption = true;
-                    break;
-                case 'C':
-                    correctOption = true;
-                    break;
-                case 'D':
-                    correctOption = true;
-                    break;
-                case 'E':
-                    correctOption = true;
-                    break;
-                default:
-                    view.printMessage("Error. The value ranges are from [A, E]");
-                    break;
-            }
-        }while(!correctOption);
-
+        infiniteLoop:
+        while(true){
+            view.printFollowersMenu();
+            do{
+                char option = view.askForChar();
+                switch (option){
+                    case 'A':
+                        exploreNetwork();
+                        continue infiniteLoop;
+                    case 'B':
+                        continue infiniteLoop;
+                    case 'C':
+                        continue infiniteLoop;
+                    case 'D':
+                        continue infiniteLoop;
+                    case 'E':
+                        return;
+                    default:
+                        view.printMessage("Error. The value ranges are from [A, E]");
+                        break;
+                }
+            }while(true); //While the input is not well-formatted
+        }
     }
 
+    private void exploreNetwork(){
+    }
 }
