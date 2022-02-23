@@ -61,6 +61,13 @@ public class View {
         System.out.println(message);
     }
 
+    /**
+     * Mostra per consola una linia en blanc
+     */
+    public void printMessage(){
+        System.out.println();
+    }
+
     public void printFollowersMenu() {
         System.out.println(FOLLOWERS_MENU);
     }

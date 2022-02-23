@@ -5,6 +5,7 @@ import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.SearchUtility;
+import model.utilities.Tuple;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,6 +20,22 @@ public class UserGraph implements Graph {
 
     public Queue<GraphNode> getNodesBfs(){
         return SearchUtility.bfs(this, getBiggestNode(), true, true);
+    }
+
+    /**
+     * Given an ID from a User, it returns a {@link Queue} with {@link Tuple} objects, where the
+     * first position of the tuple is the user to recommend, and the last is the reason
+     * @param id The ID of the user that wants to be known its recommendations
+     * @return A {@link Queue} with {@link Tuple} objects, where the first position of the tuple is
+     * the user to recommend, and the last is the reason
+     * @throws IllegalArgumentException If there is no user with that ID
+     */
+    public ArrayList<Tuple<GraphNode, String>> getFollowRecommendation(int id){
+        User u = getUser(id);
+        if(u == null) throw new IllegalArgumentException();
+
+        //First, let's recommend the users its follows follow
+        return null;
     }
 
     /**
@@ -82,7 +99,7 @@ public class UserGraph implements Graph {
      * @param id The id of the user that wants to be found
      * @return The User within the graph with the ID introduced
      */
-    private User getUser(int id) {
+    public User getUser(int id) {
         int userIndex = Arrays.binarySearch(graph, User.getUserWithId(id));
         return userIndex >= 0? graph[userIndex]: null;
     }
