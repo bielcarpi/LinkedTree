@@ -1,8 +1,7 @@
 package main;
 
 import controller.Controller;
-import model.Graph;
-import model.utilities.ArrayList;
+import model.UserGraph;
 import view.View;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class Main {
 
         try{
             View v = new View(); //Creating View
-            Graph g = new Graph(); //Creating Model
+            UserGraph g = new UserGraph(); //Creating Model
             Controller c = new Controller(v, g); //Creating the controller
 
             c.start(); //Start the application

@@ -1,11 +1,13 @@
 package model;
 
+import model.interfaces.Graph;
+
 import java.io.IOException;
 
-public class Graph {
+public class UserGraph implements Graph {
     private final User[] graph;
 
-    public Graph() throws IOException{
+    public UserGraph() throws IOException{
         String fileName = "graphXS.paed";
         ReadGraph.read(fileName);
         graph = ReadGraph.getGraph();

@@ -1,10 +1,11 @@
 package model;
 
+import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 
 import java.util.Arrays;
 
-public class User implements Comparable<User>{
+public class User implements Comparable<User>, GraphNode {
     private int id;
     private String name;
     private String alias;
