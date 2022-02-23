@@ -60,6 +60,11 @@ public class User implements GraphNode {
         return follows;
     }
 
+    /**
+     * Checks whether this user has an interest
+     * @param interestToCheck The interest to check
+     * @return Whether the User has the interest introduced
+     */
     public boolean hasInterest(String interestToCheck){
         for(String interest: interests)
             if(interest.equals(interestToCheck)) return true;
@@ -67,10 +72,16 @@ public class User implements GraphNode {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isVisited() {
         return visited;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
@@ -91,6 +102,9 @@ public class User implements GraphNode {
         return this.id - ((User)that).id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User clone() {
         try{
@@ -100,6 +114,9 @@ public class User implements GraphNode {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "model.User{" +
@@ -111,12 +128,19 @@ public class User implements GraphNode {
                 '}';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toPrettyString() {
         return "\t" + id + " - " + name + " (@" + alias + ")\n\tInteressos:" + Arrays.toString(interests);
     }
 
-    public void setNewFollow(Follow f) {
+    /**
+     * Adds a new follow to this User
+     * @param f The follow that is added to the User
+     */
+    public void addNewFollow(Follow f) {
         if(follows == null) follows = new ArrayList<>(Follow.class);
         follows.add(f);
     }

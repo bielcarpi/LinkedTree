@@ -1,9 +1,12 @@
 package model;
 
+import model.utilities.SortUtility;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class ReadGraph {
 
@@ -26,10 +29,13 @@ public class ReadGraph {
             users[i] = new User(Integer.parseInt(userFields[0]), userFields[1], userFields[2], interests);
         }
 
-        //Once we have the array of users, let's order it using the MergeSort we implemented in the last practice
-        Arrays.sort(users);
-        //TODO
-        //model.utilities.SortUtility.quickSort(users, new model.User(0, null, null, null));
+        //Once we have the array of users, let's order it using the QuickSort we implemented in the last practice
+        SortUtility.quickSort(users, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o2.getId() - o1.getId();
+            }
+        });
 
         currentLine = br.readLine();
         int numFollows = Integer.parseInt(currentLine);
@@ -40,7 +46,7 @@ public class ReadGraph {
             String[] followFields = currentLine.split(";");
             Follow f = new Follow(Integer.parseInt(followFields[1]), Integer.parseInt(followFields[2]), Integer.parseInt(followFields[3]));
             int userIndex = Arrays.binarySearch(users, User.getUserWithId(Integer.parseInt(followFields[0])));
-            users[userIndex].setNewFollow(f);
+            users[userIndex].addNewFollow(f);
         }
     }
 

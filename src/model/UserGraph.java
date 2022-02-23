@@ -63,12 +63,18 @@ public class UserGraph implements Graph {
         return  graph[index];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GraphNode[] getGraph() {
         return graph;
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Graph clone() {
         try{
@@ -78,6 +84,9 @@ public class UserGraph implements Graph {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GraphNode[] getAdjacent(GraphNode gn) {
         if(gn.getClass() != User.class) throw new IllegalArgumentException();
