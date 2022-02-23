@@ -19,4 +19,10 @@ public interface Graph extends Cloneable{
      * @return The biggest node of the graph
      */
     GraphNode getBiggestNode();
+
+    /**
+     * Returns the current Graph
+     * @return The current Graph
+     */
+    GraphNode[] getGraph();
 }

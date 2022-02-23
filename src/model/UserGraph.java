@@ -18,7 +18,7 @@ public class UserGraph implements Graph {
     }
 
     public Queue<GraphNode> getNodesBfs(){
-        return SearchUtility.bfs(this, getBiggestNode(), true);
+        return SearchUtility.bfs(this, getBiggestNode(), true, true);
     }
 
     /**
@@ -44,6 +44,11 @@ public class UserGraph implements Graph {
             //In case it has no followers, we skip him.
         }
         return  graph[index];
+    }
+
+    @Override
+    public GraphNode[] getGraph() {
+        return graph;
     }
 
 

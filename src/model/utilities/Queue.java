@@ -1,6 +1,8 @@
 package model.utilities;
 
 
+import model.interfaces.GraphNode;
+
 /**
  * The class Queue implements a First-In-First-Out (FIFO) behaviour for the data introduced.
  * <p>Internally, it makes use of {@link model.utilities.ArrayList}
