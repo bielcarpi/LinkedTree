@@ -30,13 +30,29 @@ public class Queue<T> {
     }
 
     /**
-     * Removes and returns an element from the queue
+     * Removes and returns the first element of the queue
      * @return The first element of the queue, that will be removed
      */
     public T remove(){
         T t = list.get(0);
         list.remove(0);
         return t;
+    }
+
+    /**
+     * Returns the first element of the queue
+     * @return The first element of the queue
+     */
+    public T get(){
+        return list.get(0);
+    }
+
+    /**
+     * Returns the current size of the queue
+     * @return The current size of the queue
+     */
+    public int size(){
+        return list.size();
     }
 
     /**

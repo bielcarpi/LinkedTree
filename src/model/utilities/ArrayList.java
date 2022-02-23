@@ -6,6 +6,9 @@ import java.util.Arrays;
 /**
  * The class ArrayList is a resizable array.
  * <p>It grows dynamically and ensures that there is always space to add new elements
+ * <p>It does not implement the {@link java.util.List} interface, but it provides basic ArrayList functionality,
+ * with methods such as {@link #add(Object)}, {@link #get(int)} and {@link #remove(int)}
+ * 
  * @param <T> The type of object that the ArrayList will hold
  */
 public class ArrayList<T> {

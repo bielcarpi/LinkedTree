@@ -5,7 +5,7 @@ import model.utilities.ArrayList;
 
 import java.util.Arrays;
 
-public class User implements Comparable<User>, GraphNode {
+public class User implements GraphNode {
     private int id;
     private String name;
     private String alias;
@@ -75,15 +75,29 @@ public class User implements Comparable<User>, GraphNode {
         this.visited = visited;
     }
 
+
     /**
      * Compares the current user to another user, using its IDs
+     * <p>If the GraphNode to be compared to is not a User, it will throw an {@link IllegalArgumentException}
+     *
      * @param that The user to be compared to
      * @return A negative number, 0 or a positive number if this user's ID is
      * less, equal or greater than the other user
+     * @throws IllegalArgumentException When the GraphNode to be compared to is not a User
      */
     @Override
-    public int compareTo(User that) {
-        return this.id - that.id;
+    public int compareTo(GraphNode that) {
+        if(that.getClass() != this.getClass()) throw new IllegalArgumentException();
+        return this.id - ((User)that).id;
+    }
+
+    @Override
+    public User clone() {
+        try{
+            return (User) super.clone();
+        }catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 
     @Override

@@ -1,7 +1,22 @@
 package model.interfaces;
 
-public interface GraphNode {
-    
+public interface GraphNode extends Cloneable, Comparable<GraphNode> {
+
+    /**
+     * Checks whether the Node is visited or not
+     * @return Whether the node is visited or not
+     */
     boolean isVisited();
-    void setVisited();
+
+    /**
+     * Sets the visited property of the Node
+     * @param visited Whether the node is visited or not
+     */
+    void setVisited(boolean visited);
+
+    /**
+     * Clones the node
+     * @return A clone of the node
+     */
+    GraphNode clone();
 }

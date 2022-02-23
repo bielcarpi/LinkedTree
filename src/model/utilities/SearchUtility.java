@@ -1,33 +1,69 @@
 package model.utilities;
 
-import model.User;
+import model.interfaces.Graph;
+import model.interfaces.GraphNode;
 
 /**
  * The SearchUtility class provides methods for exploring a Graph in a specific way.
- * <p>The methods of this class will return a Data Structure with the Graph's elements ordered.
+ * <p>The methods of this class will return a Data Structure with the Graph's elements ordered by the search criteria.
+ * <p>To use the SearchUtility, the Graph and nodes of the Graph need to implement the interfaces
+ * {@link Graph} and {@link GraphNode}
+ *
+ * @see Graph
+ * @see GraphNode
  */
 public class SearchUtility {
 
-    private void disconnectedBFS() {
+    /**
+     * Given a graph and the first node to explore, it returns a Queue of nodes with the
+     * proper order when running a BFS algorithm.
+     * <p>Once the BFS ends with the first node to explore
+     * <p><b>Important note: </b> The elements of the returned queue will not be the original ones. Instead,
+     * they'll be copies of the original elements.
+     *
+     * @param graph The graph to run the BFS
+     * @param node The first node of the Graph
+     * @return A queue of {@link GraphNode} representing the order of the BFS Algorithm
+     */
+    private void disconnectedBfs() {
 
     }
 
-    public void bfs(User[] graph, User node){
-        Queue<User> queue = new Queue<>(User.class);
-        queue.add(node);
+    /**
+     * Given the first node to explore, it returns a Queue of nodes with the
+     * proper order when running a BFS algorithm.
+     * <p><b>Important note: </b> The elements of the returned queue will not be the original ones. Instead,
+     * they'll be copies of the original elements.
+     *
+     * @param graph The graph to run the BFS
+     * @param node The first node of the Graph
+     * @return A queue of {@link GraphNode} representing the order of the BFS Algorithm
+     */
+    public static Queue<GraphNode> bfs(Graph graph, GraphNode node){
+        graph = graph.clone(); //Clone the graph passed so as not to modify the original one
+        node = node.clone(); //Clone the node passed so as not to modify the original one
+
+        Queue<GraphNode> bfsQueue = new Queue<>(GraphNode.class); //Create a Queue of GraphNodes for the algorithm
+        Queue<GraphNode> resultQueue = new Queue<>(GraphNode.class); //Create a Queue of GraphNodes for the result
+
+        bfsQueue.add(node); //Add the first node passed
         node.setVisited(true);
 
-        while (!queue.isEmpty()){
-            User tmp = queue.remove();
-            for (int i = 0; i < graph.length; i++) {
-                for (int j = 0; j < graph[j].getFollows().size(); j++) {
-                    if (!graph[j].isVisited()){
-                        queue.add(graph[j]);
-                        graph[j].setVisited(true);
-                    }
+        GraphNode[] adjacents;
+        while(bfsQueue.isEmpty()){
+            GraphNode tmp = bfsQueue.remove();
+            resultQueue.add(tmp); //Every time we explore and pop a Node, add it to the result queue
+
+            adjacents = graph.getAdjacent(tmp);
+            for(int i = 0; i < adjacents.length; i++){ //Go through all adjacent nodes
+                if(!adjacents[i].isVisited()){ //If the adjacent is not visited...
+                    bfsQueue.add(adjacents[i]); //Add id to the queue
+                    adjacents[i].setVisited(true); //And set its visited property to true
                 }
             }
-        }
+        };
+
+        return resultQueue;
     }
 
 
