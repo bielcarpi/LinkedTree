@@ -136,4 +136,11 @@ public class ArrayList<T> {
 
         data = Arrays.copyOf(data, newCapacity);
     }
+
+    @Override
+    public String toString() {
+        return "ArrayList{" +
+                "data=" + Arrays.toString(data) +
+                '}';
+    }
 }
