@@ -37,9 +37,12 @@ public class SearchUtility {
      *
      * @param graph The graph to run the BFS
      * @param node The first node of the Graph
+     * @param changeInLevel In order to see when there is a change in level (e.g. a node has expanded),
+     *                      mark this option as true and whenever there is a change in level a null GraphNode
+     *                      will be put to the Queue
      * @return A queue of {@link GraphNode} representing the order of the BFS Algorithm
      */
-    public static Queue<GraphNode> bfs(Graph graph, GraphNode node){
+    public static Queue<GraphNode> bfs(Graph graph, GraphNode node, boolean changeInLevel){
         graph = graph.clone(); //Clone the graph passed so as not to modify the original one
         node = node.clone(); //Clone the node passed so as not to modify the original one
 
@@ -55,8 +58,11 @@ public class SearchUtility {
             resultQueue.add(tmp); //Every time we explore and pop a Node, add it to the result queue
 
             adjacents = graph.getAdjacent(tmp);
+            boolean firstAdjacentNotVisited = true;
             for(int i = 0; i < adjacents.length; i++){ //Go through all adjacent nodes
                 if(!adjacents[i].isVisited()){ //If the adjacent is not visited...
+                    if(firstAdjacentNotVisited && changeInLevel) resultQueue.add(null);
+                    firstAdjacentNotVisited = false;
                     bfsQueue.add(adjacents[i]); //Add id to the queue
                     adjacents[i].setVisited(true); //And set its visited property to true
                 }

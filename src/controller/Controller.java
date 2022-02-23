@@ -80,8 +80,12 @@ public class Controller {
         }
 
         while(!q.isEmpty()){
+            GraphNode gn = q.remove();
             System.out.println();
-            System.out.println(q.remove().toPrettyString());
+            if(gn == null) //If the node is null, it means a change in graph level
+                System.out.println("Aquests son els comptes que segueixen:");
+            else
+                System.out.println(gn.toPrettyString());
         }
     }
 }

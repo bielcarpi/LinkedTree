@@ -114,7 +114,7 @@ public class ArrayList<T> {
      * @return Whether the ArrayList is empty or not
      */
     public boolean isEmpty(){
-        return data[0] == null;
+        return newValue == 0;
     }
 
     /**

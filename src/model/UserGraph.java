@@ -18,7 +18,7 @@ public class UserGraph implements Graph {
     }
 
     public Queue<GraphNode> getNodesBfs(){
-        return SearchUtility.bfs(this, getBiggestNode());
+        return SearchUtility.bfs(this, getBiggestNode(), true);
     }
 
     /**
