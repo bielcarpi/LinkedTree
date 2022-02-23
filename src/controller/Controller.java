@@ -102,7 +102,7 @@ public class Controller {
                 idValid = true;
             else
                 view.printMessage("Identificador erroni...");
-        }while(!idValid);
+        } while(!idValid);
 
         ArrayList<Tuple<GraphNode, String>> recommendations = graph.getFollowRecommendation(id);
 

@@ -38,6 +38,7 @@ public class UserGraph implements Graph {
         return null;
     }
 
+    //TODO: Revisar si aquesta funció esta ben feta. Demana l'usuari que segueix a més gent, no el que te més followers
     /**
      * Returns the most followed user of the structure
      * in order to start reading or sorting the nodes of the Graph.
