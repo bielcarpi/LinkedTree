@@ -61,6 +61,7 @@ public class Controller {
                         getRecommendation();
                         continue infiniteLoop;
                     case 'C':
+                        contextualizeDrama();
                         continue infiniteLoop;
                     case 'D':
                         continue infiniteLoop;
@@ -103,7 +104,7 @@ public class Controller {
                 idValid = true;
             else
                 view.printMessage("Identificador erroni...");
-        }while(!idValid);
+        } while(!idValid);
 
         Recommendation[] recommendations = graph.getFollowRecommendation(id);
 
@@ -120,5 +121,10 @@ public class Controller {
             view.printMessage(r.toString());
             view.printMessage();
         }
+    }
+
+    private void contextualizeDrama() {
+        //TODO: Implementar dataset no cíclics per aquesta funcionalitat. Cla fer "git ignore"?
+
     }
 }
