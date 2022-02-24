@@ -195,16 +195,25 @@ public class SortUtility {
         Stack<GraphNode> stack = new Stack<>(GraphNode.class);
         GraphNode n;
 
+        //Comprovar que no s'hagin
         for (int i = 0; i < g.getGraph().length; i++) {
             if (!g.getGraph()[i].isVisited()){
                 n = g.getGraph()[i];
-                visita(g.getGraph(), g, stack);
+                visita(g.getGraph(), n, stack);
             }
         }
     }
 
-    private static void visita(GraphNode[] graph, Graph g, Stack<GraphNode> stack) {
+    private static void visita(GraphNode[] graph, GraphNode n, Stack<GraphNode> stack) {
+        //per cada s de g.successors(n)
+        for (int i = 0; i < ; i++) {
+            if () {
 
+            }
+        }
+
+        n.setVisited(true);
+        stack.add(n);
     }
 }
 
