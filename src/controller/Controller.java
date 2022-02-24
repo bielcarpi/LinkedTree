@@ -1,12 +1,16 @@
 package controller;
 
+import model.ReadGraph;
 import model.Recommendation;
 import model.UserGraph;
+import model.interfaces.Graph;
 import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.Tuple;
 import view.View;
+
+import java.io.IOException;
 
 public class Controller {
 
@@ -64,6 +68,7 @@ public class Controller {
                         contextualizeDrama();
                         continue infiniteLoop;
                     case 'D':
+                        easyNetworking();
                         continue infiniteLoop;
                     case 'E':
                         return;
@@ -124,7 +129,28 @@ public class Controller {
     }
 
     private void contextualizeDrama() {
-        //TODO: Implementar dataset no cíclics per aquesta funcionalitat. Cla fer "git ignore"?
+        //TODO: Implementar dataset no cíclics per aquesta funcionalitat. Cal fer "git ignore"?
+        try {
+            view.printMessage("Llegint el dataset de drama...");
+
+            //TODO: S'ha de executar aquesta opció amb els datasets en la mateixa carpeta
+            UserGraph graphDrama = new UserGraph("graphXS.paed"); //Read the drama dataset
+            GraphNode[] gn = graphDrama.getGraph();
+
+            view.printMessage("Llegint el dataset de drama...");
+
+            /*
+            //For debugging purposes
+            GraphNode gn = graphDrama.getUser(2);
+            System.out.println(gn.toPrettyString());
+            */
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void easyNetworking() {
 
     }
 }

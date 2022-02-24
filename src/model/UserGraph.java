@@ -5,7 +5,6 @@ import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.SearchUtility;
-import model.utilities.Tuple;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,7 +37,6 @@ public class UserGraph implements Graph {
         return Recommendation.getRecommendations(u, this);
     }
 
-    //TODO: Revisar si aquesta funció esta ben feta. Demana l'usuari que segueix a més gent, no el que te més followers
     /**
      * Returns the most followed user of the structure
      * in order to start reading or sorting the nodes of the Graph.
@@ -113,4 +111,5 @@ public class UserGraph implements Graph {
         int userIndex = Arrays.binarySearch(graph, User.getUserWithId(id));
         return userIndex >= 0? graph[userIndex]: null;
     }
+
 }
