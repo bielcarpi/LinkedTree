@@ -145,7 +145,7 @@ public class User implements GraphNode {
      */
     @Override
     public String toPrettyString() {
-        return "\t" + id + " - " + name + " (@" + alias + ")\n\tInteressos: " + (interests == null? "Cap": Arrays.toString(interests));
+        return "\t" + id + " - " + name + " (" + alias + ")\n\tInteressos: " + (interests == null? "Cap": Arrays.toString(interests));
     }
 
     /**

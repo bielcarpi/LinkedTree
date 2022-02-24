@@ -31,7 +31,7 @@ public class Recommendation{
     /**
      * The score will add up to this constant for each common interest
      */
-    private static final int COMMON_INTEREST_SCORE = 30;
+    private static final int COMMON_INTEREST_SCORE = 25;
     /**
      * The score will add up to this constant if the recommended user follows the user
      * that wants the recommendation
@@ -73,17 +73,17 @@ public class Recommendation{
         /*
          * Internal working of the algorithm:
          *
-         * It is not necessary to explore the whole graph for recommendations. Our social
-         * network gives the most importance to common friends (The user that wants the
+         * It is not necessary to explore the whole graph for recommendations, as we want to
+         * be efficient.
+         * Our social network gives the most importance to common friends (The user that wants the
          * recommendation follows somebody that follows another user, which will be the
          * possible recommendation)
          *
-         * It can be the case where the user doesn't follow anybody (or little people).
-         * We'll then recommend users who follow him with common interests, and other users
-         * with common interests.
          *
-         * If the User doesn't follow anybody (or little people) and anybody follows him,
-         * we'll explore only a part of the graph and search for Users with common interests.
+         * It can be the case where the User doesn't follow anybody (or little people) and
+         * anybody follows him. Then, we'll explore a random part of the graph
+         * (RANDOM_RECOMMENDATIONS nodes, to be precise) and those Users will be given a score
+         * for recommendation (depending again on common interests and users who follow him)
          */
 
         ArrayList<Recommendation> recommendations = new ArrayList<>(Recommendation.class);
@@ -131,6 +131,15 @@ public class Recommendation{
         }
 
 
+        //Are there any recommendations with score = 0? Delete them before ordering
+        for(int i = 0, d = 0; (i-d) < recommendations.size(); i++){
+            if(recommendations.get(i - d).score == 0){
+                recommendations.remove(i - d);
+                d++;
+            }
+        }
+
+
         //Build a native array of recommendations from the ArrayList of recommendations
         Recommendation[] recommendationsNativeArray = new Recommendation[recommendations.size()];
         for(int i = 0; i < recommendationsNativeArray.length; i++)
@@ -157,11 +166,13 @@ public class Recommendation{
 
         ArrayList<User> commonFriends = new ArrayList<>(User.class);
         for(int i = 0; i < u1Follows.length; i++){
-            ArrayList<Follow> follows = ((User) u1Follows[i]).getFollows();
-            if(follows != null){
-                for(int j = 0; j < follows.size(); j++){
-                    if(u2.getId() == follows.get(j).getIdUserFollowed())
-                        commonFriends.add(userGraph.getUser(follows.get(j).getIdUserFollowed()));
+            ArrayList<Follow> follows = ((User) u1Follows[i]).getFollows(); //The follows of a User that you follow
+            if(follows != null){ //If there are follows...
+                for(int j = 0; j < follows.size(); j++){ //We want to know if some follow is u2
+                    if(u2.getId() == follows.get(j).getIdUserFollowed()){
+                        commonFriends.add((User) u1Follows[i]); //If some follow is u2, add that user to common friends
+                        break;
+                    }
                 }
             }
         }
@@ -230,7 +241,7 @@ public class Recommendation{
             sb.append("Seguit per ").append(commonFriends.length).append(": ");
             for(User u: commonFriends)
                 sb.append(u.getAlias()).append(", ");
-            sb.deleteCharAt(sb.length() - 1);
+            sb.deleteCharAt(sb.length() - 2);
         }
 
         return sb.toString();
