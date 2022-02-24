@@ -1,5 +1,8 @@
 package model.utilities;
 
+import model.interfaces.Graph;
+import model.interfaces.GraphNode;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -186,6 +189,22 @@ public class SortUtility {
         T aux = array[pos1];
         array[pos1] = array[pos2]; //pos1 is pos2
         array[pos2] = aux; //pos2 is pos1
+    }
+
+    private static void topoSort(Graph g) {
+        Stack<GraphNode> stack = new Stack<>(GraphNode.class);
+        GraphNode n;
+
+        for (int i = 0; i < g.getGraph().length; i++) {
+            if (!g.getGraph()[i].isVisited()){
+                n = g.getGraph()[i];
+                visita(g.getGraph(), g, stack);
+            }
+        }
+    }
+
+    private static void visita(GraphNode[] graph, Graph g, Stack<GraphNode> stack) {
+
     }
 }
 
