@@ -4,6 +4,7 @@ import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class User implements GraphNode {
     private int id;
@@ -66,8 +67,10 @@ public class User implements GraphNode {
      * @return Whether the User has the interest introduced
      */
     public boolean hasInterest(String interestToCheck){
-        for(String interest: interests)
-            if(interest.equals(interestToCheck)) return true;
+        if(interests != null && interests.length != 0){
+            for(String interest: interests)
+                if(interest.equals(interestToCheck)) return true;
+        }
 
         return false;
     }
@@ -102,6 +105,15 @@ public class User implements GraphNode {
         return this.id - ((User)that).id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+
     /**
      * {@inheritDoc}
      */
@@ -133,7 +145,7 @@ public class User implements GraphNode {
      */
     @Override
     public String toPrettyString() {
-        return "\t" + id + " - " + name + " (@" + alias + ")\n\tInteressos:" + Arrays.toString(interests);
+        return "\t" + id + " - " + name + " (@" + alias + ")\n\tInteressos: " + (interests == null? "Cap": Arrays.toString(interests));
     }
 
     /**

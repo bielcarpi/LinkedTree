@@ -1,5 +1,6 @@
 package controller;
 
+import model.Recommendation;
 import model.UserGraph;
 import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
@@ -104,9 +105,9 @@ public class Controller {
                 view.printMessage("Identificador erroni...");
         }while(!idValid);
 
-        ArrayList<Tuple<GraphNode, String>> recommendations = graph.getFollowRecommendation(id);
+        Recommendation[] recommendations = graph.getFollowRecommendation(id);
 
-        if(recommendations == null || recommendations.isEmpty()){
+        if(recommendations == null || recommendations.length == 0){
             view.printMessage("No hem trobat comptes que puguis seguir :(");
             view.printMessage();
             return;
@@ -115,13 +116,9 @@ public class Controller {
         view.printMessage("Potser t'interessa seguir els seguents comptes:");
         view.printMessage();
 
-        while(!recommendations.isEmpty()){
-            Tuple<GraphNode, String> t = recommendations.get(0);
-            view.printMessage(t.getFirst().toPrettyString());
-            view.printMessage(t.getLast());
+        for(Recommendation r: recommendations){
+            view.printMessage(r.toString());
             view.printMessage();
-
-            recommendations.remove(0);
         }
     }
 }

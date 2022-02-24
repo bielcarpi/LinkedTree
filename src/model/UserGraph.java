@@ -23,19 +23,19 @@ public class UserGraph implements Graph {
     }
 
     /**
-     * Given an ID from a User, it returns a {@link Queue} with {@link Tuple} objects, where the
-     * first position of the tuple is the user to recommend, and the last is the reason
-     * @param id The ID of the user that wants to be known its recommendations
-     * @return A {@link Queue} with {@link Tuple} objects, where the first position of the tuple is
-     * the user to recommend, and the last is the reason
+     * Given an ID from a User, it returns an ordered array with {@link Recommendation} objects,
+     * from best to worse
+     * @param id The ID of the user that wants to know its recommendations
+     * @return An array with {@link Recommendation} objects, ordered from best to worse recommendation
      * @throws IllegalArgumentException If there is no user with that ID
+     *
+     * @see Recommendation
      */
-    public ArrayList<Tuple<GraphNode, String>> getFollowRecommendation(int id){
+    public Recommendation[] getFollowRecommendation(int id){
         User u = getUser(id);
         if(u == null) throw new IllegalArgumentException();
 
-        //First, let's recommend the users its follows follow
-        return null;
+        return Recommendation.getRecommendations(u, this);
     }
 
     /**
