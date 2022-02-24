@@ -151,6 +151,28 @@ public class Controller {
     }
 
     private void easyNetworking() {
+        boolean idValid = false;
+        int idUser, idUserToFollow;
 
+        do{
+            view.printMessage("Entra el teu identificador:");
+            idUser = view.askForInteger();
+            if(graph.getUser(idUser) != null)
+                idValid = true;
+            else
+                view.printMessage("Identificador erroni...");
+        } while(!idValid);
+
+        idValid = false;
+        do{
+            view.printMessage("Entra l'identificador de l'altre usuari: ");
+            idUserToFollow = view.askForInteger();
+            if(graph.getUser(idUserToFollow) != null)
+                idValid = true;
+            else
+                view.printMessage("Identificador erroni...");
+        } while(!idValid);
+
+        view.printMessage("Trobant la cadena de contactes óptima...");
     }
 }
