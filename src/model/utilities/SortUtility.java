@@ -191,24 +191,29 @@ public class SortUtility {
         array[pos2] = aux; //pos2 is pos1
     }
 
-    private static void topoSort(Graph g) {
+    private static Stack<GraphNode> topoSort(Graph g) {
         Stack<GraphNode> stack = new Stack<>(GraphNode.class);
         GraphNode n;
 
-        //Comprovar que no s'hagin
+        // Visitem tots els nodes
         for (int i = 0; i < g.getGraph().length; i++) {
             if (!g.getGraph()[i].isVisited()){
                 n = g.getGraph()[i];
-                visita(g.getGraph(), n, stack);
+                visita(g, n, stack);
             }
         }
+
+        return stack;
     }
 
-    private static void visita(GraphNode[] graph, GraphNode n, Stack<GraphNode> stack) {
-        //per cada s de g.successors(n)
-        for (int i = 0; i < ; i++) {
-            if () {
-
+    private static void visita(Graph g, GraphNode n, Stack<GraphNode> stack) {
+        GraphNode s;
+        // Visitem els successors del node que estem visitant
+        // per cada node del numero de successors del node
+        for (int i = 0; i < g.getAdjacent(n).length; i++) {
+            s = g.getAdjacent(n)[i];
+            if (!s.isVisited()) {
+                visita(g, s, stack);
             }
         }
 
