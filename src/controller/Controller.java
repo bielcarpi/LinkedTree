@@ -31,11 +31,7 @@ public class Controller {
                         // Execute Followers Option
                         followersOption();
                         continue infiniteLoop;
-                    case 2:
-                        continue infiniteLoop;
-                    case 3:
-                        continue infiniteLoop;
-                    case 4:
+                    case 2, 3, 4:
                         continue infiniteLoop;
                     case 5:
                         view.printMessage("Fins aviat!");
