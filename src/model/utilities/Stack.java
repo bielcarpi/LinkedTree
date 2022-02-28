@@ -2,9 +2,9 @@ package model.utilities;
 
 
 /**
- * The class Queue implements a First-In-First-Out (FIFO) behaviour for the data introduced.
+ * The class Stack implements a Last-In-First-Out (LIFO) behaviour for the data introduced.
  * <p>Internally, it makes use of {@link ArrayList}
- * @param <T> The type of object the queue will hold
+ * @param <T> The type of object the stack will hold
  */
 public class Stack<T> {
 
