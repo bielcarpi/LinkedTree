@@ -148,6 +148,11 @@ public class User implements GraphNode {
         return "\t" + id + " - " + name + " (" + alias + ")\n\tInteressos: " + (interests == null? "Cap": Arrays.toString(interests));
     }
 
+    @Override
+    public String dramaToString() {
+        return "\t" + id + " - " + name + " (" + alias + ")";
+    }
+
     /**
      * Adds a new follow to this User
      * @param f The follow that is added to the User

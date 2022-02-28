@@ -3,8 +3,10 @@ package model.utilities;
 import model.interfaces.Graph;
 import model.interfaces.GraphNode;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.IllegalFormatCodePointException;
+import java.util.Objects;
 
 /**
  * The SearchUtility class provides methods for exploring a Graph in a specific way.
@@ -85,31 +87,150 @@ public class SearchUtility {
         return resultQueue;
     }
 
+    public static Stack<GraphNode> topoSort(Graph g) {
+        Stack<GraphNode> stack = new Stack<>(GraphNode.class);
+        g = g.clone();
+        GraphNode n;
 
-    /*public void disconnectedDfs(User[] graph) {
-        //Comencem a recorre el graph des del usuari 0.
-        //TODO: Parlarho amb el pol, no segur que el que he fet esta be
-        //dfs(graph, graph[0]);
-
-        //controlar quan graph[i].getFollows() == null
-        for (int i = 0; i < (graph[i].getFollows() == null ? 0: graph[i].getFollows().size()); i++) {
-            if (!graph[i].isVisited()){
-                dfs(graph, graph[i]);
+        // Visitem tots els nodes
+        for (int i = 0; i < g.getGraph().length; i++) {
+            if (!g.getGraph()[i].isVisited()){
+                n = g.getGraph()[i];
+                visita(g, n, stack);
             }
         }
+
+        return stack;
     }
 
-    private void dfs(User[] graph, User node) {
-        node.setVisited(true); //Marquem com a visitat
-        //Fer les operacions necessàries
-        System.out.println(node.toString());
-        for (int i = 0; i < node.getFollows().size(); i++) {
-            if (!graph[i].isVisited() && (graph[i].getId() == node.getFollows().get(i).getIdUserFollowed())){
-                dfs(graph, graph[i]);
+    private static void visita(Graph g, GraphNode n, Stack<GraphNode> stack) {
+        GraphNode s;
+        // Visitem els successors del node que estem visitant
+        // per cada node del numero de successors del node
+        GraphNode[] successors = g.getAdjacent(n);
+        for (int i = 0; i < successors.length; i++) {
+            s = successors[i];
+            if (!s.isVisited()) {
+                visita(g, s, stack);
             }
         }
-    }*/
 
+        n.setVisited(true);
+        stack.add(n);
+    }
 
+    /**
+     *
+     * @param graph The graph where the search will take place
+     * @param nInitial The initial Node
+     * @param nFinal The final Node
+     * @return The path from nInitial to nFinal
+     */
+    public static Stack<GraphNode> dijkstra(Graph graph, GraphNode nInitial, GraphNode nFinal){
+        graph = graph.clone();
+        nInitial = graph.getNode(nInitial);
+        nFinal = graph.getNode(nFinal);
 
+        int newCost;
+
+        // We start from the initial node
+        DijkstraNode nActual = new DijkstraNode(nInitial, null, 0);
+        ArrayList<DijkstraNode> dijkstraNodes = new ArrayList<>();
+        dijkstraNodes.add(nActual);
+
+        boolean hasUpdated;
+
+        do{
+            // For each adjacent node
+            GraphNode[] adj = graph.getAdjacent(nActual.node);
+
+            for (int i = 0; i < adj.length; i++) {
+                if (!adj[i].isVisited()) {
+                    // Cost/Weight
+                    newCost = nActual.costToReachNode + graph.getArestaWeight(nActual.node, adj[i]);
+
+                    if(getFromArray(dijkstraNodes, adj[i]) == null){
+                        // Addition of the node
+                        DijkstraNode dn = new DijkstraNode(adj[i], nActual.node, newCost);
+                        dijkstraNodes.add(dn);
+                    }
+                    else{
+                        DijkstraNode dn = getFromArray(dijkstraNodes, adj[i]);
+                        if (newCost < dn.costToReachNode) { //If newCost is less than current, update it
+                            dn.costToReachNode = newCost; //Update cost to new cost
+                            dn.path = nActual.node; //Update path
+                        }
+                    }
+                }
+            }
+
+            nActual.node.setVisited(true);
+
+            hasUpdated = false; //Check whether we have updated nActual or not. If we don't update it, we've ended the exploration without solution
+            int minValue = Integer.MAX_VALUE; //Minimum value of the non-visited distance
+            for (int i = 0; i < dijkstraNodes.size(); i++) {
+                //If node is not visited AND it has the best minValue, update actual
+                if (!dijkstraNodes.get(i).node.isVisited()) {
+                    //Update nNode
+                    if (dijkstraNodes.get(i).costToReachNode < minValue){
+                        minValue = dijkstraNodes.get(i).costToReachNode;
+                        nActual = dijkstraNodes.get(i);
+                        hasUpdated = true;
+                    }
+                }
+            }
+
+        } while(!nFinal.isVisited() && hasUpdated);
+
+        // Reconstruction of the path followed
+        if (!nFinal.isVisited()) return null;
+
+        Stack<GraphNode> path = new Stack<>(GraphNode.class);
+        DijkstraNode dn = getFromArray(dijkstraNodes, nFinal);
+        while(true){
+            path.add(dn.node);
+            dn = getFromArray(dijkstraNodes, dn.path);
+
+            if(dn.node == nInitial){
+                path.add(dn.node);
+                break;
+            }
+        }
+
+        return path;
+    }
+
+    /**
+     * Returns a node that is equals to n inside the array
+     * @param array
+     * @param n
+     * @return A node that is equals to n inside the array
+     */
+    private static DijkstraNode getFromArray(ArrayList<DijkstraNode> array, GraphNode n){
+        for(int i = 0; i < array.size(); i++)
+            if(array.get(i).equals(n)) return array.get(i);
+
+        return null;
+    }
+
+    /**
+     * Class to save the node, path and cost of the actual node
+     */
+    private static class DijkstraNode {
+        GraphNode node;
+        GraphNode path;
+        int costToReachNode;
+
+        private DijkstraNode(GraphNode node, GraphNode path, int costToReachNode){
+            this.node = node;
+            this.path = path;
+            this.costToReachNode = costToReachNode;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null) return false;
+            return node.compareTo((GraphNode)o) == 0;
+        }
+    }
 }

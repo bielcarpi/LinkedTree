@@ -1,13 +1,10 @@
 package controller;
 
-import model.ReadGraph;
 import model.Recommendation;
 import model.UserGraph;
-import model.interfaces.Graph;
 import model.interfaces.GraphNode;
-import model.utilities.ArrayList;
 import model.utilities.Queue;
-import model.utilities.Tuple;
+import model.utilities.Stack;
 import view.View;
 
 import java.io.IOException;
@@ -76,7 +73,7 @@ public class Controller {
                         view.printMessage("Error. The value ranges are from [A, E]");
                         break;
                 }
-            }while(true); //While the input is not well-formatted
+            } while(true); //While the input is not well-formatted
         }
     }
 
@@ -103,7 +100,7 @@ public class Controller {
         boolean idValid = false;
         int id;
         do{
-            view.printMessage("Entra el teu identificador:");
+            view.printMessageWithoutLine("Entra el teu identificador: ");
             id = view.askForInteger();
             if(graph.getUser(id) != null)
                 idValid = true;
@@ -129,21 +126,17 @@ public class Controller {
     }
 
     private void contextualizeDrama() {
-        //TODO: Implementar dataset no cíclics per aquesta funcionalitat. Cal fer "git ignore"?
         try {
             view.printMessage("Llegint el dataset de drama...");
+            UserGraph graphDrama = new UserGraph("dagXS.paed"); //Read the drama dataset
+            Stack<GraphNode> nodesTopo = graphDrama.getNodesTopo();
 
-            //TODO: S'ha de executar aquesta opció amb els datasets en la mateixa carpeta
-            UserGraph graphDrama = new UserGraph("graphXS.paed"); //Read the drama dataset
-            GraphNode[] gn = graphDrama.getGraph();
-
-            view.printMessage("Llegint el dataset de drama...");
-
-            /*
-            //For debugging purposes
-            GraphNode gn = graphDrama.getUser(2);
-            System.out.println(gn.toPrettyString());
-            */
+            view.printMessage("Pots posar-te al dia de la polèmica en el següent ordre:");
+            while(!nodesTopo.isEmpty()){
+                GraphNode n = nodesTopo.remove();
+                view.printMessage(n.dramaToString());
+                if(!nodesTopo.isEmpty()) view.printMessage("\t↓");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,7 +148,7 @@ public class Controller {
         int idUser, idUserToFollow;
 
         do{
-            view.printMessage("Entra el teu identificador:");
+            view.printMessageWithoutLine("Entra el teu identificador: ");
             idUser = view.askForInteger();
             if(graph.getUser(idUser) != null)
                 idValid = true;
@@ -165,7 +158,7 @@ public class Controller {
 
         idValid = false;
         do{
-            view.printMessage("Entra l'identificador de l'altre usuari: ");
+            view.printMessageWithoutLine("Entra l'identificador de l'altre usuari: ");
             idUserToFollow = view.askForInteger();
             if(graph.getUser(idUserToFollow) != null)
                 idValid = true;
@@ -173,6 +166,17 @@ public class Controller {
                 view.printMessage("Identificador erroni...");
         } while(!idValid);
 
-        view.printMessage("Trobant la cadena de contactes óptima...");
+        view.printMessage("Trobant la cadena de contactes óptima...\n");
+        Stack<GraphNode> path = graph.getDijkstra(idUser,idUserToFollow);
+
+        if(path == null){
+            view.printMessage("No hi ha cap cadena de contactes :(");
+            return;
+        }
+
+        while(!path.isEmpty()){
+            view.printMessage(path.remove().toPrettyString());
+            view.printMessage();
+        }
     }
 }

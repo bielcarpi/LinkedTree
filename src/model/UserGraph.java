@@ -5,20 +5,31 @@ import model.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.SearchUtility;
+import model.utilities.Stack;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 public class UserGraph implements Graph {
     private final User[] graph;
+    private final String fileName;
 
     public UserGraph(String fileName) throws IOException{
+        this.fileName = fileName;
         ReadGraph.read(fileName); //Use the ReadGraph helper class to read the file
         graph = ReadGraph.getGraph(); //Load the Graph created from the text file
     }
 
     public Queue<GraphNode> getNodesBfs(){
         return SearchUtility.bfs(this, getBiggestNode(), true, true);
+    }
+
+    public Stack<GraphNode> getNodesTopo(){
+        return SearchUtility.topoSort(this);
+    }
+
+    public Stack<GraphNode> getDijkstra(int initialUser, int finalUser){
+        return SearchUtility.dijkstra(this, getUser(initialUser), getUser(finalUser));
     }
 
     /**
@@ -75,10 +86,34 @@ public class UserGraph implements Graph {
      * {@inheritDoc}
      */
     @Override
+    public GraphNode getNode(GraphNode gn){
+        if(gn.getClass() != User.class) throw new IllegalArgumentException();
+        return getUser(((User)gn).getId()); //Optimized call
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getArestaWeight(GraphNode initial, GraphNode adj){
+        if(initial.getClass() != User.class || adj.getClass() != User.class) throw new IllegalArgumentException();
+
+        ArrayList<Follow> initialFollows = getUser(((User)initial).getId()).getFollows();
+        if(initialFollows == null || initialFollows.isEmpty()) throw new RuntimeException();
+
+        for(int i = 0; i < initialFollows.size(); i++)
+            if(initialFollows.get(i).getIdUserFollowed() == ((User) adj).getId()) return initialFollows.get(i).getTimestamp();
+
+        throw new RuntimeException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Graph clone() {
         try{
-            return (Graph) super.clone();
-        }catch(CloneNotSupportedException e){
+            return new UserGraph(fileName);
+        }catch(IOException e){
             return null;
         }
     }
@@ -111,5 +146,6 @@ public class UserGraph implements Graph {
         int userIndex = Arrays.binarySearch(graph, User.getUserWithId(id));
         return userIndex >= 0? graph[userIndex]: null;
     }
+
 
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Main {
 
-    private static final String FILE_NAME = "graphXS.paed";
+    private static final String FILE_NAME = "graphXXL.paed";
 
     public static void main(String[] args){
         try{

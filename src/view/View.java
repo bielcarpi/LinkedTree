@@ -54,11 +54,15 @@ public class View {
     }
 
     /**
-     * Metode que mostra per consola el missatge que li han enviat
-     * @param message la String que es vol imprimir per pantalla
+     * Metode que mostra per consola el missatge que li han enviat sense \n
+     * @param message la String que es vol imprimir per pantalla sense \n
      */
     public void printMessage(String message){
         System.out.println(message);
+    }
+
+    public void printMessageWithoutLine(String message){
+        System.out.print(message);
     }
 
     /**
@@ -69,7 +73,7 @@ public class View {
     }
 
     public void printFollowersMenu() {
-        System.out.println(FOLLOWERS_MENU);
+        System.out.print(FOLLOWERS_MENU);
     }
 
     /**
