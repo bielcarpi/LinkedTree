@@ -69,7 +69,7 @@ public class View {
     }
 
     public void printFollowersMenu() {
-        System.out.println(FOLLOWERS_MENU);
+        System.out.print(FOLLOWERS_MENU);
     }
 
     /**

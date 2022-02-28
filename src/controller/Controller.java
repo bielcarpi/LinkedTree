@@ -34,11 +34,7 @@ public class Controller {
                         // Execute Followers Option
                         followersOption();
                         continue infiniteLoop;
-                    case 2:
-                        continue infiniteLoop;
-                    case 3:
-                        continue infiniteLoop;
-                    case 4:
+                    case 2, 3, 4:
                         continue infiniteLoop;
                     case 5:
                         view.printMessage("Fins aviat!");
@@ -76,7 +72,7 @@ public class Controller {
                         view.printMessage("Error. The value ranges are from [A, E]");
                         break;
                 }
-            }while(true); //While the input is not well-formatted
+            } while(true); //While the input is not well-formatted
         }
     }
 
