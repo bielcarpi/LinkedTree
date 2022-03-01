@@ -4,9 +4,6 @@ import model.interfaces.Graph;
 import model.interfaces.GraphNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IllegalFormatCodePointException;
-import java.util.Objects;
 
 /**
  * The SearchUtility class provides methods for exploring a Graph in a specific way.
@@ -87,6 +84,11 @@ public class SearchUtility {
         return resultQueue;
     }
 
+    /**
+     *
+     * @param g The graph to run the topoSort
+     * @return
+     */
     public static Stack<GraphNode> topoSort(Graph g) {
         Stack<GraphNode> stack = new Stack<>(GraphNode.class);
         g = g.clone();
@@ -96,14 +98,14 @@ public class SearchUtility {
         for (int i = 0; i < g.getGraph().length; i++) {
             if (!g.getGraph()[i].isVisited()){
                 n = g.getGraph()[i];
-                visita(g, n, stack);
+                visit(g, n, stack);
             }
         }
 
         return stack;
     }
 
-    private static void visita(Graph g, GraphNode n, Stack<GraphNode> stack) {
+    private static void visit(Graph g, GraphNode n, Stack<GraphNode> stack) {
         GraphNode s;
         // Visitem els successors del node que estem visitant
         // per cada node del numero de successors del node
@@ -111,7 +113,7 @@ public class SearchUtility {
         for (int i = 0; i < successors.length; i++) {
             s = successors[i];
             if (!s.isVisited()) {
-                visita(g, s, stack);
+                visit(g, s, stack);
             }
         }
 
