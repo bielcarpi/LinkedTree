@@ -85,9 +85,9 @@ public class SearchUtility {
     }
 
     /**
-     *
+     * Method that topologically orders a graph (in a stack) such that if A-->B, A must come before B.
      * @param g The graph to run the topoSort
-     * @return
+     * @return The stack of nodes with the sorting already done
      */
     public static Stack<GraphNode> topoSort(Graph g) {
         Stack<GraphNode> stack = new Stack<>(GraphNode.class);
@@ -105,6 +105,12 @@ public class SearchUtility {
         return stack;
     }
 
+    /**
+     * Method used to visit a series of nodes by going through their successors.
+     * @param g The graph to run the topoSort
+     * @param n The node that we are currently visiting
+     * @param stack The stack of nodes doing the sorting
+     */
     private static void visit(Graph g, GraphNode n, Stack<GraphNode> stack) {
         GraphNode s;
         // Visitem els successors del node que estem visitant
