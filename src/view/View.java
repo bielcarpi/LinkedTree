@@ -85,7 +85,7 @@ public class View {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println(INTEGER_EXCEPTION_MESSAGE);
+                System.out.print(INTEGER_EXCEPTION_MESSAGE);
             } finally {
                 scanner.nextLine();
             }

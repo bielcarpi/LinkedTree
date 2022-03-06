@@ -14,6 +14,8 @@ public class Controller {
     private UserGraph graph;
     private View view;
 
+    private static final String ACYCLIC_FILE_NAME = "dagXXL.paed";
+
     public Controller(View v, UserGraph g){
         view = v;
         graph = g;
@@ -37,7 +39,7 @@ public class Controller {
                         view.printMessage("Fins aviat!");
                         return;
                     default:
-                        view.printMessage("Error. The value ranges are from [1, 5]");
+                        view.printMessageWithoutLine("Error. The value ranges are from [1, 5]: ");
                         break;
                 }
             } while (option < 1 || option > 6);
@@ -66,7 +68,7 @@ public class Controller {
                     case 'E':
                         return;
                     default:
-                        view.printMessage("Error. The value ranges are from [A, E]");
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, E]: ");
                         break;
                 }
             } while(true); //While the input is not well-formatted
@@ -74,7 +76,11 @@ public class Controller {
     }
 
     private void exploreNetwork(){
+        // We mesure the algorithm execution time
+        long startTime = System.currentTimeMillis();
         Queue<GraphNode> q = graph.getNodesBfs();
+        long endTime = System.currentTimeMillis();
+
         if(!q.isEmpty()){
             view.printMessage();
             view.printMessage("L'usuari que segueix mes comptes es:");
@@ -90,6 +96,9 @@ public class Controller {
             else
                 view.printMessage(gn.toPrettyString());
         }
+
+        view.printMessage("\n");
+        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for exploring the network)");
     }
 
     private void getRecommendation(){
@@ -104,11 +113,13 @@ public class Controller {
                 view.printMessage("Identificador erroni...");
         } while(!idValid);
 
+        // We mesure the algorithm execution time
+        long startTime = System.currentTimeMillis();
         Recommendation[] recommendations = graph.getFollowRecommendation(id);
+        long endTime = System.currentTimeMillis();
 
         if(recommendations == null || recommendations.length == 0){
             view.printMessage("No hem trobat comptes que puguis seguir :(");
-            view.printMessage();
             return;
         }
 
@@ -119,13 +130,20 @@ public class Controller {
             view.printMessage(r.toString());
             view.printMessage();
         }
+
+        view.printMessage();
+        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for the Recommendation)");
     }
 
     private void contextualizeDrama() {
         try {
             view.printMessage("Llegint el dataset de drama...");
-            UserGraph graphDrama = new UserGraph("dagXS.paed"); //Read the drama dataset
+            UserGraph graphDrama = new UserGraph(ACYCLIC_FILE_NAME); //Read the drama dataset
+
+            // We mesure the algorithm execution time
+            long startTime = System.currentTimeMillis();
             Stack<GraphNode> nodesTopo = graphDrama.getNodesTopo();
+            long endTime = System.currentTimeMillis();
 
             view.printMessage("Pots posar-te al dia de la polèmica en el següent ordre:");
             while(!nodesTopo.isEmpty()){
@@ -133,6 +151,9 @@ public class Controller {
                 view.printMessage(n.dramaToString());
                 if(!nodesTopo.isEmpty()) view.printMessage("\t↓");
             }
+
+            view.printMessage("\n");
+            view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for contextualizing the drama)");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,10 +184,17 @@ public class Controller {
         } while(!idValid);
 
         view.printMessage("Trobant la cadena de contactes óptima...\n");
+
+        // We mesure the algorithm execution time
+        long startTime = System.currentTimeMillis();
         Stack<GraphNode> path = graph.getDijkstra(idUser,idUserToFollow);
+        long endTime = System.currentTimeMillis();
 
         if(path == null){
             view.printMessage("No hi ha cap cadena de contactes :(");
+
+            view.printMessage();
+            view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for doing the easy networking)");
             return;
         }
 
@@ -174,5 +202,8 @@ public class Controller {
             view.printMessage(path.remove().toPrettyString());
             view.printMessage();
         }
+
+        view.printMessage();
+        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for doing the easy networking)");
     }
 }

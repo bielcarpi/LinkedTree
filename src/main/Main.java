@@ -13,7 +13,11 @@ public class Main {
     public static void main(String[] args){
         try{
             View v = new View(); //Creating View
+
+            long startTime = System.currentTimeMillis();
             UserGraph g = new UserGraph(FILE_NAME); //Creating Model
+            System.out.println("\n(The execution time was: " + (System.currentTimeMillis() - startTime) + "ms for creating the Graph)");
+
             Controller c = new Controller(v, g); //Creating the controller
 
             c.start(); //Start the application
