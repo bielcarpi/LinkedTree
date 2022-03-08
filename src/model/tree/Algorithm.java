@@ -1,16 +1,16 @@
 package model.tree;
 
-import model.tree.interfaces.TreeNode;
+import model.tree.interfaces.BinaryTreeNode;
 
-public class Algorithm implements TreeNode {
+public class Algorithm implements BinaryTreeNode {
     private int id;
     private String name;
     private String language;
     private String cost;
     private int timestamp;
 
-    private TreeNode rightNode;
-    private TreeNode leftNode;
+    private BinaryTreeNode rightNode;
+    private BinaryTreeNode leftNode;
 
     public Algorithm(int id, String name, String language, String cost, int timestamp) {
         this.id = id;
@@ -37,20 +37,31 @@ public class Algorithm implements TreeNode {
     }
 
     @Override
-    public TreeNode getRightNode() {
+    public BinaryTreeNode getRightNode() {
         return rightNode;
     }
     @Override
-    public TreeNode getLeftNode() {
+    public BinaryTreeNode getLeftNode() {
         return leftNode;
     }
 
     @Override
-    public void setRightNode(TreeNode rightNode) {
+    public void setRightNode(BinaryTreeNode rightNode) {
         this.rightNode = rightNode;
     }
     @Override
-    public void setLeftNode(TreeNode leftNode) {
+    public void setLeftNode(BinaryTreeNode leftNode) {
         this.leftNode = leftNode;
+    }
+
+    @Override
+    public String toPrettyString() {
+        return id + " " + name + " " + language + " " + cost + " " + timestamp;
+    }
+
+    @Override
+    public int compareTo(BinaryTreeNode o) {
+        if(!(o instanceof Algorithm)) throw new IllegalArgumentException();
+        return this.timestamp - ((Algorithm)o).timestamp; //Currently comparing timestamps
     }
 }

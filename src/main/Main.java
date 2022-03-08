@@ -2,6 +2,7 @@ package main;
 
 import controller.Controller;
 import model.graph.UserGraph;
+import model.tree.AlgorithmTree;
 import view.View;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.io.IOException;
 public class Main {
 
     private static final String FILE_GRAPH_NAME = "graphXXL.paed";
-    private static final String FILE_TREE_NAME = "";
+    private static final String FILE_TREE_NAME = "treeXS.paed";
 
     public static void main(String[] args){
         try{
@@ -17,6 +18,8 @@ public class Main {
 
             long startTime = System.currentTimeMillis();
             UserGraph g = new UserGraph(FILE_GRAPH_NAME); //Creating Model
+            AlgorithmTree at = new AlgorithmTree(FILE_TREE_NAME);
+
             System.out.println("\n(The execution time was: " + (System.currentTimeMillis() - startTime) + "ms for creating the Graph)");
 
             Controller c = new Controller(v, g); //Creating the controller
