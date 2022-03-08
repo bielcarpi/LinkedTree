@@ -3,6 +3,7 @@ package model;
 import model.graph.Recommendation;
 import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
+import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
 import model.utilities.Queue;
 import model.utilities.Stack;
@@ -40,5 +41,14 @@ public class Model {
 
     public Stack<GraphNode> getContactChain(int userId, int userIdObjective){
         return userGraph.getDijkstra(userId, userIdObjective);
+    }
+
+    public boolean algorithmExists(int id){
+        return algorithmTree.nodeExists(id);
+    }
+
+    public void addNewAlgorithm(int id, String name, String language, String cost, int timestamp){
+        if(algorithmExists(id)) throw new IllegalArgumentException();
+        algorithmTree.insert(new Algorithm(id, name, language, cost, timestamp));
     }
 }

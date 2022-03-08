@@ -18,21 +18,33 @@ public class AlgorithmTree implements BinaryTree {
         tree.add(algorithms[0]); //Add the root element of the tree
 
         for(Algorithm a: algorithms)
-            insert(tree.get(0), a); //For each algorithm, insert it to the tree
+            insert(a); //For each algorithm, insert it to the tree
     }
 
-    public void insert(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
+
+    public void insert(BinaryTreeNode nodeToInsert){
+        insert_implementation(tree.get(0), nodeToInsert);
+    }
+
+    private void insert_implementation(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
         if(!(parentNode instanceof Algorithm) || !(nodeToInsert instanceof Algorithm))
             throw new IllegalArgumentException();
 
         if(nodeToInsert.compareTo(parentNode) < 0){ //If the nodeToInsert is less than the parentNode
             if(parentNode.getLeftNode() == null) parentNode.setLeftNode(nodeToInsert);
-            else insert(parentNode.getLeftNode(), nodeToInsert);
+            else insert_implementation(parentNode.getLeftNode(), nodeToInsert);
         }
         else if(nodeToInsert.compareTo(parentNode) > 0){ //If the nodeToInsert is bigger than the parentNode
             if(parentNode.getRightNode() == null) parentNode.setRightNode(nodeToInsert);
-            else insert(parentNode.getRightNode(), nodeToInsert);
+            else insert_implementation(parentNode.getRightNode(), nodeToInsert);
         }
+    }
+
+    public boolean nodeExists(int id){
+        for(int i = 0; i < tree.size(); i++)
+            if(tree.get(i).getId() == id) return true;
+
+        return false;
     }
 
 }
