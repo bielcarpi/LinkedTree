@@ -1,6 +1,7 @@
 package main;
 
 import controller.Controller;
+import model.Model;
 import model.graph.UserGraph;
 import model.tree.AlgorithmTree;
 import view.View;
@@ -10,19 +11,15 @@ import java.io.IOException;
 public class Main {
 
     private static final String FILE_GRAPH_NAME = "graphXXL.paed";
+    private static final String FILE_DRAMA_NAME = "dagXXL.paed";
     private static final String FILE_TREE_NAME = "treeXS.paed";
 
     public static void main(String[] args){
         try{
             View v = new View(); //Creating View
+            Model m = new Model(FILE_GRAPH_NAME, FILE_DRAMA_NAME, FILE_TREE_NAME); //Creating Model
 
-            long startTime = System.currentTimeMillis();
-            UserGraph g = new UserGraph(FILE_GRAPH_NAME); //Creating Model
-            AlgorithmTree at = new AlgorithmTree(FILE_TREE_NAME);
-
-            System.out.println("\n(The execution time was: " + (System.currentTimeMillis() - startTime) + "ms for creating the Graph)");
-
-            Controller c = new Controller(v, g); //Creating the controller
+            Controller c = new Controller(v, m); //Creating the controller
 
             c.start(); //Start the application
         }catch(IOException e){

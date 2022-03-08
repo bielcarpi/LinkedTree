@@ -1,5 +1,6 @@
 package controller;
 
+import model.Model;
 import model.graph.Recommendation;
 import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
@@ -11,14 +12,14 @@ import java.io.IOException;
 
 public class Controller {
 
-    private UserGraph graph;
+    private Model model;
     private View view;
 
     private static final String ACYCLIC_FILE_NAME = "dagXXL.paed";
 
-    public Controller(View v, UserGraph g){
+    public Controller(View v, Model m){
         view = v;
-        graph = g;
+        model = m;
     }
 
     public void start(){
@@ -76,10 +77,7 @@ public class Controller {
     }
 
     private void exploreNetwork(){
-        // We mesure the algorithm execution time
-        long startTime = System.currentTimeMillis();
-        Queue<GraphNode> q = graph.getNodesBfs();
-        long endTime = System.currentTimeMillis();
+        Queue<GraphNode> q = model.exploreNetwork();
 
         if(!q.isEmpty()){
             view.printMessage();
@@ -97,8 +95,7 @@ public class Controller {
                 view.printMessage(gn.toPrettyString());
         }
 
-        view.printMessage("\n");
-        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for exploring the network)");
+        view.printMessage();
     }
 
     private void getRecommendation(){
@@ -107,16 +104,13 @@ public class Controller {
         do{
             view.printMessageWithoutLine("Entra el teu identificador: ");
             id = view.askForInteger();
-            if(graph.getUser(id) != null)
+            if(model.userExists(id))
                 idValid = true;
             else
                 view.printMessage("Identificador erroni...");
         } while(!idValid);
 
-        // We mesure the algorithm execution time
-        long startTime = System.currentTimeMillis();
-        Recommendation[] recommendations = graph.getFollowRecommendation(id);
-        long endTime = System.currentTimeMillis();
+        Recommendation[] recommendations = model.getFollowRecommendation(id);
 
         if(recommendations == null || recommendations.length == 0){
             view.printMessage("No hem trobat comptes que puguis seguir :(");
@@ -132,32 +126,20 @@ public class Controller {
         }
 
         view.printMessage();
-        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for the Recommendation)");
     }
 
     private void contextualizeDrama() {
-        try {
-            view.printMessage("Llegint el dataset de drama...");
-            UserGraph graphDrama = new UserGraph(ACYCLIC_FILE_NAME); //Read the drama dataset
+        view.printMessage("Llegint el dataset de drama...");
+        Stack<GraphNode> dramaNodesTopo = model.contextualizeDrama(); //Get Drama nodes in topo order
 
-            // We mesure the algorithm execution time
-            long startTime = System.currentTimeMillis();
-            Stack<GraphNode> nodesTopo = graphDrama.getNodesTopo();
-            long endTime = System.currentTimeMillis();
-
-            view.printMessage("Pots posar-te al dia de la polèmica en el següent ordre:");
-            while(!nodesTopo.isEmpty()){
-                GraphNode n = nodesTopo.remove();
-                view.printMessage(n.dramaToString());
-                if(!nodesTopo.isEmpty()) view.printMessage("\t↓");
-            }
-
-            view.printMessage("\n");
-            view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for contextualizing the drama)");
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        view.printMessage("Pots posar-te al dia de la polèmica en el següent ordre:");
+        while(!dramaNodesTopo.isEmpty()){
+            GraphNode n = dramaNodesTopo.remove();
+            view.printMessage(n.dramaToString());
+            if(!dramaNodesTopo.isEmpty()) view.printMessage("\t↓");
         }
+
+        view.printMessage();
     }
 
     private void easyNetworking() {
@@ -167,7 +149,7 @@ public class Controller {
         do{
             view.printMessageWithoutLine("Entra el teu identificador: ");
             idUser = view.askForInteger();
-            if(graph.getUser(idUser) != null)
+            if(model.userExists(idUser))
                 idValid = true;
             else
                 view.printMessage("Identificador erroni...");
@@ -177,7 +159,7 @@ public class Controller {
         do{
             view.printMessageWithoutLine("Entra l'identificador de l'altre usuari: ");
             idUserToFollow = view.askForInteger();
-            if(graph.getUser(idUserToFollow) != null)
+            if(idUserToFollow != idUser && model.userExists(idUserToFollow))
                 idValid = true;
             else
                 view.printMessage("Identificador erroni...");
@@ -185,16 +167,11 @@ public class Controller {
 
         view.printMessage("Trobant la cadena de contactes óptima...\n");
 
-        // We mesure the algorithm execution time
-        long startTime = System.currentTimeMillis();
-        Stack<GraphNode> path = graph.getDijkstra(idUser,idUserToFollow);
-        long endTime = System.currentTimeMillis();
+        Stack<GraphNode> path = model.getContactChain(idUser, idUserToFollow);
 
         if(path == null){
             view.printMessage("No hi ha cap cadena de contactes :(");
-
             view.printMessage();
-            view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for doing the easy networking)");
             return;
         }
 
@@ -202,8 +179,5 @@ public class Controller {
             view.printMessage(path.remove().toPrettyString());
             view.printMessage();
         }
-
-        view.printMessage();
-        view.printMessage("(The execution time was: " + (endTime - startTime) + "ms for doing the easy networking)");
     }
 }
