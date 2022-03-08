@@ -1,6 +1,6 @@
-package model;
+package model.graph;
 
-import model.interfaces.GraphNode;
+import model.graph.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.SortUtility;
 

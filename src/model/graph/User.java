@@ -1,10 +1,9 @@
-package model;
+package model.graph;
 
-import model.interfaces.GraphNode;
+import model.graph.interfaces.GraphNode;
 import model.utilities.ArrayList;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class User implements GraphNode {
     private int id;
@@ -31,7 +30,7 @@ public class User implements GraphNode {
     }
 
     /**
-     * Returns a model.User with the ID passed as parameter
+     * Returns a model.graph.User with the ID passed as parameter
      * <p>To be used only for user comparison, as the user returned
      * is not a valid user (all its attributes are null)
      *
@@ -131,7 +130,7 @@ public class User implements GraphNode {
      */
     @Override
     public String toString() {
-        return "model.User{" +
+        return "model.graph.User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", alias='" + alias + '\'' +

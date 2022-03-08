@@ -1,8 +1,8 @@
 package controller;
 
-import model.Recommendation;
-import model.UserGraph;
-import model.interfaces.GraphNode;
+import model.graph.Recommendation;
+import model.graph.UserGraph;
+import model.graph.interfaces.GraphNode;
 import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;

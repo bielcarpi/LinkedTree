@@ -1,12 +1,10 @@
 package model.utilities;
 
-import model.interfaces.Graph;
-import model.interfaces.GraphNode;
+import model.graph.interfaces.Graph;
+import model.graph.interfaces.GraphNode;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 /**

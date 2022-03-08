@@ -1,4 +1,4 @@
-package model;
+package model.graph;
 
 public class Follow {
     /**
@@ -30,7 +30,7 @@ public class Follow {
 
     @Override
     public String toString() {
-        return "model.Follow{" +
+        return "model.graph.Follow{" +
                 "idUserFollowed=" + idUserFollowed +
                 ", timestamp=" + timestamp +
                 ", interactions=" + interactions +

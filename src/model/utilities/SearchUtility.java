@@ -1,7 +1,7 @@
 package model.utilities;
 
-import model.interfaces.Graph;
-import model.interfaces.GraphNode;
+import model.graph.interfaces.Graph;
+import model.graph.interfaces.GraphNode;
 
 import java.util.ArrayList;
 

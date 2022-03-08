@@ -1,4 +1,4 @@
-package model.interfaces;
+package model.graph.interfaces;
 
 public interface GraphNode extends Cloneable, Comparable<GraphNode> {
 

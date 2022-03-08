@@ -1,7 +1,7 @@
 package main;
 
 import controller.Controller;
-import model.UserGraph;
+import model.graph.UserGraph;
 import view.View;
 
 import java.io.IOException;

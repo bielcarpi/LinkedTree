@@ -1,7 +1,7 @@
-package model;
+package model.graph;
 
-import model.interfaces.Graph;
-import model.interfaces.GraphNode;
+import model.graph.interfaces.Graph;
+import model.graph.interfaces.GraphNode;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.SearchUtility;
