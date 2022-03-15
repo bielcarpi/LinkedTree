@@ -2,20 +2,25 @@ package model.tree;
 
 import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
-import model.utilities.ArrayList;
 
 import java.io.IOException;
 
 public class AlgorithmTree implements BinaryTree {
 
-    ArrayList<Algorithm> tree;
+    private final Algorithm rootNode;
 
     public AlgorithmTree(String path) throws IOException {
-        tree = new ArrayList<>(Algorithm.class);
+
+        /**
+         * In the {@link ReadTree} class, we don't build the Tree, we build it here.
+         * The {@link ReadTree#getAlgorithms()} returns an array with all the algorithms in the file, and
+         * we'll insert and build the Tree here.
+         * We know it would be best to build the Tree when reading, but we did it this way to see it more clearly
+         */
 
         ReadTree.read(path);
         Algorithm[] algorithms = ReadTree.getAlgorithms();
-        tree.add(algorithms[0]); //Add the root element of the tree
+        rootNode = algorithms[0]; //Add the root element of the tree
 
         for(Algorithm a: algorithms)
             insert(a); //For each algorithm, insert it to the tree
@@ -23,8 +28,9 @@ public class AlgorithmTree implements BinaryTree {
 
 
     public void insert(BinaryTreeNode nodeToInsert){
-        insert_implementation(tree.get(0), nodeToInsert);
+        insert_implementation(rootNode, nodeToInsert);
     }
+
 
     private void insert_implementation(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
         if(!(parentNode instanceof Algorithm) || !(nodeToInsert instanceof Algorithm))
@@ -41,10 +47,14 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     public boolean nodeExists(int id){
-        for(int i = 0; i < tree.size(); i++)
-            if(tree.get(i).getId() == id) return true;
+        //for(int i = 0; i < tree.size(); i++)
+        //    if(tree.get(i).getId() == id) return true;
 
         return false;
     }
 
+    @Override
+    public boolean remove(BinaryTreeNode nodeToRemove) {
+        return false;
+    }
 }

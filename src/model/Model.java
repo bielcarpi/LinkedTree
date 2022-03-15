@@ -51,4 +51,8 @@ public class Model {
         if(algorithmExists(id)) throw new IllegalArgumentException();
         algorithmTree.insert(new Algorithm(id, name, language, cost, timestamp));
     }
+
+    public boolean removeAlgorithm(int timestamp){
+        return algorithmTree.remove(Algorithm.getAlgorithmWithTimestamp(timestamp));
+    }
 }

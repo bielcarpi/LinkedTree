@@ -54,29 +54,58 @@ public class Controller {
     private void feedOption() {
         infiniteLoop:
         while(true){
-            view.printFollowersMenu();
+            view.printFeedMenu();
             do{
                 char option = view.askForChar();
                 switch (option){
                     case 'A':
-                        exploreNetwork();
+                        addAlgorithm();
                         continue infiniteLoop;
                     case 'B':
-                        getRecommendation();
+                        removeAlgorithm();
                         continue infiniteLoop;
                     case 'C':
-                        contextualizeDrama();
                         continue infiniteLoop;
                     case 'D':
-                        easyNetworking();
                         continue infiniteLoop;
                     case 'E':
+                        continue infiniteLoop;
+                    case 'F':
                         return;
                     default:
-                        view.printMessageWithoutLine("Error. The value ranges are from [A, E]: ");
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, F]: ");
                         break;
                 }
             } while(true); //While the input is not well-formatted
+        }
+    }
+
+    private void removeAlgorithm() {
+        view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
+        int id =  view.askForInteger();
+
+        if (!model.algorithmExists(id)) {
+            view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
+        }
+    }
+
+    private void addAlgorithm() {
+        view.printMessageWithoutLine("Identificador de l'algorisme: ");
+        int id = view.askForInteger();
+        view.printMessageWithoutLine("Nom de l'algorisme: ");
+        String name = view.askForString();
+        view.printMessageWithoutLine("Llenguatge de l'algorisme: ");
+        String language = view.askForString();
+        view.printMessageWithoutLine("Cost de l'algorisme: ");
+        String cost = view.askForString();
+        view.printMessageWithoutLine("Timestamp de l'algorisme: ");
+        int timestamp = view.askForInteger();
+
+        if(model.algorithmExists(id)) {
+            view.printMessage("L'algorisme no s'ha pogut afegir al feed perquè ja existeix!");
+        } else {
+            model.addNewAlgorithm(id, name, language, cost, timestamp);
+            view.printMessage("L'algorisme ha estat correctament afegit al  feed.");
         }
     }
 

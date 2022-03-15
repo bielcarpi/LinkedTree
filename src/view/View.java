@@ -17,7 +17,7 @@ public class View {
             """;
     private static final String LINKED_TREE_MENU = """
             1. Seguidors (Grafs)
-            2. A ESPECIFICAR
+            2. Feed (Arbres)
             3. A ESPECIFICAR
             4. A ESPECIFICAR
             
@@ -113,6 +113,15 @@ public class View {
      * Metode que demana a l'usuari un caracter
      * @return el caracter que ha escrit l'usuari
      */
-    public char askForChar() { return scanner.next().charAt(0); }
+    public char askForChar() {
+        return scanner.next().charAt(0);
+    }
 
+    /**
+     * Metode que demana a l'usuari una cadena
+     * @return la string que ha escrit l'usuari
+     */
+    public String askForString() {
+        return scanner.nextLine();
+    }
 }
