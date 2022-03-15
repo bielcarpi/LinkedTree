@@ -9,6 +9,13 @@ public interface BinaryTree {
     void insert(BinaryTreeNode nodeToInsert);
 
     /**
+     * Removes a BinaryTreeNode of the Tree, matching the one passed as parameter
+     * @param nodeToRemove The node equal to the one that wants to be removed
+     * @return Whether the node has been removed or not
+     */
+    boolean remove(BinaryTreeNode nodeToRemove);
+
+    /**
      * Given the id of a Node, return whether it exists or not
      * @param id Whether a Node with this id exists or not
      */

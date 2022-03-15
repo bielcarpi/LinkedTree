@@ -17,13 +17,26 @@ public class View {
             """;
     private static final String LINKED_TREE_MENU = """
             1. Seguidors (Grafs)
-            2. A ESPECIFICAR
+            2. Feed (Arbres)
             3. A ESPECIFICAR
             4. A ESPECIFICAR
             
             5. Sortir
             
             Escull una opció:\s""";
+
+
+    private static final String FEED_MENU = """
+            
+                A. Afegir algorisme
+                B. Eliminar algorisme
+                C. Llistar algorismes
+                D.  Cerca per timestamp (exacta)
+                E.  Cerca per timestamp (rang)
+       
+                F. Tornar Enrere
+            
+            Quina funcionalitat vols executar?\s""";
 
     private static final String FOLLOWERS_MENU = """
             
@@ -76,6 +89,10 @@ public class View {
         System.out.print(FOLLOWERS_MENU);
     }
 
+    public void printFeedMenu() {
+        System.out.print(FEED_MENU);
+    }
+
     /**
      * Metode que demana a l'usuari un enter controlant l'excepcio de Input Mismatch
      * @return l'enter que ha escrit l'usuari
@@ -96,6 +113,15 @@ public class View {
      * Metode que demana a l'usuari un caracter
      * @return el caracter que ha escrit l'usuari
      */
-    public char askForChar() { return scanner.next().charAt(0); }
+    public char askForChar() {
+        return scanner.next().charAt(0);
+    }
 
+    /**
+     * Metode que demana a l'usuari una cadena
+     * @return la string que ha escrit l'usuari
+     */
+    public String askForString() {
+        return scanner.nextLine();
+    }
 }

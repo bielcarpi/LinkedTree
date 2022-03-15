@@ -1,5 +1,6 @@
 package model.tree;
 
+import model.graph.User;
 import model.tree.interfaces.BinaryTreeNode;
 
 public class Algorithm implements BinaryTreeNode {
@@ -11,6 +12,15 @@ public class Algorithm implements BinaryTreeNode {
 
     private BinaryTreeNode rightNode;
     private BinaryTreeNode leftNode;
+
+    /**
+     * algorithmAux is an auxiliar variable for better performance
+     * on the method {@link #getAlgorithmWithId(int)} or {@link #getAlgorithmWithTimestamp(int)}
+     * Instead of creating an algorithm each time the method is called,
+     * we'll cache an algorithm and change its ID
+     */
+    private static Algorithm algorithmAux;
+
 
     public Algorithm(int id, String name, String language, String cost, int timestamp) {
         this.id = id;
@@ -63,5 +73,36 @@ public class Algorithm implements BinaryTreeNode {
     public int compareTo(BinaryTreeNode o) {
         if(!(o instanceof Algorithm)) throw new IllegalArgumentException();
         return this.timestamp - ((Algorithm)o).timestamp; //Currently comparing timestamps
+    }
+
+
+    /**
+     * Returns an Algorithm with the ID passed as parameter
+     * <p>To be used only for user comparison, as the algorithm returned
+     * is not a valid algorithm (all its attributes are null)
+     *
+     * @param id The ID of the algorithm to be returned
+     * @return An algorithm with the ID specified (to be used for comparison)
+     */
+    public static Algorithm getAlgorithmWithId(int id) {
+        if(algorithmAux == null) return new Algorithm(id, null, null, null, 0);
+
+        algorithmAux.id = id;
+        return algorithmAux;
+    }
+
+    /**
+     * Returns an Algorithm with the timestamp passed as parameter
+     * <p>To be used only for user comparison, as the algorithm returned
+     * is not a valid algorithm (all its attributes are null)
+     *
+     * @param timestamp The Timestamp of the algorithm to be returned
+     * @return An algorithm with the timestamp specified (to be used for comparison)
+     */
+    public static Algorithm getAlgorithmWithTimestamp(int timestamp) {
+        if(algorithmAux == null) return new Algorithm(0, null, null, null, timestamp);
+
+        algorithmAux.timestamp = timestamp;
+        return algorithmAux;
     }
 }
