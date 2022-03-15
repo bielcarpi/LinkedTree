@@ -60,18 +60,20 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     public Algorithm exactTimestampSearch(int timestamp){
-        Algorithm algorithm = tree.get(0);
+        Algorithm algorithm = rootNode;
         while(true){
             //Check if the node has an adjacent node
             if (algorithm.getRightNode() != null && algorithm.getLeftNode() != null){
                 //The node has at least one adjacent node
                 if (algorithm.getTimestamp() > timestamp){
                     //Compare with LeftNode
-                    algorithm = (Algorithm) algorithm.getLeftNode(); //Update of the node we are currently analizing (Left in this case)
+                    //Update of the node we are currently analyzing (Left in this case)
+                    algorithm = (Algorithm) algorithm.getLeftNode();
                 } else {
                     if (algorithm.getTimestamp() < timestamp){
                         //Compare with RightNode
-                        algorithm = (Algorithm) algorithm.getRightNode(); //Update of the node we are currently analizing (Right in this case)
+                        //Update of the node we are currently analyzing (Right in this case)
+                        algorithm = (Algorithm) algorithm.getRightNode();
                     } else {
                         //The node with the current timestamp introduced has been found
                         break;
