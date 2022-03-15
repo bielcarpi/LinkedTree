@@ -15,7 +15,7 @@ public class Controller {
     private Model model;
     private View view;
 
-    private static final String ACYCLIC_FILE_NAME = "dagXXL.paed";
+    private static final String ACYCLIC_FILE_NAME = "dagXS.paed";
 
     public Controller(View v, Model m){
         view = v;
@@ -34,7 +34,11 @@ public class Controller {
                         // Execute Followers Option
                         followersOption();
                         continue infiniteLoop;
-                    case 2, 3, 4:
+
+                    case 2:
+                        // Execute Feed option
+                        feedOption();
+                    case 3, 4:
                         continue infiniteLoop;
                     case 5:
                         view.printMessage("Fins aviat!");
@@ -44,6 +48,35 @@ public class Controller {
                         break;
                 }
             } while (option < 1 || option > 6);
+        }
+    }
+
+    private void feedOption() {
+        infiniteLoop:
+        while(true){
+            view.printFollowersMenu();
+            do{
+                char option = view.askForChar();
+                switch (option){
+                    case 'A':
+                        exploreNetwork();
+                        continue infiniteLoop;
+                    case 'B':
+                        getRecommendation();
+                        continue infiniteLoop;
+                    case 'C':
+                        contextualizeDrama();
+                        continue infiniteLoop;
+                    case 'D':
+                        easyNetworking();
+                        continue infiniteLoop;
+                    case 'E':
+                        return;
+                    default:
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, E]: ");
+                        break;
+                }
+            } while(true); //While the input is not well-formatted
         }
     }
 

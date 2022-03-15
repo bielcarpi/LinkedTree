@@ -25,6 +25,19 @@ public class View {
             
             Escull una opció:\s""";
 
+
+    private static final String FEED_MENU = """
+            
+                A. Afegir algorisme
+                B. Eliminar algorisme
+                C. Llistar algorismes
+                D.  Cerca per timestamp (exacta)
+                E.  Cerca per timestamp (rang)
+       
+                F. Tornar Enrere
+            
+            Quina funcionalitat vols executar?\s""";
+
     private static final String FOLLOWERS_MENU = """
             
             
@@ -74,6 +87,10 @@ public class View {
 
     public void printFollowersMenu() {
         System.out.print(FOLLOWERS_MENU);
+    }
+
+    public void printFeedMenu() {
+        System.out.print(FEED_MENU);
     }
 
     /**
