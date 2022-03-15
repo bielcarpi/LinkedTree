@@ -21,7 +21,6 @@ public class AlgorithmTree implements BinaryTree {
             insert(a); //For each algorithm, insert it to the tree
     }
 
-
     public void insert(BinaryTreeNode nodeToInsert){
         insert_implementation(tree.get(0), nodeToInsert);
     }
@@ -45,6 +44,34 @@ public class AlgorithmTree implements BinaryTree {
             if(tree.get(i).getId() == id) return true;
 
         return false;
+    }
+
+    public Algorithm exactTimestampSearch(int timestamp){
+        Algorithm algorithm = tree.get(0);
+        while(true){
+            //Check if the node has an adjacent node
+            if (algorithm.getRightNode() != null && algorithm.getLeftNode() != null){
+                //The node has at least one adjacent node
+                if (algorithm.getTimestamp() > timestamp){
+                    //Compare with LeftNode
+                    algorithm = (Algorithm) algorithm.getLeftNode(); //Update of the node we are currently analizing (Left in this case)
+                } else {
+                    if (algorithm.getTimestamp() < timestamp){
+                        //Compare with RightNode
+                        algorithm = (Algorithm) algorithm.getRightNode(); //Update of the node we are currently analizing (Right in this case)
+                    } else {
+                        //The node with the current timestamp introduced has been found
+                        break;
+                    }
+                }
+            } else {
+                //The node doesn't have an adjacent node
+                algorithm = null;
+                break;
+            }
+        }
+        algorithm.toPrettyString();
+        return algorithm;
     }
 
 }
