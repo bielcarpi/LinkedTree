@@ -52,7 +52,7 @@ public class Model {
         algorithmTree.insert(new Algorithm(id, name, language, cost, timestamp));
     }
 
-    public boolean removeAlgorithm(int timestamp){
-        return algorithmTree.remove(Algorithm.getAlgorithmWithTimestamp(timestamp));
+    public boolean removeAlgorithm(int id){
+        return algorithmTree.remove(id);
     }
 }

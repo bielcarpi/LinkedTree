@@ -46,11 +46,25 @@ public class AlgorithmTree implements BinaryTree {
         }
     }
 
-    public boolean nodeExists(int id){
-        //for(int i = 0; i < tree.size(); i++)
-        //    if(tree.get(i).getId() == id) return true;
+    @Override
+    public boolean nodeExists(int id) {
+        return getNodeById(id) != null;
+    }
 
-        return false;
+    public Algorithm getNodeById(int id){
+        return preorderSearch(rootNode, id);
+    }
+    private Algorithm preorderSearch(Algorithm algorithm, int id){
+        if(algorithm.getId() == id) return algorithm;
+
+        if(algorithm.getLeftNode() != null){
+            Algorithm solution = preorderSearch((Algorithm)algorithm.getLeftNode(), id);
+            if(solution != null) return solution;
+        }
+        if(algorithm.getRightNode() != null){
+            return preorderSearch((Algorithm)algorithm.getRightNode(), id);
+        }
+        return null;
     }
 
     @Override

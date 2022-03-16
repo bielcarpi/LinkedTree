@@ -86,6 +86,9 @@ public class Controller {
 
         if (!model.algorithmExists(id)) {
             view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
+        } else {
+            model.removeAlgorithm(id);
+            view.printMessage("Algorisme eliminat correctament!");
         }
     }
 
