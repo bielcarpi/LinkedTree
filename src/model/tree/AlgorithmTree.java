@@ -2,6 +2,7 @@ package model.tree;
 
 import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
+import model.utilities.ArrayList;
 
 import java.io.IOException;
 
@@ -71,4 +72,35 @@ public class AlgorithmTree implements BinaryTree {
     public boolean remove(BinaryTreeNode nodeToRemove) {
         return false;
     }
+
+    public Algorithm exactTimestampSearch(int timestamp){
+        Algorithm algorithm = rootNode;
+        while(true){
+            //Check if the node has an adjacent node
+            if (algorithm.getRightNode() != null && algorithm.getLeftNode() != null){
+                //The node has at least one adjacent node
+                if (algorithm.getTimestamp() > timestamp){
+                    //Compare with LeftNode
+                    //Update of the node we are currently analyzing (Left in this case)
+                    algorithm = (Algorithm) algorithm.getLeftNode();
+                } else {
+                    if (algorithm.getTimestamp() < timestamp){
+                        //Compare with RightNode
+                        //Update of the node we are currently analyzing (Right in this case)
+                        algorithm = (Algorithm) algorithm.getRightNode();
+                    } else {
+                        //The node with the current timestamp introduced has been found
+                        break;
+                    }
+                }
+            } else {
+                //The node doesn't have an adjacent node
+                algorithm = null;
+                break;
+            }
+        }
+        algorithm.toPrettyString();
+        return algorithm;
+    }
+
 }
