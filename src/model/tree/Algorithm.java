@@ -69,6 +69,10 @@ public class Algorithm implements BinaryTreeNode {
         return id + " " + name + " " + language + " " + cost + " " + timestamp;
     }
 
+    public String timestampSearchString() {
+        return "S'ha trobat un algorisme... "  + name + " " + language + " " + cost;
+    }
+
     @Override
     public int compareTo(BinaryTreeNode o) {
         if(!(o instanceof Algorithm)) throw new IllegalArgumentException();

@@ -4,6 +4,7 @@ import model.Model;
 import model.graph.Recommendation;
 import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
+import model.tree.Algorithm;
 import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;
@@ -67,8 +68,10 @@ public class Controller {
                     case 'C':
                         continue infiniteLoop;
                     case 'D':
+                            timestampSearch();
                         continue infiniteLoop;
                     case 'E':
+                            //rangeTimestampSearch();
                         continue infiniteLoop;
                     case 'F':
                         return;
@@ -80,6 +83,19 @@ public class Controller {
         }
     }
 
+    private void timestampSearch() {
+        view.printMessageWithoutLine("Timestamp a cercar: ");
+        int timestamp = view.askForInteger();
+        Algorithm solutionAlgorithm = model.searchByTimestamp(timestamp);
+        view.printMessage();
+
+        if (solutionAlgorithm != null) {
+            view.printMessage(solutionAlgorithm.timestampSearchString());
+        } else {
+            view.printMessage("No s'ha trobat cap algorisme per aquest timestamp!");
+        }
+    }
+
     private void removeAlgorithm() {
         view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
         int id =  view.askForInteger();
@@ -87,7 +103,7 @@ public class Controller {
         if (!model.algorithmExists(id)) {
             view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
         } else {
-            model.removeAlgorithm(id);
+    //        model.removeAlgorithm(id);
             view.printMessage("Algorisme eliminat correctament!");
         }
     }

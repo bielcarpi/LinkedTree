@@ -111,7 +111,9 @@ public class AlgorithmTree implements BinaryTree {
             return null; //The tree is empty
         }
 
-        algorithm.toPrettyString(); //For debugging purposes
+        if (algorithm != null) {
+            algorithm.toPrettyString(); //For debugging purposes
+        }
         return algorithm;
     }
 

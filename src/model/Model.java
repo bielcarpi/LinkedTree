@@ -52,7 +52,11 @@ public class Model {
         algorithmTree.insert(new Algorithm(id, name, language, cost, timestamp));
     }
 
-    public boolean removeAlgorithm(int id){
-        return algorithmTree.remove(id);
+    public Algorithm searchByTimestamp(int timestamp) {
+        return algorithmTree.exactTimestampSearch(timestamp);
     }
+
+    /*public boolean removeAlgorithm(int id){
+        return algorithmTree.remove(id);
+    }*/
 }
