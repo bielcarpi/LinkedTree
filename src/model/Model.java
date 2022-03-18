@@ -53,7 +53,7 @@ public class Model {
     }
 
     public Algorithm searchByTimestamp(int timestamp) {
-        return algorithmTree.exactTimestampSearch(timestamp);
+        return algorithmTree.getNodeByTimestamp(timestamp);
     }
 
     /*public boolean removeAlgorithm(int id){

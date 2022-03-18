@@ -53,20 +53,63 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     public Algorithm getNodeById(int id){
-        return preorderSearch(rootNode, id);
+        return preorderSearchByID(rootNode, id);
     }
-    private Algorithm preorderSearch(Algorithm algorithm, int id){
+
+    public Algorithm getNodeByTimestamp(int timestamp){
+        return binarySearchByTimestamp(rootNode, timestamp);
+    }
+
+
+    private Algorithm preorderSearchByID(Algorithm algorithm, int id){
         if(algorithm.getId() == id) return algorithm;
 
         if(algorithm.getLeftNode() != null){
-            Algorithm solution = preorderSearch((Algorithm)algorithm.getLeftNode(), id);
+            Algorithm solution = preorderSearchByID((Algorithm)algorithm.getLeftNode(), id);
             if(solution != null) return solution;
         }
         if(algorithm.getRightNode() != null){
-            return preorderSearch((Algorithm)algorithm.getRightNode(), id);
+            return preorderSearchByID((Algorithm)algorithm.getRightNode(), id);
         }
         return null;
     }
+
+    private Algorithm binarySearchByTimestamp(Algorithm algorithm, int timestamp){
+        //System.out.println(algorithm.timestampSearchString()); // debugging
+        if(algorithm.getTimestamp() == timestamp) return algorithm;
+
+        if (timestamp < algorithm.getTimestamp()) {
+            // miro a l'esquerra
+            if(algorithm.getLeftNode() != null)
+                return binarySearchByTimestamp((Algorithm)algorithm.getLeftNode(), timestamp);
+
+        } else {
+            // miro a la dreta
+            if(algorithm.getRightNode() != null){
+                return binarySearchByTimestamp((Algorithm)algorithm.getRightNode(), timestamp);
+            }
+        }
+
+        return null;
+    }
+
+    /*private ArrayList<Algorithm> binaryRangeSearchByTimestamp(ArrayList<Algorithm> algorithms, int timestamp){
+        //System.out.println(algorithm.timestampSearchString()); // debugging
+        if(algorithms.get(a)getTimestamp() == timestamp) return algorithms;
+        if (timestamp < algorithms.getTimestamp()) {
+            // miro a l'esquerra
+            if(algorithms.getLeftNode() != null)
+                return binaryRangeSearchByTimestamp((Algorithm)algorithms.getLeftNode(), timestamp);
+
+        } else {
+            // miro a la dreta
+            if(algorithms.getRightNode() != null){
+                return binaryRangeSearchByTimestamp((Algorithm)algorithms.getRightNode(), timestamp);
+            }
+        }
+
+        return null;
+    }*/
 
     @Override
     public boolean remove(BinaryTreeNode nodeToRemove) {
