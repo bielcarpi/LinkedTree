@@ -5,10 +5,12 @@ import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
 import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
+import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.Stack;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Model {
 
@@ -54,6 +56,10 @@ public class Model {
 
     public Algorithm searchByTimestamp(int timestamp) {
         return algorithmTree.getNodeByTimestamp(timestamp);
+    }
+
+    public ArrayList<Algorithm> searchByRangeTimestamp(int minTimestamp, int maxTimestamp) {
+        return algorithmTree.getRangeNodeByTimestamp(minTimestamp, maxTimestamp);
     }
 
     /*public boolean removeAlgorithm(int id){

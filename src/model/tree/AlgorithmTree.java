@@ -60,6 +60,10 @@ public class AlgorithmTree implements BinaryTree {
         return binarySearchByTimestamp(rootNode, timestamp);
     }
 
+    public ArrayList<Algorithm> getRangeNodeByTimestamp(int minTimestamp, int maxTimestamp) {
+        ArrayList<Algorithm> algorithmList = new ArrayList<>(Algorithm.class);
+        return binaryRangeSearchByTimestamp(rootNode, algorithmList, minTimestamp, maxTimestamp);
+    }
 
     private Algorithm preorderSearchByID(Algorithm algorithm, int id){
         if(algorithm.getId() == id) return algorithm;
@@ -93,23 +97,36 @@ public class AlgorithmTree implements BinaryTree {
         return null;
     }
 
-    /*private ArrayList<Algorithm> binaryRangeSearchByTimestamp(ArrayList<Algorithm> algorithms, int timestamp){
-        //System.out.println(algorithm.timestampSearchString()); // debugging
-        if(algorithms.get(a)getTimestamp() == timestamp) return algorithms;
-        if (timestamp < algorithms.getTimestamp()) {
-            // miro a l'esquerra
-            if(algorithms.getLeftNode() != null)
-                return binaryRangeSearchByTimestamp((Algorithm)algorithms.getLeftNode(), timestamp);
+    private ArrayList<Algorithm> binaryRangeSearchByTimestamp(Algorithm actualAlgorithm, ArrayList<Algorithm> solutionList, int minTimestamp, int maxTimestamp) {
+        //System.out.println(actualAlgorithm.timestampSearchString()); // debugging
+        if (actualAlgorithm != null) {
+            if(minTimestamp <= actualAlgorithm.getTimestamp()  && actualAlgorithm.getTimestamp() <= maxTimestamp)
+                solutionList.add(actualAlgorithm);
+        }
+
+        if (minTimestamp > actualAlgorithm.getTimestamp()) {
+            // miro a la dreta
+            if(actualAlgorithm.getLeftNode() != null)
+                binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
 
         } else {
-            // miro a la dreta
-            if(algorithms.getRightNode() != null){
-                return binaryRangeSearchByTimestamp((Algorithm)algorithms.getRightNode(), timestamp);
+            if ((maxTimestamp < actualAlgorithm.getTimestamp())) {
+                // miro a la esquerra
+                if(actualAlgorithm.getRightNode() != null)
+                    binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
+
+            } else {
+                // haig de mirar a la dreta i a l'esquerra perquè el rang esta entre els 2
+                if(actualAlgorithm.getLeftNode() != null)
+                    binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
+
+                if(actualAlgorithm.getRightNode() != null)
+                    binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
             }
         }
 
-        return null;
-    }*/
+        return solutionList;
+    }
 
     @Override
     public boolean remove(BinaryTreeNode nodeToRemove) {
@@ -160,6 +177,8 @@ public class AlgorithmTree implements BinaryTree {
         return algorithm;
     }
 
+
+
     /**
      * Function which returns all the nodes that have a timestamp value between the limits introduced by parameter.
      * @param minTimestamp: Integer with the representation of the timestamp's value for the lower bound.
@@ -175,7 +194,7 @@ public class AlgorithmTree implements BinaryTree {
                 //Check if the node has an adjacent node
                 if (algorithm.getLeftNode() != null || algorithm.getRightNode() != null){
                     //The node has at least one adjacent node
-                    if (algorithm.getTimestamp() > minTimestamp && algorithm.getTimestamp() > maxTimestamp){
+                    if (algorithm.getTimestamp() > maxTimestamp){
                         //Compare with LeftNode
                         algorithm = (Algorithm) algorithm.getLeftNode(); //Update de node we are analyzing
                         if (algorithm.getTimestamp() > minTimestamp && algorithm.getTimestamp() < maxTimestamp){
@@ -202,6 +221,4 @@ public class AlgorithmTree implements BinaryTree {
         list.get(0).toPrettyString(); //For debugging purposes
         return list;
     }
-
-
 }

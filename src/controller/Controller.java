@@ -5,6 +5,7 @@ import model.graph.Recommendation;
 import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
 import model.tree.Algorithm;
+import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;
@@ -71,7 +72,7 @@ public class Controller {
                             timestampSearch();
                         continue infiniteLoop;
                     case 'E':
-                            //rangeTimestampSearch();
+                            rangeTimestampSearch();
                         continue infiniteLoop;
                     case 'F':
                         return;
@@ -80,6 +81,26 @@ public class Controller {
                         break;
                 }
             } while(true); //While the input is not well-formatted
+        }
+    }
+
+    private void rangeTimestampSearch() {
+        view.printMessageWithoutLine("Timestamp mínim a cercar: ");
+        int minTimestamp = view.askForInteger();
+        view.printMessageWithoutLine("Timestamp màxim a cercar: ");
+        int maxTimestamp = view.askForInteger();
+        ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
+        view.printMessage();
+
+        if (solutionAlgorithms != null) {
+            System.out.println(solutionAlgorithms.size());
+            for (int i = 0; i < solutionAlgorithms.size(); i++) {
+                System.out.println(solutionAlgorithms.get(i).toPrettyString());
+                view.printMessage(solutionAlgorithms.get(i).timestampSearchString());
+            }
+
+        } else {
+            view.printMessage("No s'ha trobat cap algorisme per aquest rang de timestamps!");
         }
     }
 
