@@ -67,12 +67,13 @@ public class Controller {
                         removeAlgorithm();
                         continue infiniteLoop;
                     case 'C':
+                        listAlgorithms();
                         continue infiniteLoop;
                     case 'D':
-                            timestampSearch();
+                        timestampSearch();
                         continue infiniteLoop;
                     case 'E':
-                            rangeTimestampSearch();
+                        rangeTimestampSearch();
                         continue infiniteLoop;
                     case 'F':
                         return;
@@ -81,6 +82,15 @@ public class Controller {
                         break;
                 }
             } while(true); //While the input is not well-formatted
+        }
+    }
+
+    private void listAlgorithms() {
+        if (!model.listAlgorithms().equals("")) {
+            //System.out.println(model.listAlgorithms());
+            //view.printMessage(model.listAlgorithms().toString());
+        } else {
+            view.printMessage("No s'ha pogut trobar cap algorisme :(.");
         }
     }
 

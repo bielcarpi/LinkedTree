@@ -134,16 +134,22 @@ public class AlgorithmTree implements BinaryTree {
         return false;
     }
 
-    public void inorder(BinaryTreeNode treeNode){
-        if(treeNode.getRightNode() != null){
-            inorder(treeNode.getRightNode());
-        }
-        //mostra
-        treeNode.toPrettyString();
-        if (treeNode.getLeftNode() != null){
-            inorder(treeNode.getLeftNode());
-        }
+    public String listAlgorithms() {
+        return inorder(rootNode, "");
     }
 
+    public String inorder(BinaryTreeNode treeNode, String algorithmsString){
+        if(treeNode.getRightNode() != null){
+            inorder(treeNode.getRightNode(), algorithmsString);
+        }
+        //mostra
+        algorithmsString += treeNode.toPrettyString() + "\n";
+        System.out.println(algorithmsString);
+        //System.out.println(treeNode.toPrettyString());
 
+        if (treeNode.getLeftNode() != null){
+            inorder(treeNode.getLeftNode(), algorithmsString);
+        }
+        return algorithmsString;
+    }
 }
