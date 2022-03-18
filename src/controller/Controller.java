@@ -89,18 +89,21 @@ public class Controller {
         int minTimestamp = view.askForInteger();
         view.printMessageWithoutLine("Timestamp màxim a cercar: ");
         int maxTimestamp = view.askForInteger();
-        ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
         view.printMessage();
-
-        if (solutionAlgorithms != null) {
-            System.out.println(solutionAlgorithms.size());
-            for (int i = 0; i < solutionAlgorithms.size(); i++) {
-                System.out.println(solutionAlgorithms.get(i).toPrettyString());
-                view.printMessage(solutionAlgorithms.get(i).timestampSearchString());
-            }
-
+        if (maxTimestamp < minTimestamp) {
+            view.printMessage();
+            view.printMessage("El timestamp màxim no pot ser més petit que el mínim.");
         } else {
-            view.printMessage("No s'ha trobat cap algorisme per aquest rang de timestamps!");
+            ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
+
+            if (solutionAlgorithms != null) {
+                for (int i = 0; i < solutionAlgorithms.size(); i++) {
+                    view.printMessage(solutionAlgorithms.get(i).timestampSearchString());
+                }
+
+            } else {
+                view.printMessage("No s'ha trobat cap algorisme per aquest rang de timestamps!");
+            }
         }
     }
 

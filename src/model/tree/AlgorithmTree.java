@@ -100,29 +100,29 @@ public class AlgorithmTree implements BinaryTree {
 
     private ArrayList<Algorithm> binaryRangeSearchByTimestamp(Algorithm actualAlgorithm, ArrayList<Algorithm> solutionList, int minTimestamp, int maxTimestamp) {
         //System.out.println(actualAlgorithm.timestampSearchString()); // debugging
-        if (actualAlgorithm != null) {
+        if(actualAlgorithm != null) {
             if(minTimestamp <= actualAlgorithm.getTimestamp()  && actualAlgorithm.getTimestamp() <= maxTimestamp)
                 solutionList.add(actualAlgorithm);
-        }
 
-        if (minTimestamp > actualAlgorithm.getTimestamp()) {
-            // miro a la dreta
-            if(actualAlgorithm.getLeftNode() != null)
-                binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
-
-        } else {
-            if ((maxTimestamp < actualAlgorithm.getTimestamp())) {
-                // miro a la esquerra
-                if(actualAlgorithm.getRightNode() != null)
-                    binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
-
-            } else {
-                // haig de mirar a la dreta i a l'esquerra perquè el rang esta entre els 2
+            if (minTimestamp > actualAlgorithm.getTimestamp()) {
+                // miro a la dreta
                 if(actualAlgorithm.getLeftNode() != null)
                     binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
 
-                if(actualAlgorithm.getRightNode() != null)
-                    binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
+            } else {
+                if ((maxTimestamp < actualAlgorithm.getTimestamp())) {
+                    // miro a la esquerra
+                    if(actualAlgorithm.getRightNode() != null)
+                        binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
+
+                } else {
+                    // haig de mirar a la dreta i a l'esquerra perquè el rang esta entre els 2
+                    if(actualAlgorithm.getLeftNode() != null)
+                        binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
+
+                    if(actualAlgorithm.getRightNode() != null)
+                        binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
+                }
             }
         }
 
