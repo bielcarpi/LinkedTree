@@ -121,11 +121,11 @@ public class AlgorithmTree implements BinaryTree {
 
                 } else {
                     // haig de mirar a la dreta i a l'esquerra perquè el rang esta entre els 2
-                    if(actualAlgorithm.getLeftNode() != null)
+                    if(actualAlgorithm.getRightNode() != null)
                         binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
 
-                    if(actualAlgorithm.getRightNode() != null)
-                        binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
+                    if(actualAlgorithm.getLeftNode() != null)
+                        binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList, minTimestamp, maxTimestamp);
                 }
             }
         }
@@ -138,20 +138,19 @@ public class AlgorithmTree implements BinaryTree {
         return false;
     }
 
-    public String listAlgorithms() {
-        return inorder(rootNode, "");
+    public void listAlgorithms() {
+        inorder(rootNode);
     }
 
-    public String inorder(BinaryTreeNode treeNode, String algorithmsString){
+    public void inorder(BinaryTreeNode treeNode){
         if(treeNode.getRightNode() != null){
-            inorder(treeNode.getRightNode(), algorithmsString);
+            inorder(treeNode.getRightNode());
         }
         // Mostrem l'algorisme
         System.out.println(treeNode.toPrettyString());
 
         if (treeNode.getLeftNode() != null){
-            inorder(treeNode.getLeftNode(), algorithmsString);
+            inorder(treeNode.getLeftNode());
         }
-        return algorithmsString;
     }
 }

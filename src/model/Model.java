@@ -62,8 +62,8 @@ public class Model {
         return algorithmTree.getRangeNodeByTimestamp(minTimestamp, maxTimestamp);
     }
 
-    public String listAlgorithms() {
-        return algorithmTree.listAlgorithms();
+    public void listAlgorithms() {
+        algorithmTree.listAlgorithms();
     }
 
     /*public boolean removeAlgorithm(int id){

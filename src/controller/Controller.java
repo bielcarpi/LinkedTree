@@ -87,12 +87,6 @@ public class Controller {
 
     private void listAlgorithms() {
         model.listAlgorithms();
-        /*if (!model.listAlgorithms().equals("")) {
-            //System.out.println(model.listAlgorithms());
-            //view.printMessage(model.listAlgorithms().toString());
-        } else {
-            view.printMessage("No s'ha pogut trobar cap algorisme :(.");
-        }*/
     }
 
     private void rangeTimestampSearch() {
