@@ -3,6 +3,9 @@ package model.tree;
 import model.graph.User;
 import model.tree.interfaces.BinaryTreeNode;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 public class Algorithm implements BinaryTreeNode {
     private int id;
     private String name;
@@ -66,11 +69,14 @@ public class Algorithm implements BinaryTreeNode {
 
     @Override
     public String toPrettyString() {
-        return id + " " + name + " " + language + " " + cost + " " + timestamp;
+        Timestamp ts = new Timestamp(timestamp);
+        Date date = new Date(ts.getTime());
+
+        return name + ": " + language + ", " + cost + " - " + date;
     }
 
     public String timestampSearchString() {
-        return "S'ha trobat un algorisme... "  + name + " " + language + " " + cost;
+        return "S'ha trobat un algorisme... "  + name + ": " + language + ", " + cost + "   timestamp: " + timestamp; // timestamp for debugging purposes
     }
 
     @Override

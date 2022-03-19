@@ -12,7 +12,7 @@ public class Main {
 
     private static final String FILE_GRAPH_NAME = "graphXXL.paed";
     private static final String FILE_DRAMA_NAME = "dagXXL.paed";
-    private static final String FILE_TREE_NAME = "treeXS.paed";
+    private static final String FILE_TREE_NAME = "treeXXS.paed";
 
     public static void main(String[] args){
         try{

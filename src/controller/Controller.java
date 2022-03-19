@@ -86,12 +86,13 @@ public class Controller {
     }
 
     private void listAlgorithms() {
-        if (!model.listAlgorithms().equals("")) {
+        model.listAlgorithms();
+        /*if (!model.listAlgorithms().equals("")) {
             //System.out.println(model.listAlgorithms());
             //view.printMessage(model.listAlgorithms().toString());
         } else {
             view.printMessage("No s'ha pogut trobar cap algorisme :(.");
-        }
+        }*/
     }
 
     private void rangeTimestampSearch() {
@@ -106,7 +107,7 @@ public class Controller {
         } else {
             ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
 
-            if (solutionAlgorithms != null) {
+            if (solutionAlgorithms.size() != 0) {
                 for (int i = 0; i < solutionAlgorithms.size(); i++) {
                     view.printMessage(solutionAlgorithms.get(i).timestampSearchString());
                 }
@@ -155,10 +156,10 @@ public class Controller {
         int timestamp = view.askForInteger();
 
         if(model.algorithmExists(id)) {
-            view.printMessage("L'algorisme no s'ha pogut afegir al feed perquè ja existeix!");
+            view.printMessage("\nL'algorisme no s'ha pogut afegir al feed perquè ja existeix!");
         } else {
             model.addNewAlgorithm(id, name, language, cost, timestamp);
-            view.printMessage("L'algorisme ha estat correctament afegit al  feed.");
+            view.printMessage("\nL'algorisme ha estat correctament afegit al  feed.");
         }
     }
 

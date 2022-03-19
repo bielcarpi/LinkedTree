@@ -53,7 +53,7 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     public Algorithm getNodeById(int id){
-        return preorderSearchByID(rootNode, id);
+        return binarySearchByID(rootNode, id);
     }
 
     public Algorithm getNodeByTimestamp(int timestamp){
@@ -65,22 +65,26 @@ public class AlgorithmTree implements BinaryTree {
         return binaryRangeSearchByTimestamp(rootNode, algorithmList, minTimestamp, maxTimestamp);
     }
 
-    private Algorithm preorderSearchByID(Algorithm algorithm, int id){
+    private Algorithm binarySearchByID(Algorithm algorithm, int id){
         if(algorithm.getId() == id) return algorithm;
 
-        if(algorithm.getLeftNode() != null){
-            Algorithm solution = preorderSearchByID((Algorithm)algorithm.getLeftNode(), id);
-            if(solution != null) return solution;
+        if (id < algorithm.getId()) {
+            // miro a l'esquerra
+            if(algorithm.getLeftNode() != null)
+                return binarySearchByID((Algorithm)algorithm.getLeftNode(), id);
+
+        } else {
+            // miro a la dreta
+            if(algorithm.getRightNode() != null){
+                return binarySearchByID((Algorithm)algorithm.getRightNode(), id);
+            }
         }
-        if(algorithm.getRightNode() != null){
-            return preorderSearchByID((Algorithm)algorithm.getRightNode(), id);
-        }
+
         return null;
     }
 
 
     private Algorithm binarySearchByTimestamp(Algorithm algorithm, int timestamp){
-        //System.out.println(algorithm.timestampSearchString()); // debugging
         if(algorithm.getTimestamp() == timestamp) return algorithm;
 
         if (timestamp < algorithm.getTimestamp()) {
@@ -142,10 +146,8 @@ public class AlgorithmTree implements BinaryTree {
         if(treeNode.getRightNode() != null){
             inorder(treeNode.getRightNode(), algorithmsString);
         }
-        //mostra
-        algorithmsString += treeNode.toPrettyString() + "\n";
-        System.out.println(algorithmsString);
-        //System.out.println(treeNode.toPrettyString());
+        // Mostrem l'algorisme
+        System.out.println(treeNode.toPrettyString());
 
         if (treeNode.getLeftNode() != null){
             inorder(treeNode.getLeftNode(), algorithmsString);
