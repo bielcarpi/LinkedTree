@@ -31,24 +31,21 @@ public class View {
                 A. Afegir algorisme
                 B. Eliminar algorisme
                 C. Llistar algorismes
-                D.  Cerca per timestamp (exacta)
-                E.  Cerca per timestamp (rang)
+                D. Cerca per timestamp (exacta)
+                E. Cerca per timestamp (rang)
        
                 F. Tornar Enrere
             
             Quina funcionalitat vols executar?\s""";
 
     private static final String FOLLOWERS_MENU = """
+                        
+                A. Explorar la xarxa
+                B. Recomanar usuaris
+                C. Contextualitzar drama
+                D. Networking
             
-            
-            .* Followers Menu *.
-            
-            A. Explorar la xarxa
-            B. Recomanar usuaris
-            C. Contextualitzar drama
-            D. Networking
-            
-            E. Tornar Enrere
+                E. Tornar Enrere
             
             Quina funcionalitat vols executar?\s""";
 

@@ -69,14 +69,11 @@ public class Algorithm implements BinaryTreeNode {
 
     @Override
     public String toPrettyString() {
-        Timestamp ts = new Timestamp(timestamp);
-        Date date = new Date(ts.getTime());
-
-        return name + ": " + language + ", " + cost + " - " + date;
+        return name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000);
     }
 
     public String timestampSearchString() {
-        return "S'ha trobat un algorisme... "  + name + ": " + language + ", " + cost + "   timestamp: " + timestamp; // timestamp for debugging purposes
+        return "S'ha trobat un algorisme... "  + name + ": " + language + ", " + cost + "   timestamp: " + new Timestamp((long) timestamp * 1000); // timestamp for debugging purposes
     }
 
     @Override
