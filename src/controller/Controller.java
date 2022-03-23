@@ -96,7 +96,6 @@ public class Controller {
         int maxTimestamp = view.askForInteger();
         view.printMessage();
         if (maxTimestamp < minTimestamp) {
-            view.printMessage();
             view.printMessage("El timestamp màxim no pot ser més petit que el mínim.");
         } else {
             ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
@@ -127,12 +126,12 @@ public class Controller {
 
     private void removeAlgorithm() {
         view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
-        int id =  view.askForInteger();
+        int id = view.askForInteger();
 
         if (!model.algorithmExists(id)) {
             view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
         } else {
-    //        model.removeAlgorithm(id);
+            model.removeAlgorithm(id);
             view.printMessage("Algorisme eliminat correctament!");
         }
     }

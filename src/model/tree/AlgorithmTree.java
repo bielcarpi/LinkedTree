@@ -29,21 +29,21 @@ public class AlgorithmTree implements BinaryTree {
 
 
     public void insert(BinaryTreeNode nodeToInsert){
-        insert_implementation(rootNode, nodeToInsert);
+        insertImplementation(rootNode, nodeToInsert);
     }
 
 
-    private void insert_implementation(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
+    private void insertImplementation(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
         if(!(parentNode instanceof Algorithm) || !(nodeToInsert instanceof Algorithm))
             throw new IllegalArgumentException();
 
         if(nodeToInsert.compareTo(parentNode) < 0){ //If the nodeToInsert is less than the parentNode
             if(parentNode.getLeftNode() == null) parentNode.setLeftNode(nodeToInsert);
-            else insert_implementation(parentNode.getLeftNode(), nodeToInsert);
+            else insertImplementation(parentNode.getLeftNode(), nodeToInsert);
         }
         else if(nodeToInsert.compareTo(parentNode) > 0){ //If the nodeToInsert is bigger than the parentNode
             if(parentNode.getRightNode() == null) parentNode.setRightNode(nodeToInsert);
-            else insert_implementation(parentNode.getRightNode(), nodeToInsert);
+            else insertImplementation(parentNode.getRightNode(), nodeToInsert);
         }
     }
 
@@ -110,13 +110,13 @@ public class AlgorithmTree implements BinaryTree {
 
             if (minTimestamp > actualAlgorithm.getTimestamp()) {
                 // miro a la dreta
-                if(actualAlgorithm.getLeftNode() != null)
+                if(actualAlgorithm.getRightNode() != null)
                     binaryRangeSearchByTimestamp((Algorithm)actualAlgorithm.getRightNode(), solutionList, minTimestamp, maxTimestamp);
 
             } else {
                 if ((maxTimestamp < actualAlgorithm.getTimestamp())) {
                     // miro a la esquerra
-                    if(actualAlgorithm.getRightNode() != null)
+                    if(actualAlgorithm.getLeftNode() != null)
                         binaryRangeSearchByTimestamp((Algorithm) actualAlgorithm.getLeftNode(), solutionList,minTimestamp, maxTimestamp);
 
                 } else {
@@ -133,13 +133,40 @@ public class AlgorithmTree implements BinaryTree {
         return solutionList;
     }
 
+    public void listAlgorithms() {
+        inorder(rootNode);
+    }
+
     @Override
-    public boolean remove(BinaryTreeNode nodeToRemove) {
+    public boolean remove(int id) {
+        return removeImplementation(binarySearchByID(rootNode, id));
+    }
+
+    private boolean removeImplementation(Algorithm algorithmToRemove) {
+        if (algorithmToRemove.getRightNode() == null && algorithmToRemove.getLeftNode() == null) {
+            // eliminar node
+        } else {
+            if (algorithmToRemove.getRightNode() != null && algorithmToRemove.getLeftNode() == null) {
+                // substituir el node actual pel right node
+            } else {
+                if (algorithmToRemove.getRightNode() == null && algorithmToRemove.getLeftNode() != null) {
+                    // substituir el node actual pel left node
+                } else {
+                    // te dos fills
+                    BinaryTreeNode node = removeInorder(algorithmToRemove.getRightNode());
+                }
+            }
+        }
+
         return false;
     }
 
-    public void listAlgorithms() {
-        inorder(rootNode);
+    private BinaryTreeNode removeInorder(BinaryTreeNode treeNode) {
+        if(treeNode.getRightNode() != null){
+            inorder(treeNode.getRightNode());
+        }
+        // retornem el primer algorisme
+        return treeNode;
     }
 
     public void inorder(BinaryTreeNode treeNode){

@@ -10,10 +10,10 @@ public interface BinaryTree {
 
     /**
      * Removes a BinaryTreeNode of the Tree, matching the one passed as parameter
-     * @param nodeToRemove The node equal to the one that wants to be removed
+     * @param id the id of the node equal to the one that wants to be removed
      * @return Whether the node has been removed or not
      */
-    boolean remove(BinaryTreeNode nodeToRemove);
+    boolean remove(int id);
 
     /**
      * Given the id of a Node, return whether it exists or not
