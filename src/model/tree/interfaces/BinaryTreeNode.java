@@ -7,12 +7,16 @@ public interface BinaryTreeNode extends Comparable<BinaryTreeNode> {
      * @return The right node
      */
     BinaryTreeNode getRightNode();
-
     /**
      * Returns the left node
      * @return The left node
      */
     BinaryTreeNode getLeftNode();
+    /**
+     * Returns the parent node
+     * @return The parent node
+     */
+    BinaryTreeNode getParentNode();
 
     /**
      * Sets the right node
@@ -24,6 +28,11 @@ public interface BinaryTreeNode extends Comparable<BinaryTreeNode> {
      * @param leftNode The left node
      */
     void setLeftNode(BinaryTreeNode leftNode);
+    /**
+     * Sets the parent node
+     * @param parentNode The parent node
+     */
+    void setParentNode(BinaryTreeNode parentNode);
 
     /**
      * Returns a pretty string representing the node

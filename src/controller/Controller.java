@@ -128,11 +128,10 @@ public class Controller {
         view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
         int id = view.askForInteger();
 
-        if (!model.algorithmExists(id)) {
-            view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
-        } else {
-            model.removeAlgorithm(id);
+        if (model.removeAlgorithm(id)) {
             view.printMessage("Algorisme eliminat correctament!");
+        } else {
+            view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
         }
     }
 

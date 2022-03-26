@@ -1,9 +1,7 @@
 package model.tree;
 
-import model.graph.User;
 import model.tree.interfaces.BinaryTreeNode;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Algorithm implements BinaryTreeNode {
@@ -15,6 +13,7 @@ public class Algorithm implements BinaryTreeNode {
 
     private BinaryTreeNode rightNode;
     private BinaryTreeNode leftNode;
+    private BinaryTreeNode parentNode;
 
     /**
      * algorithmAux is an auxiliar variable for better performance
@@ -57,6 +56,10 @@ public class Algorithm implements BinaryTreeNode {
     public BinaryTreeNode getLeftNode() {
         return leftNode;
     }
+    @Override
+    public BinaryTreeNode getParentNode(){
+        return parentNode;
+    }
 
     @Override
     public void setRightNode(BinaryTreeNode rightNode) {
@@ -66,10 +69,14 @@ public class Algorithm implements BinaryTreeNode {
     public void setLeftNode(BinaryTreeNode leftNode) {
         this.leftNode = leftNode;
     }
+    @Override
+    public void setParentNode(BinaryTreeNode parentNode) {
+        this.parentNode = parentNode;
+    }
 
     @Override
     public String toPrettyString() {
-        return name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000);
+        return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000);
     }
 
     public String timestampSearchString() {

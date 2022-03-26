@@ -16,6 +16,13 @@ public interface BinaryTree {
     boolean remove(int id);
 
     /**
+     * Substitutes in the Tree the nodeToSubstitute for the nodeSubstitutor
+     * @param nodeToSubstitute The node to substitute in the Tree
+     * @param nodeSubstitutor The node that will substitute it in the Tree
+     */
+    void substitute(BinaryTreeNode nodeToSubstitute, BinaryTreeNode nodeSubstitutor);
+
+    /**
      * Given the id of a Node, return whether it exists or not
      * @param id Whether a Node with this id exists or not
      */
