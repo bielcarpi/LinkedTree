@@ -66,7 +66,7 @@ public class Model {
         algorithmTree.listAlgorithms();
     }
 
-    public boolean removeAlgorithm(int id){
+    public String removeAlgorithm(int id){
         return algorithmTree.remove(id);
     }
 }

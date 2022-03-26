@@ -11,9 +11,9 @@ public interface BinaryTree {
     /**
      * Removes a BinaryTreeNode of the Tree, matching the one passed as parameter
      * @param id the id of the node equal to the one that wants to be removed
-     * @return Whether the node has been removed or not
+     * @return The name of the removed node or {@code null} if no node has been removed
      */
-    boolean remove(int id);
+    String remove(int id);
 
     /**
      * Substitutes in the Tree the nodeToSubstitute for the nodeSubstitutor

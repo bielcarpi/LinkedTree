@@ -3,13 +3,12 @@ package model.tree;
 import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
 import model.utilities.ArrayList;
-import org.w3c.dom.css.CSSUnknownRule;
 
 import java.io.IOException;
 
 public class AlgorithmTree implements BinaryTree {
 
-    private final Algorithm rootNode;
+    private Algorithm rootNode;
 
     public AlgorithmTree(String path) throws IOException {
 
@@ -140,9 +139,9 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     @Override
-    public boolean remove(int id) {
+    public String remove(int id) {
         Algorithm algorithmToRemove = preorderSearchByID(rootNode, id);
-        if(algorithmToRemove == null) return false;
+        if(algorithmToRemove == null) return null;
 
 
         if (algorithmToRemove.getRightNode() == null && algorithmToRemove.getLeftNode() == null) {
@@ -172,9 +171,18 @@ public class AlgorithmTree implements BinaryTree {
             //If the next biggest number has a right child, substitute it for him first
             if(nextBiggestNumber.getRightNode() != null) substitute(nextBiggestNumber, nextBiggestNumber.getRightNode());
             substitute(algorithmToRemove, nextBiggestNumber);
+
+            //Finally, maintain the tree structure by deleting
+            // the childs of the nextBiggestNumber and putting to it the childs of the algorithmToRemove
+            nextBiggestNumber.setLeftNode(algorithmToRemove.getLeftNode());
+            nextBiggestNumber.getLeftNode().setParentNode(nextBiggestNumber);
+            nextBiggestNumber.setRightNode(algorithmToRemove.getRightNode());
+            nextBiggestNumber.getRightNode().setParentNode(nextBiggestNumber);
+
+            System.out.println("hola");
         }
 
-        return true;
+        return algorithmToRemove.getName();
     }
 
 
@@ -183,9 +191,31 @@ public class AlgorithmTree implements BinaryTree {
         if(!(nodeToSubstitute instanceof Algorithm) || (!(nodeSubstitutor instanceof Algorithm) && nodeSubstitutor != null))
             throw new IllegalArgumentException();
 
+        //Remove reference from parent of the substitutor
+        if(nodeSubstitutor != null){
+            if(nodeSubstitutor.getParentNode().getRightNode() == nodeSubstitutor){
+                nodeSubstitutor.getParentNode().setRightNode(null);
+            }
+            else if(nodeSubstitutor.getParentNode().getLeftNode() == nodeSubstitutor){
+                nodeSubstitutor.getParentNode().setLeftNode(null);
+            }
+        }
+
+        //Substitute
         BinaryTreeNode parentNode = nodeToSubstitute.getParentNode();
-        if(parentNode.getLeftNode() == nodeToSubstitute) parentNode.setLeftNode(nodeSubstitutor);
-        else if(parentNode.getRightNode() == nodeToSubstitute) parentNode.setRightNode(nodeSubstitutor);
+        if(parentNode == null){
+            //If we have no parent, it means we are in the root node
+            rootNode = (Algorithm) nodeSubstitutor;
+            if(nodeSubstitutor != null) nodeSubstitutor.setParentNode(null);
+        }
+        else if(parentNode.getLeftNode() == nodeToSubstitute){
+            parentNode.setLeftNode(nodeSubstitutor);
+            if(nodeSubstitutor != null) nodeSubstitutor.setParentNode(parentNode);
+        }
+        else if(parentNode.getRightNode() == nodeToSubstitute){
+            parentNode.setRightNode(nodeSubstitutor);
+            if(nodeSubstitutor != null) nodeSubstitutor.setParentNode(parentNode);
+        }
     }
 
     public void inorder(BinaryTreeNode treeNode){
