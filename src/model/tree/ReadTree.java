@@ -8,6 +8,11 @@ public class ReadTree {
 
     private static Algorithm[] algorithms;
 
+    /**
+     * Function that allows you to read the dataset containing the information of the Binary Tree.
+     * @param fileName String with the representation of the name of the file.
+     * @throws IOException Exception to control.
+     */
     public static void read(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("Graphs/" + fileName));
 

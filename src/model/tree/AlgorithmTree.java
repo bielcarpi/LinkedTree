@@ -192,9 +192,8 @@ public class AlgorithmTree implements BinaryTree {
             nextBiggestNumber.setRightNode(algorithmToRemove.getRightNode());
             nextBiggestNumber.getRightNode().setParentNode(nextBiggestNumber);
 
-            System.out.println("hola");
+            //System.out.println("hola");
         }
-
         return algorithmToRemove.getName();
     }
 

@@ -13,6 +13,11 @@ public class ReadGraph {
     private static final int INTEREST_FIELD = 3;
     private static User[] users;
 
+    /**
+     * Function that allows you to read the dataset containing the information of the Graph structure.
+     * @param fileName String with the representation of the name of the file.
+     * @throws IOException Exception to control.
+     */
     public static void read(String fileName) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader("Graphs/" + fileName));
