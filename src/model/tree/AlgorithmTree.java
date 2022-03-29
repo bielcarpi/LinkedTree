@@ -57,6 +57,61 @@ public class AlgorithmTree implements BinaryTree {
 
     @Override
     public void balanceTree(){
+        balanceNodesPostOrder(rootNode);
+    }
+
+    /**
+     * Method that implements the postOrder route changing showing the node
+     * by doing the balancing of this node
+     * @param treeNode the node we are currently balancing
+     */
+    private void balanceNodesPostOrder(BinaryTreeNode treeNode) {
+        if (treeNode.getLeftNode() != null)
+            balanceNodesPostOrder(treeNode.getLeftNode());
+        if(treeNode.getRightNode() != null)
+            balanceNodesPostOrder(treeNode.getRightNode());
+
+        balanceNode(treeNode);
+    }
+
+    /**
+     * An algorithm that balance de subtree from the node that is sent to us by parameter
+     * @param treeNode the node that we are balancing
+     */
+    private void balanceNode(BinaryTreeNode treeNode) {
+        if(!(treeNode instanceof Algorithm)) throw new IllegalArgumentException();
+        Algorithm node = (Algorithm) treeNode;
+
+        int balancingFactor = node.calculateBalancingFactor();
+        if(balancingFactor < -1){
+            //Right subtree is not balanced
+            //Should we perform a right-right rotation or right-left?
+            int rightChildBalancingFactor = node.getRightNode().calculateBalancingFactor();
+            if(rightChildBalancingFactor == -1){
+                //Right-right rotation
+            }
+            else if(rightChildBalancingFactor == 1){
+                //Right-left rotation
+            }
+        }
+        else if(balancingFactor > 1){
+            //Left subtree is not balanced
+            //Should we perform a left-left rotation or left-right?
+            int leftChildBalancingFactor = node.getLeftNode().calculateBalancingFactor();
+            if(leftChildBalancingFactor == -1){
+                //Left-right rotation
+            }
+            else if(leftChildBalancingFactor == 1){
+                //Left-left rotation
+                Algorithm y = (Algorithm) node.getLeftNode();
+                node.setLeftNode(y.getRightNode());
+                node.getLeftNode().setParentNode(node);
+                
+                y.setRightNode(node);
+                y.setParentNode(node.getParentNode());
+                node.setParentNode(y);
+            }
+        }
     }
 
     @Override
@@ -252,4 +307,6 @@ public class AlgorithmTree implements BinaryTree {
             inorder(treeNode.getLeftNode());
         }
     }
+
+
 }

@@ -78,9 +78,9 @@ public class Algorithm implements BinaryTreeNode {
 
     @Override
     public int calculateBalancingFactor(){
-        /*int rightNodeHeight = rightNode == null? 0: exploreNodeHeight(this, 0);
-        return balancingFactor = exploreNodeHeight(this, 0);*/
-        return 0;
+        int rightNodeHeight = rightNode == null? 0: exploreNodeHeight((Algorithm) rightNode);
+        int leftNodeHeight = leftNode == null? 0: exploreNodeHeight((Algorithm) leftNode);
+        return balancingFactor = (leftNodeHeight - rightNodeHeight);
     }
     @Override
     public int getBalancingFactor(){
@@ -91,15 +91,15 @@ public class Algorithm implements BinaryTreeNode {
      * Recursive function that returns the height of the current node in the tree
      * @return Returns the height of the current node in the tree
      */
-    private static int exploreNodeHeight(Algorithm a, int lastHeight){
+    private static int exploreNodeHeight(Algorithm a){
         int leftSubtreeHeight = 0, rightSubtreeHeight = 0;
 
         if(a.getLeftNode() != null)
-            leftSubtreeHeight = exploreNodeHeight((Algorithm)a.getLeftNode(), lastHeight + 1);
+            leftSubtreeHeight = exploreNodeHeight((Algorithm)a.getLeftNode());
         if(a.getRightNode() != null)
-            rightSubtreeHeight = exploreNodeHeight((Algorithm)a.getRightNode(), lastHeight + 1);
+            rightSubtreeHeight = exploreNodeHeight((Algorithm)a.getRightNode());
 
-        return Math.max(leftSubtreeHeight, rightSubtreeHeight);
+        return Math.max(leftSubtreeHeight, rightSubtreeHeight) + 1;
     }
 
     @Override
