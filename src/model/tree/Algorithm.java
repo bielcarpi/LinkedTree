@@ -25,7 +25,6 @@ public class Algorithm implements BinaryTreeNode {
      */
     private static Algorithm algorithmAux;
 
-
     public Algorithm(int id, String name, String language, String cost, int timestamp) {
         this.id = id;
         this.name = name;
@@ -105,7 +104,7 @@ public class Algorithm implements BinaryTreeNode {
 
     @Override
     public String toPrettyString() {
-        return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000);
+        return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000) + "-->"+timestamp;
     }
 
     public String timestampSearchString() {

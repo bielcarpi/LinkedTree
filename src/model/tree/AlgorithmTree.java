@@ -90,7 +90,12 @@ public class AlgorithmTree implements BinaryTree {
         return null;
     }
 
-
+    /**
+     * Algorithm that implements the binary search of the value we are ordering the tree, the timestamp in our case.
+     * @param algorithm the algorithm (the node) we are comparing at the moment
+     * @param timestamp the timestamp that we are searching and comparing all the time with the algorithm timestamp
+     * @return the algorithm that has the timestamp we want to find or null if the timestamp doesn't exist
+     */
     private Algorithm binarySearchByTimestamp(Algorithm algorithm, int timestamp){
         if(algorithm.getTimestamp() == timestamp) return algorithm;
 
@@ -109,6 +114,14 @@ public class AlgorithmTree implements BinaryTree {
         return null;
     }
 
+    /**
+     * Algorithm that implements the binary search of a value range given of the timestamp nodes.
+     * @param actualAlgorithm the algorithm (the node) we are comparing at the moment
+     * @param solutionList the list of algorithms that have the timestamp in the range between min and max Timestamp
+     * @param minTimestamp the minimum timestamp that we are searching and comparing with the algorithm timestamp
+     * @param maxTimestamp the maximum timestamp that we are searching and comparing with the algorithm timestamp
+     * @return the list of algorithms that have the timestamp in the range between min and max Timestamp
+     */
     private ArrayList<Algorithm> binaryRangeSearchByTimestamp(Algorithm actualAlgorithm, ArrayList<Algorithm> solutionList, int minTimestamp, int maxTimestamp) {
         //System.out.println(actualAlgorithm.timestampSearchString()); // debugging
         if(actualAlgorithm != null) {
@@ -184,7 +197,6 @@ public class AlgorithmTree implements BinaryTree {
             nextBiggestNumber.getLeftNode().setParentNode(nextBiggestNumber);
             nextBiggestNumber.setRightNode(algorithmToRemove.getRightNode());
             nextBiggestNumber.getRightNode().setParentNode(nextBiggestNumber);
-
         }
 
         balanceTree();
@@ -224,6 +236,11 @@ public class AlgorithmTree implements BinaryTree {
         }
     }
 
+    /**
+     * Method that implements the inorder route changing right and left visiting
+     * in order to show from biggest to lowest timestamp values
+     * @param treeNode the node we are looking at the moment
+     */
     public void inorder(BinaryTreeNode treeNode){
         if(treeNode.getRightNode() != null){
             inorder(treeNode.getRightNode());
