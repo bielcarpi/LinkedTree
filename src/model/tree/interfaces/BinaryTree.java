@@ -27,4 +27,11 @@ public interface BinaryTree {
      * @param id Whether a Node with this id exists or not
      */
     boolean nodeExists(int id);
+
+    /**
+     * Balances the Binary tree
+     * <p>If the tree is not properly balanced, it will internally perform a rotation of it to make it
+     * AVL balanced.
+     */
+    void balanceTree();
 }

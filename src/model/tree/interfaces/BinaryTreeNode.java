@@ -35,6 +35,19 @@ public interface BinaryTreeNode extends Comparable<BinaryTreeNode> {
     void setParentNode(BinaryTreeNode parentNode);
 
     /**
+     * Calculates the balancing factor (tanking into account that the tree is AVL auto-balanced)
+     * for this node, and returns it.
+     * @return The balancing factor of this node
+     */
+    int calculateBalancingFactor();
+    /**
+     * Returns the current balancing factor of the node.
+     * <p>To calculate (or recalculate) it, use {@link #calculateBalancingFactor()}
+     * @return The current balancing factor of the node.
+     */
+    int getBalancingFactor();
+
+    /**
      * Returns a pretty string representing the node
      * @return A pretty string representing the node
      */

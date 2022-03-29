@@ -41,6 +41,7 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getLeftNode() == null){
                 parentNode.setLeftNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
+                balanceTree();
             }
             else insertImplementation(parentNode.getLeftNode(), nodeToInsert);
         }
@@ -48,9 +49,14 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getRightNode() == null){
                 parentNode.setRightNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
+                balanceTree();
             }
             else insertImplementation(parentNode.getRightNode(), nodeToInsert);
         }
+    }
+
+    @Override
+    public void balanceTree(){
     }
 
     @Override
@@ -179,9 +185,9 @@ public class AlgorithmTree implements BinaryTree {
             nextBiggestNumber.setRightNode(algorithmToRemove.getRightNode());
             nextBiggestNumber.getRightNode().setParentNode(nextBiggestNumber);
 
-            System.out.println("hola");
         }
 
+        balanceTree();
         return algorithmToRemove.getName();
     }
 

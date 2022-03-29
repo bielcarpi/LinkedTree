@@ -14,6 +14,8 @@ public class Algorithm implements BinaryTreeNode {
     private BinaryTreeNode rightNode;
     private BinaryTreeNode leftNode;
     private BinaryTreeNode parentNode;
+    private int balancingFactor;
+
 
     /**
      * algorithmAux is an auxiliar variable for better performance
@@ -30,6 +32,7 @@ public class Algorithm implements BinaryTreeNode {
         this.language = language;
         this.cost = cost;
         this.timestamp = timestamp;
+        balancingFactor = -1;
     }
 
     public int getId() {
@@ -72,6 +75,32 @@ public class Algorithm implements BinaryTreeNode {
     @Override
     public void setParentNode(BinaryTreeNode parentNode) {
         this.parentNode = parentNode;
+    }
+
+    @Override
+    public int calculateBalancingFactor(){
+        /*int rightNodeHeight = rightNode == null? 0: exploreNodeHeight(this, 0);
+        return balancingFactor = exploreNodeHeight(this, 0);*/
+        return 0;
+    }
+    @Override
+    public int getBalancingFactor(){
+        return balancingFactor;
+    }
+
+    /**
+     * Recursive function that returns the height of the current node in the tree
+     * @return Returns the height of the current node in the tree
+     */
+    private static int exploreNodeHeight(Algorithm a, int lastHeight){
+        int leftSubtreeHeight = 0, rightSubtreeHeight = 0;
+
+        if(a.getLeftNode() != null)
+            leftSubtreeHeight = exploreNodeHeight((Algorithm)a.getLeftNode(), lastHeight + 1);
+        if(a.getRightNode() != null)
+            rightSubtreeHeight = exploreNodeHeight((Algorithm)a.getRightNode(), lastHeight + 1);
+
+        return Math.max(leftSubtreeHeight, rightSubtreeHeight);
     }
 
     @Override
