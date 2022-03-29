@@ -89,9 +89,14 @@ public class AlgorithmTree implements BinaryTree {
             int rightChildBalancingFactor = node.getRightNode().calculateBalancingFactor();
             if(rightChildBalancingFactor == -1){
                 //Right-right rotation
+                rightRightRotation(node);
             }
             else if(rightChildBalancingFactor == 1){
                 //Right-left rotation
+                //Rotation 1
+
+                //Rotation 2 (Right-right)
+
             }
         }
         else if(balancingFactor > 1){
@@ -100,18 +105,37 @@ public class AlgorithmTree implements BinaryTree {
             int leftChildBalancingFactor = node.getLeftNode().calculateBalancingFactor();
             if(leftChildBalancingFactor == -1){
                 //Left-right rotation
+
+                //Rotation 1
+
+                //Rotation 2 (Left-left)
+
             }
             else if(leftChildBalancingFactor == 1){
                 //Left-left rotation
-                Algorithm y = (Algorithm) node.getLeftNode();
-                node.setLeftNode(y.getRightNode());
-                node.getLeftNode().setParentNode(node);
-                
-                y.setRightNode(node);
-                y.setParentNode(node.getParentNode());
-                node.setParentNode(y);
+                leftLeftRotation(node);
             }
         }
+    }
+
+    public void leftLeftRotation(BinaryTreeNode node) {
+        Algorithm y = (Algorithm) node.getLeftNode();
+        node.setLeftNode(y.getRightNode());
+        node.getLeftNode().setParentNode(node);
+
+        y.setRightNode(node);
+        y.setParentNode(node.getParentNode());
+        node.setParentNode(y);
+    }
+
+    public void rightRightRotation(BinaryTreeNode node) {
+        Algorithm x = (Algorithm) node.getRightNode();
+        node.setLeftNode(x.getLeftNode());
+        node.getRightNode().setParentNode(node);
+
+        x.setLeftNode(node);
+        x.setParentNode(node.getParentNode());
+        node.setParentNode(x);
     }
 
     @Override

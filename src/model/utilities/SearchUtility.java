@@ -215,6 +215,7 @@ public class SearchUtility {
      * @return A node that is equals to n inside the array
      */
     private static DijkstraNode getFromArray(ArrayList<DijkstraNode> array, GraphNode n){
+        //System.out.println("LLARGADA: " + array.size());
         for(int i = 0; i < array.size(); i++)
             if(array.get(i).equals(n)) return array.get(i);
 
