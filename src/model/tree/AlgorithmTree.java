@@ -29,12 +29,19 @@ public class AlgorithmTree implements BinaryTree {
         rootNode.printTree();
     }
 
-
+    /**
+     * Method that inserts a node
+     * @param nodeToInsert The node to insert
+     */
     public void insert(BinaryTreeNode nodeToInsert){
         insertImplementation(rootNode, nodeToInsert);
     }
 
-
+    /**
+     * Method that implements the insertion of a node
+     * @param parentNode the node we are currently comparing in the tree
+     * @param nodeToInsert the node we want to insert in the tree
+     */
     private void insertImplementation(BinaryTreeNode parentNode, BinaryTreeNode nodeToInsert){
         if(!(parentNode instanceof Algorithm) || !(nodeToInsert instanceof Algorithm))
             throw new IllegalArgumentException();
@@ -104,6 +111,10 @@ public class AlgorithmTree implements BinaryTree {
         }
     }
 
+    /**
+     * Implements the left - left rotation of a subtree
+     * @param node the parent node
+     */
     private void leftLeftRotation(BinaryTreeNode node) {
         /*
         Algorithm y = (Algorithm) node.getLeftNode();
@@ -118,10 +129,13 @@ public class AlgorithmTree implements BinaryTree {
         node.setParentNode(y);
 
         //If y has no parent node, it means it is now the root node
-        if(y.getParentNode() == null) rootNode = y;
-         */
-    }
+        if(y.getParentNode() == null) rootNode = y;*/
 
+    }
+    /**
+     * Implements the right - right rotation of a subtree
+     * @param node the parent node
+     */
     private void rightRightRotation(BinaryTreeNode node) {
         /*
         Algorithm x = (Algorithm) node.getRightNode();
@@ -140,6 +154,10 @@ public class AlgorithmTree implements BinaryTree {
          */
     }
 
+    /**
+     * Implements the left - right rotation of the subtree
+     * @param node the parent node
+     */
     private void leftRightRotation(BinaryTreeNode node){
         /*
         Algorithm x = (Algorithm) node.getLeftNode(); //estic en x
@@ -157,6 +175,10 @@ public class AlgorithmTree implements BinaryTree {
          */
     }
 
+    /**
+     * Implements the right - left rotation of the subtree
+     * @param node the parent node
+     */
     private void rightLeftRotation (BinaryTreeNode node){
         /*
         Algorithm y = (Algorithm) node.getRightNode();
@@ -180,19 +202,41 @@ public class AlgorithmTree implements BinaryTree {
         return getNodeById(id) != null;
     }
 
+    /**
+     * Searches a node by an id
+     * @param id the id of the node I want to find
+     * @return the algorithm (node) that has the id requested
+     */
     public Algorithm getNodeById(int id){
         return preorderSearchByID(rootNode, id);
     }
 
+    /**
+     * Searches a node by a timestamp
+     * @param timestamp the timestamp of the node I want to find
+     * @return the algorithm (node) that has the timestamp requested
+     */
     public Algorithm getNodeByTimestamp(int timestamp){
         return binarySearchByTimestamp(rootNode, timestamp);
     }
 
+    /**
+     * Searches an array of nodes by a timestamp range
+     * @param minTimestamp the minimum timestamp that must have the nodes I want to find
+     * @param maxTimestamp the maximum timestamp that must have the nodes I want to find
+     * @return the array of algorithms (nodes) that have the timestamp range requested
+     */
     public ArrayList<Algorithm> getRangeNodeByTimestamp(int minTimestamp, int maxTimestamp) {
         ArrayList<Algorithm> algorithmList = new ArrayList<>(Algorithm.class);
         return binaryRangeSearchByTimestamp(rootNode, algorithmList, minTimestamp, maxTimestamp);
     }
 
+    /**
+     * Implements the preorder (of a binary tree) search by ID
+     * @param algorithm the algorithm we are currenty comparing
+     * @param id the id of the node we want to find
+     * @return the algorithm (node) that has the id requested
+     */
     private Algorithm preorderSearchByID(Algorithm algorithm, int id){
         if(algorithm.getId() == id) return algorithm;
 
@@ -269,6 +313,9 @@ public class AlgorithmTree implements BinaryTree {
         return solutionList;
     }
 
+    /**
+     * Method that list the algorithms of the tree
+     */
     public void listAlgorithms() {
         inorder(rootNode);
     }
@@ -368,6 +415,4 @@ public class AlgorithmTree implements BinaryTree {
             inorder(treeNode.getLeftNode());
         }
     }
-
-
 }

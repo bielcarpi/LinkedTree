@@ -2,7 +2,6 @@ package controller;
 
 import model.Model;
 import model.graph.Recommendation;
-import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
 import model.tree.Algorithm;
 import model.utilities.ArrayList;
@@ -10,7 +9,6 @@ import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;
 
-import java.io.IOException;
 
 public class Controller {
 
@@ -24,6 +22,9 @@ public class Controller {
         model = m;
     }
 
+    /**
+     * Infinite loop that executes the code
+     */
     public void start(){
         infiniteLoop:
         while(true) {
@@ -53,6 +54,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Infinite toop that performs the feed option
+     */
     private void feedOption() {
         infiniteLoop:
         while(true){
@@ -85,10 +89,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that list all the algorithms in the system
+     */
     private void listAlgorithms() {
         model.listAlgorithms();
     }
 
+    /**
+     * Method that implements the algorithm range search by timestamp
+     */
     private void rangeTimestampSearch() {
         view.printMessageWithoutLine("Timestamp mínim a cercar: ");
         int minTimestamp = view.askForInteger();
@@ -111,6 +121,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that implements the algorithm search by an exact timestamp
+     */
     private void timestampSearch() {
         view.printMessageWithoutLine("Timestamp a cercar: ");
         int timestamp = view.askForInteger();
@@ -124,6 +137,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that removes an algorithm in the system
+     */
     private void removeAlgorithm() {
         view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
         int id = view.askForInteger();
@@ -136,6 +152,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that adds an algorithm in the system
+     */
     private void addAlgorithm() {
         view.printMessageWithoutLine("Identificador de l'algorisme: ");
         int id = view.askForInteger();
@@ -156,6 +175,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Infinite loop that performs the followers option
+     */
     public void followersOption(){
         infiniteLoop:
         while(true){
@@ -185,6 +207,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that explores all the followers network
+     */
     private void exploreNetwork(){
         Queue<GraphNode> q = model.exploreNetwork();
 
@@ -207,6 +232,9 @@ public class Controller {
         view.printMessage();
     }
 
+    /**
+     * Method that makes followers recomendations
+     */
     private void getRecommendation(){
         boolean idValid = false;
         int id;
@@ -237,6 +265,9 @@ public class Controller {
         view.printMessage();
     }
 
+    /**
+     * Method that shows the right way followers to contextualize drama
+     */
     private void contextualizeDrama() {
         view.printMessage("Llegint el dataset de drama...");
         Stack<GraphNode> dramaNodesTopo = model.contextualizeDrama(); //Get Drama nodes in topo order
@@ -251,6 +282,9 @@ public class Controller {
         view.printMessage();
     }
 
+    /**
+     * Method that finds the optimum contact network of 2 users in order to expand their social circle
+     */
     private void easyNetworking() {
         boolean idValid = false;
         int idUser, idUserToFollow;

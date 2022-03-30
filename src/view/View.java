@@ -82,10 +82,16 @@ public class View {
         System.out.println();
     }
 
+    /**
+     * Prints the followers menu
+     */
     public void printFollowersMenu() {
         System.out.print(FOLLOWERS_MENU);
     }
 
+    /**
+     * Prints the feed menu
+     */
     public void printFeedMenu() {
         System.out.print(FEED_MENU);
     }

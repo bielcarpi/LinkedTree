@@ -210,8 +210,8 @@ public class SearchUtility {
 
     /**
      * Returns a node that is equals to n inside the array
-     * @param array
-     * @param n
+     * @param array the array of DijkstraNode
+     * @param n the graph node
      * @return A node that is equals to n inside the array
      */
     private static DijkstraNode getFromArray(ArrayList<DijkstraNode> array, GraphNode n){

@@ -109,6 +109,10 @@ public class Algorithm implements BinaryTreeNode {
         return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000) + " --> "+timestamp;
     }
 
+    /**
+     * Returns a string representing the node with the timestamp search format
+     * @return a string representing the node with the timestamp search format
+     */
     public String timestampSearchString() {
         return "S'ha trobat un algorisme... "  + name + ": " + language + ", " + cost + "   timestamp: " + new Timestamp((long) timestamp * 1000); // timestamp for debugging purposes
     }

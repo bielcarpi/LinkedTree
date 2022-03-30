@@ -159,7 +159,13 @@ public class Recommendation{
                 Arrays.copyOfRange(recommendationsNativeArray, 0, MAX_NUM_RECOMMENDATIONS - 1) ;
     }
 
-
+    /**
+     * Gets the common friends of two users
+     * @param u1 the first user
+     * @param u2 the second user
+     * @param userGraph the graph with all the users
+     * @return an array of users representing the common friends between u1 and u2
+     */
     private static User[] getCommonFriends(User u1, User u2, UserGraph userGraph){
         //The u1 follows some users. How many of these users follow u2??
         GraphNode[] u1Follows = userGraph.getAdjacent(u1);
@@ -184,6 +190,12 @@ public class Recommendation{
         return commonFriendsNativeArray;
     }
 
+    /**
+     * Returns if a user is inside of an array of users
+     * @param u a user
+     * @param array the array of users
+     * @return true if the user is inside of the array of users and false if not
+     */
     private static boolean isInsideArray(User u, ArrayList<User> array){
         for(int i = 0; i < array.size(); i++)
             if(array.get(i).equals(u)) return true;
