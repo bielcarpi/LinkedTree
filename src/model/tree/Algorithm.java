@@ -147,4 +147,5 @@ public class Algorithm implements BinaryTreeNode {
         algorithmAux.timestamp = timestamp;
         return algorithmAux;
     }
+
 }
