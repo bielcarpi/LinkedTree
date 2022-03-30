@@ -3,6 +3,7 @@ package model.tree;
 import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
 import model.utilities.ArrayList;
+import model.utilities.Queue;
 
 import java.io.IOException;
 
@@ -26,7 +27,8 @@ public class AlgorithmTree implements BinaryTree {
         for(Algorithm a: algorithms)
             insert(a); //For each algorithm, insert it to the tree
 
-        rootNode.printTree();
+        //Print the tree once it is built
+        //rootNode.printTree();
     }
 
 
@@ -59,21 +61,24 @@ public class AlgorithmTree implements BinaryTree {
 
     @Override
     public void balanceTree(){
-        balanceNodesPostOrder(rootNode);
+        Queue<BinaryTreeNode> nodesPostOrder = new Queue<>(BinaryTreeNode.class);
+        getNodesPostOrder(rootNode, nodesPostOrder);
+        while(!nodesPostOrder.isEmpty())
+            balanceNode(nodesPostOrder.remove());
     }
 
     /**
-     * Method that implements the postOrder route changing showing the node
-     * by doing the balancing of this node
-     * @param treeNode the node we are currently balancing
+     * Given the root node, returns the tree it forms in form of post order, within a queue
+     * @param treeNode The root node
+     * @param nodesPostOrder The queue representing the post order of the tree
      */
-    private void balanceNodesPostOrder(BinaryTreeNode treeNode) {
+    private void getNodesPostOrder(BinaryTreeNode treeNode, Queue<BinaryTreeNode> nodesPostOrder) {
         if (treeNode.getLeftNode() != null)
-            balanceNodesPostOrder(treeNode.getLeftNode());
+            getNodesPostOrder(treeNode.getLeftNode(), nodesPostOrder);
         if(treeNode.getRightNode() != null)
-            balanceNodesPostOrder(treeNode.getRightNode());
+            getNodesPostOrder(treeNode.getRightNode(), nodesPostOrder);
 
-        balanceNode(treeNode);
+        nodesPostOrder.add(treeNode);
     }
 
     /**
@@ -105,7 +110,6 @@ public class AlgorithmTree implements BinaryTree {
     }
 
     private void leftLeftRotation(BinaryTreeNode node) {
-        /*
         Algorithm y = (Algorithm) node.getLeftNode();
         if(y.getRightNode() != null){
             node.setLeftNode(y.getRightNode());
@@ -119,11 +123,13 @@ public class AlgorithmTree implements BinaryTree {
 
         //If y has no parent node, it means it is now the root node
         if(y.getParentNode() == null) rootNode = y;
-         */
+        else{
+            if(y.getParentNode().getLeftNode() == node) y.getParentNode().setLeftNode(y);
+            else if(y.getParentNode().getRightNode() == node) y.getParentNode().setRightNode(y);
+        }
     }
 
     private void rightRightRotation(BinaryTreeNode node) {
-        /*
         Algorithm x = (Algorithm) node.getRightNode();
         if(x.getLeftNode() != null){
             node.setRightNode(x.getLeftNode());
@@ -137,11 +143,13 @@ public class AlgorithmTree implements BinaryTree {
 
         //If x has no parent node, it means it is now the root node
         if(x.getParentNode() == null) rootNode = x;
-         */
+        else{
+            if(x.getParentNode().getLeftNode() == node) x.getParentNode().setLeftNode(x);
+            else if(x.getParentNode().getRightNode() == node) x.getParentNode().setRightNode(x);
+        }
     }
 
     private void leftRightRotation(BinaryTreeNode node){
-        /*
         Algorithm x = (Algorithm) node.getLeftNode(); //estic en x
         node.setLeftNode(x.getRightNode()); //la esquerra de D li assigno la y
         node.getLeftNode().setParentNode(node); //li assigno a la y el seu parent que es la D
@@ -154,11 +162,9 @@ public class AlgorithmTree implements BinaryTree {
 
         //Finally, we perform a left-left rotation
         leftLeftRotation(node);
-         */
     }
 
     private void rightLeftRotation (BinaryTreeNode node){
-        /*
         Algorithm y = (Algorithm) node.getRightNode();
         node.setRightNode(y.getLeftNode());
         node.getRightNode().setParentNode(node);
@@ -171,7 +177,6 @@ public class AlgorithmTree implements BinaryTree {
 
         //Finally, we perform a right-right rotation
         rightRightRotation(node);
-         */
     }
 
 

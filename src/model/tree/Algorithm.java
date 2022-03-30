@@ -166,7 +166,6 @@ public class Algorithm implements BinaryTreeNode {
     private void printNodeValue() {
         System.out.println(getText());
     }
-    // use string and not stringbuffer on purpose as we need to change the indent at each recursion
     private void printTree(boolean isRight, String indent){
         if (rightNode != null) {
             ((Algorithm)rightNode).printTree(true, indent + (isRight ? "        " : " |      "));
