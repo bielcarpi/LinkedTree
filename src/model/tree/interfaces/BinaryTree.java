@@ -1,5 +1,9 @@
 package model.tree.interfaces;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.List;
+
 public interface BinaryTree {
 
     /**

@@ -1,11 +1,10 @@
 package model.tree;
 
-import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Algorithm implements BinaryTreeNode {
     private int id;
@@ -153,5 +152,35 @@ public class Algorithm implements BinaryTreeNode {
 
     public String getText(){
         return name + " " + timestamp;
+    }
+
+    public void printTree(){
+        if (rightNode != null) {
+            ((Algorithm)rightNode).printTree(true, "");
+        }
+        printNodeValue();
+        if (leftNode != null) {
+            ((Algorithm)leftNode).printTree(false, "");
+        }
+    }
+    private void printNodeValue() {
+        System.out.println(getText());
+    }
+    // use string and not stringbuffer on purpose as we need to change the indent at each recursion
+    private void printTree(boolean isRight, String indent){
+        if (rightNode != null) {
+            ((Algorithm)rightNode).printTree(true, indent + (isRight ? "        " : " |      "));
+        }
+        System.out.print(indent);
+        if (isRight) {
+            System.out.print(" /");
+        } else {
+            System.out.print(" \\");
+        }
+        System.out.print("----- ");
+        printNodeValue();
+        if (leftNode != null) {
+            ((Algorithm)leftNode).printTree(false, indent + (isRight ? " |      " : "        "));
+        }
     }
 }

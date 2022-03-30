@@ -10,7 +10,6 @@ import model.utilities.Queue;
 import model.utilities.Stack;
 
 import java.io.IOException;
-import java.util.List;
 
 public class Model {
 

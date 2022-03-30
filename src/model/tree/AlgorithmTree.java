@@ -5,7 +5,6 @@ import model.tree.interfaces.BinaryTreeNode;
 import model.utilities.ArrayList;
 
 import java.io.IOException;
-import java.util.List;
 
 public class AlgorithmTree implements BinaryTree {
 
@@ -27,7 +26,7 @@ public class AlgorithmTree implements BinaryTree {
         for(Algorithm a: algorithms)
             insert(a); //For each algorithm, insert it to the tree
 
-        print(rootNode);
+        rootNode.printTree();
     }
 
 
@@ -89,31 +88,24 @@ public class AlgorithmTree implements BinaryTree {
             //Right subtree is not balanced
             //Should we perform a right-right rotation or right-left?
             int rightChildBalancingFactor = treeNode.getRightNode().calculateBalancingFactor();
-            if(rightChildBalancingFactor == -1){ //Right-right rotation
-                System.out.println("right-right rotation");
+            if(rightChildBalancingFactor == -1) //Right-right rotation
                 rightRightRotation(treeNode);
-            }
-            else if(rightChildBalancingFactor == 1){ //Right-left rotation
-                System.out.println("right-left rotation");
+            else if(rightChildBalancingFactor == 1) //Right-left rotation
                 rightLeftRotation(treeNode);
-            }
         }
         else if(balancingFactor > 1){
             //Left subtree is not balanced
             //Should we perform a left-left rotation or left-right?
             int leftChildBalancingFactor = treeNode.getLeftNode().calculateBalancingFactor();
-            if(leftChildBalancingFactor == -1){ //Left-right rotation
-                System.out.println("left-right rotation");
+            if(leftChildBalancingFactor == -1) //Left-right rotation
                 leftRightRotation(treeNode);
-            }
-            else if(leftChildBalancingFactor == 1){ //Left-left rotation
-                System.out.println("left-left rotation");
+            else if(leftChildBalancingFactor == 1) //Left-left rotation
                 leftLeftRotation(treeNode);
-            }
         }
     }
 
     private void leftLeftRotation(BinaryTreeNode node) {
+        /*
         Algorithm y = (Algorithm) node.getLeftNode();
         if(y.getRightNode() != null){
             node.setLeftNode(y.getRightNode());
@@ -127,9 +119,11 @@ public class AlgorithmTree implements BinaryTree {
 
         //If y has no parent node, it means it is now the root node
         if(y.getParentNode() == null) rootNode = y;
+         */
     }
 
     private void rightRightRotation(BinaryTreeNode node) {
+        /*
         Algorithm x = (Algorithm) node.getRightNode();
         if(x.getLeftNode() != null){
             node.setRightNode(x.getLeftNode());
@@ -143,9 +137,11 @@ public class AlgorithmTree implements BinaryTree {
 
         //If x has no parent node, it means it is now the root node
         if(x.getParentNode() == null) rootNode = x;
+         */
     }
 
     private void leftRightRotation(BinaryTreeNode node){
+        /*
         Algorithm x = (Algorithm) node.getLeftNode(); //estic en x
         node.setLeftNode(x.getRightNode()); //la esquerra de D li assigno la y
         node.getLeftNode().setParentNode(node); //li assigno a la y el seu parent que es la D
@@ -158,9 +154,11 @@ public class AlgorithmTree implements BinaryTree {
 
         //Finally, we perform a left-left rotation
         leftLeftRotation(node);
+         */
     }
 
     private void rightLeftRotation (BinaryTreeNode node){
+        /*
         Algorithm y = (Algorithm) node.getRightNode();
         node.setRightNode(y.getLeftNode());
         node.getRightNode().setParentNode(node);
@@ -173,6 +171,7 @@ public class AlgorithmTree implements BinaryTree {
 
         //Finally, we perform a right-right rotation
         rightRightRotation(node);
+         */
     }
 
 
@@ -370,116 +369,5 @@ public class AlgorithmTree implements BinaryTree {
         }
     }
 
-
-    /**
-     * Print a tree
-     * @param root tree root node
-     */
-    public static void print(BinaryTreeNode root)
-    {
-        List<List<String>> lines = new java.util.ArrayList<List<String>>();
-
-        List<BinaryTreeNode> level = new java.util.ArrayList<BinaryTreeNode>();
-        List<BinaryTreeNode> next = new java.util.ArrayList<BinaryTreeNode>();
-
-        level.add(root);
-        int nn = 1;
-
-        int widest = 0;
-
-        while (nn != 0) {
-            List<String> line = new java.util.ArrayList<String>();
-
-            nn = 0;
-
-            for (BinaryTreeNode n : level) {
-                if (n == null) {
-                    line.add(null);
-
-                    next.add(null);
-                    next.add(null);
-                } else {
-                    String aa = n.getText();
-                    line.add(aa);
-                    if (aa.length() > widest) widest = aa.length();
-
-                    next.add(n.getLeftNode());
-                    next.add(n.getRightNode());
-
-                    if (n.getLeftNode() != null) nn++;
-                    if (n.getRightNode() != null) nn++;
-                }
-            }
-
-            if (widest % 2 == 1) widest++;
-
-            lines.add(line);
-
-            List<BinaryTreeNode> tmp = level;
-            level = next;
-            next = tmp;
-            next.clear();
-        }
-
-        int perpiece = lines.get(lines.size() - 1).size() * (widest + 4);
-        for (int i = 0; i < lines.size(); i++) {
-            List<String> line = lines.get(i);
-            int hpw = (int) Math.floor(perpiece / 2f) - 1;
-
-            if (i > 0) {
-                for (int j = 0; j < line.size(); j++) {
-
-                    // split node
-                    char c = ' ';
-                    if (j % 2 == 1) {
-                        if (line.get(j - 1) != null) {
-                            c = (line.get(j) != null) ? '┴' : '┘';
-                        } else {
-                            if (j < line.size() && line.get(j) != null) c = '└';
-                        }
-                    }
-                    System.out.print(c);
-
-                    // lines and spaces
-                    if (line.get(j) == null) {
-                        for (int k = 0; k < perpiece - 1; k++) {
-                            System.out.print(" ");
-                        }
-                    } else {
-
-                        for (int k = 0; k < hpw; k++) {
-                            System.out.print(j % 2 == 0 ? " " : "─");
-                        }
-                        System.out.print(j % 2 == 0 ? "┌" : "┐");
-                        for (int k = 0; k < hpw; k++) {
-                            System.out.print(j % 2 == 0 ? "─" : " ");
-                        }
-                    }
-                }
-                System.out.println();
-            }
-
-            // print line of numbers
-            for (int j = 0; j < line.size(); j++) {
-
-                String f = line.get(j);
-                if (f == null) f = "";
-                int gap1 = (int) Math.ceil(perpiece / 2f - f.length() / 2f);
-                int gap2 = (int) Math.floor(perpiece / 2f - f.length() / 2f);
-
-                // a number
-                for (int k = 0; k < gap1; k++) {
-                    System.out.print(" ");
-                }
-                System.out.print(f);
-                for (int k = 0; k < gap2; k++) {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-
-            perpiece /= 2;
-        }
-    }
 
 }
