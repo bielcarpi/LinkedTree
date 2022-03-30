@@ -52,4 +52,9 @@ public interface BinaryTreeNode extends Comparable<BinaryTreeNode> {
      * @return A pretty string representing the node
      */
     String toPrettyString();
+    /**
+     * Returns a little text representing the node
+     * @return A little text representing the node
+     */
+    String getText();
 }

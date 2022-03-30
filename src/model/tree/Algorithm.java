@@ -1,8 +1,11 @@
 package model.tree;
 
+import model.tree.interfaces.BinaryTree;
 import model.tree.interfaces.BinaryTreeNode;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Algorithm implements BinaryTreeNode {
     private int id;
@@ -148,4 +151,7 @@ public class Algorithm implements BinaryTreeNode {
         return algorithmAux;
     }
 
+    public String getText(){
+        return name + " " + timestamp;
+    }
 }
