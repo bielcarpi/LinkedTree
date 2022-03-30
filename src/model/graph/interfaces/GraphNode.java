@@ -26,5 +26,9 @@ public interface GraphNode extends Cloneable, Comparable<GraphNode> {
      */
     String toPrettyString();
 
+    /**
+     * Returns a string representing the node with the drama format
+     * @return a string representing the node with the drama format
+     */
     String dramaToString();
 }
