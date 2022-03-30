@@ -37,5 +37,5 @@ public interface BinaryTree {
      * <p>If the tree is not properly balanced, it will internally perform a rotation of it to make it
      * AVL balanced.
      */
-    void balanceTree();
+    void balanceTree(BinaryTreeNode nodeToInsert);
 }

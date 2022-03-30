@@ -45,7 +45,7 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getLeftNode() == null){
                 parentNode.setLeftNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
-                balanceTree();
+                balanceTree(nodeToInsert);
             }
             else insertImplementation(parentNode.getLeftNode(), nodeToInsert);
         }
@@ -53,39 +53,36 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getRightNode() == null){
                 parentNode.setRightNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
-                balanceTree();
+                balanceTree(nodeToInsert);
             }
             else insertImplementation(parentNode.getRightNode(), nodeToInsert);
         }
     }
 
     @Override
-    public void balanceTree(){
-        Queue<BinaryTreeNode> nodesPostOrder = new Queue<>(BinaryTreeNode.class);
-        getNodesPostOrder(rootNode, nodesPostOrder);
-        while(!nodesPostOrder.isEmpty())
-            balanceNode(nodesPostOrder.remove());
-    }
+    public void balanceTree(BinaryTreeNode nodeToInsert){
+        //Get all the parents of the nodeToInsert until root
+        //Calculate its height and balance if necessary
 
-    /**
-     * Given the root node, returns the tree it forms in form of post order, within a queue
-     * @param treeNode The root node
-     * @param nodesPostOrder The queue representing the post order of the tree
-     */
-    private void getNodesPostOrder(BinaryTreeNode treeNode, Queue<BinaryTreeNode> nodesPostOrder) {
-        if (treeNode.getLeftNode() != null)
-            getNodesPostOrder(treeNode.getLeftNode(), nodesPostOrder);
-        if(treeNode.getRightNode() != null)
-            getNodesPostOrder(treeNode.getRightNode(), nodesPostOrder);
+        Queue<BinaryTreeNode> parentNodesUntilRoot = new Queue<>(BinaryTreeNode.class);
 
-        nodesPostOrder.add(treeNode);
+        BinaryTreeNode parentNode = nodeToInsert.getParentNode();
+        while(parentNode != null) {
+            parentNodesUntilRoot.add(parentNode);
+            parentNode = parentNode.getParentNode();
+        }
+
+        while(!parentNodesUntilRoot.isEmpty()){
+            boolean rotationPerformed = balanceNode(parentNodesUntilRoot.remove());
+            if(rotationPerformed) break;
+        }
     }
 
     /**
      * An algorithm that balance de subtree from the node that is sent to us by parameter
      * @param treeNode the node that we are balancing
      */
-    private void balanceNode(BinaryTreeNode treeNode) {
+    private boolean balanceNode(BinaryTreeNode treeNode) {
         if(!(treeNode instanceof Algorithm)) throw new IllegalArgumentException();
         int balancingFactor = treeNode.calculateBalancingFactor();
 
@@ -97,6 +94,8 @@ public class AlgorithmTree implements BinaryTree {
                 rightRightRotation(treeNode);
             else if(rightChildBalancingFactor == 1) //Right-left rotation
                 rightLeftRotation(treeNode);
+
+            return true;
         }
         else if(balancingFactor > 1){
             //Left subtree is not balanced
@@ -106,7 +105,11 @@ public class AlgorithmTree implements BinaryTree {
                 leftRightRotation(treeNode);
             else if(leftChildBalancingFactor == 1) //Left-left rotation
                 leftLeftRotation(treeNode);
+
+            return true;
         }
+
+        return false;
     }
 
     private void leftLeftRotation(BinaryTreeNode node) {
@@ -320,7 +323,7 @@ public class AlgorithmTree implements BinaryTree {
             nextBiggestNumber.getRightNode().setParentNode(nextBiggestNumber);
         }
 
-        balanceTree();
+        balanceTree(algorithmToRemove);
         return algorithmToRemove.getName();
     }
 
