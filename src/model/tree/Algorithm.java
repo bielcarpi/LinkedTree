@@ -104,7 +104,7 @@ public class Algorithm implements BinaryTreeNode {
 
     @Override
     public String toPrettyString() {
-        return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000) + "-->"+timestamp;
+        return id + " - " + name + ": " + language + ", " + cost + " - " + new Timestamp((long) timestamp * 1000) + " --> "+timestamp;
     }
 
     public String timestampSearchString() {

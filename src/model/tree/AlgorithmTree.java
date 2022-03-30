@@ -25,6 +25,8 @@ public class AlgorithmTree implements BinaryTree {
 
         for(Algorithm a: algorithms)
             insert(a); //For each algorithm, insert it to the tree
+
+        System.out.println("done");
     }
 
 
@@ -80,87 +82,98 @@ public class AlgorithmTree implements BinaryTree {
      */
     private void balanceNode(BinaryTreeNode treeNode) {
         if(!(treeNode instanceof Algorithm)) throw new IllegalArgumentException();
-        Algorithm node = (Algorithm) treeNode;
-
-        /*
-        TODO: Revisar aquesta linia per comprobar que estigui be. Instancia anterior:
-            int balancingFactor = node.calculateBalancingFactor();
-         */
         int balancingFactor = treeNode.calculateBalancingFactor();
 
         if(balancingFactor < -1){
             //Right subtree is not balanced
             //Should we perform a right-right rotation or right-left?
-            int rightChildBalancingFactor = node.getRightNode().calculateBalancingFactor();
-            if(rightChildBalancingFactor == -1){
-                //Right-right rotation
-                rightRightRotation(node);
+            int rightChildBalancingFactor = treeNode.getRightNode().calculateBalancingFactor();
+            if(rightChildBalancingFactor == -1){ //Right-right rotation
+                System.out.println("right-right rotation");
+                rightRightRotation(treeNode);
             }
-            else if(rightChildBalancingFactor == 1){
-                //Right-left rotation
-                //Rotation 1
-                rightLeftRotation(node);
-                //Rotation  (Right-right)
-                rightRightRotation(node);
+            else if(rightChildBalancingFactor == 1){ //Right-left rotation
+                System.out.println("right-left rotation");
+                rightLeftRotation(treeNode);
             }
         }
         else if(balancingFactor > 1){
             //Left subtree is not balanced
             //Should we perform a left-left rotation or left-right?
-            int leftChildBalancingFactor = node.getLeftNode().calculateBalancingFactor();
-            if(leftChildBalancingFactor == -1){
-                //Left-right rotation
-                //Rotation 1
-                leftRightRotation(node);
-                //Rotation 2 (Left-left)
-                leftLeftRotation(node);
+            int leftChildBalancingFactor = treeNode.getLeftNode().calculateBalancingFactor();
+            if(leftChildBalancingFactor == -1){ //Left-right rotation
+                System.out.println("left-right rotation");
+                leftRightRotation(treeNode);
             }
-            else if(leftChildBalancingFactor == 1){
-                //Left-left rotation
-                leftLeftRotation(node);
+            else if(leftChildBalancingFactor == 1){ //Left-left rotation
+                System.out.println("left-left rotation");
+                leftLeftRotation(treeNode);
             }
         }
     }
 
-    public void leftLeftRotation(BinaryTreeNode node) {
+    private void leftLeftRotation(BinaryTreeNode node) {
         Algorithm y = (Algorithm) node.getLeftNode();
-        node.setLeftNode(y.getRightNode());
-        node.getLeftNode().setParentNode(node);
+        if(y.getRightNode() != null){
+            node.setLeftNode(y.getRightNode());
+            node.getLeftNode().setParentNode(node);
+        }
+        else node.setLeftNode(null);
 
         y.setRightNode(node);
         y.setParentNode(node.getParentNode());
         node.setParentNode(y);
+
+        //If y has no parent node, it means it is now the root node
+        if(y.getParentNode() == null) rootNode = y;
     }
 
-    public void rightRightRotation(BinaryTreeNode node) {
+    private void rightRightRotation(BinaryTreeNode node) {
         Algorithm x = (Algorithm) node.getRightNode();
-        node.setLeftNode(x.getLeftNode());
-        node.getRightNode().setParentNode(node);
+        if(x.getLeftNode() != null){
+            node.setRightNode(x.getLeftNode());
+            node.getRightNode().setParentNode(node);
+        }
+        else node.setRightNode(null);
 
         x.setLeftNode(node);
         x.setParentNode(node.getParentNode());
         node.setParentNode(x);
+
+        //If x has no parent node, it means it is now the root node
+        if(x.getParentNode() == null) rootNode = x;
     }
 
-    public void leftRightRotation(BinaryTreeNode node){
+    private void leftRightRotation(BinaryTreeNode node){
         Algorithm x = (Algorithm) node.getLeftNode(); //estic en x
         node.setLeftNode(x.getRightNode()); //la esquerra de D li assigno la y
         node.getLeftNode().setParentNode(node); //li assigno a la y el seu parent que es la D
 
         x.setRightNode(node.getLeftNode().getLeftNode()); //li assigno a la dreta de x el node T2
+        if(x.getRightNode() != null) x.getRightNode().setParentNode(x);
+
         node.getLeftNode().setLeftNode(x); //la esquerra de y li assigno la x
         node.getLeftNode().getLeftNode().setParentNode(node.getLeftNode()); //li assigno a la x el seu parent que es la y
+
+        //Finally, we perform a left-left rotation
+        leftLeftRotation(node);
     }
 
-    public void rightLeftRotation (BinaryTreeNode node){
+    private void rightLeftRotation (BinaryTreeNode node){
         Algorithm y = (Algorithm) node.getRightNode();
         node.setRightNode(y.getLeftNode());
-        node.getLeftNode().setParentNode(node);
+        node.getRightNode().setParentNode(node);
 
         y.setLeftNode(node.getRightNode().getRightNode());
+        if(y.getLeftNode() != null) y.getLeftNode().setParentNode(y);
+
         node.getRightNode().setRightNode(y);
         node.getRightNode().getRightNode().setParentNode(node.getRightNode());
+
+        //Finally, we perform a right-right rotation
+        rightRightRotation(node);
     }
+
 
     @Override
     public boolean nodeExists(int id) {
