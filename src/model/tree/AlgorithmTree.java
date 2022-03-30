@@ -143,7 +143,6 @@ public class AlgorithmTree implements BinaryTree {
         }
     }
 
-    }
     /**
      * Implements the right - right rotation of a subtree
      * @param node the parent node
