@@ -71,17 +71,12 @@ public class AlgorithmTree implements BinaryTree {
         //Get all the parents of the nodeToInsert until root
         //Calculate its height and balance if necessary
 
-        Queue<BinaryTreeNode> parentNodesUntilRoot = new Queue<>(BinaryTreeNode.class);
-
         BinaryTreeNode parentNode = nodeToInsert.getParentNode();
         while(parentNode != null) {
-            parentNodesUntilRoot.add(parentNode);
-            parentNode = parentNode.getParentNode();
-        }
-
-        while(!parentNodesUntilRoot.isEmpty()){
-            boolean rotationPerformed = balanceNode(parentNodesUntilRoot.remove());
+            boolean rotationPerformed = balanceNode(parentNode);
             if(rotationPerformed) break;
+
+            parentNode = parentNode.getParentNode();
         }
     }
 
