@@ -28,7 +28,7 @@ public class AlgorithmTree implements BinaryTree {
             insert(a); //For each algorithm, insert it to the tree
 
         //Print the tree once it is built
-        //rootNode.printTree();
+        rootNode.printTree();
     }
 
     /**
@@ -68,9 +68,12 @@ public class AlgorithmTree implements BinaryTree {
 
     @Override
     public void balanceTree(BinaryTreeNode nodeToInsert){
-        //Get all the parents of the nodeToInsert until root
-        //Calculate its height and balance if necessary
+        //Let's recalculate the balancing factor of the whole tree nodes
+        // Once we have it, we will look at the parent nodes of the node inserted/deleted
+        // and check for balance. If one of them is out of balance, we'll perform a rotation
+        // and stop checking (the tree is now balanced)
 
+        rootNode.calculateBalancingFactor(); //Recalculate balancing factor of the whole tree
         BinaryTreeNode parentNode = nodeToInsert.getParentNode();
         while(parentNode != null) {
             boolean rotationPerformed = balanceNode(parentNode);
@@ -86,12 +89,12 @@ public class AlgorithmTree implements BinaryTree {
      */
     private boolean balanceNode(BinaryTreeNode treeNode) {
         if(!(treeNode instanceof Algorithm)) throw new IllegalArgumentException();
-        int balancingFactor = treeNode.calculateBalancingFactor();
+        int balancingFactor = treeNode.getBalancingFactor(); //Balancing factor is already calculated
 
         if(balancingFactor < -1){
             //Right subtree is not balanced
             //Should we perform a right-right rotation or right-left?
-            int rightChildBalancingFactor = treeNode.getRightNode().calculateBalancingFactor();
+            int rightChildBalancingFactor = treeNode.getRightNode().getBalancingFactor();
             if(rightChildBalancingFactor == -1) //Right-right rotation
                 rightRightRotation(treeNode);
             else if(rightChildBalancingFactor == 1) //Right-left rotation
@@ -102,7 +105,7 @@ public class AlgorithmTree implements BinaryTree {
         else if(balancingFactor > 1){
             //Left subtree is not balanced
             //Should we perform a left-left rotation or left-right?
-            int leftChildBalancingFactor = treeNode.getLeftNode().calculateBalancingFactor();
+            int leftChildBalancingFactor = treeNode.getLeftNode().getBalancingFactor();
             if(leftChildBalancingFactor == -1) //Left-right rotation
                 leftRightRotation(treeNode);
             else if(leftChildBalancingFactor == 1) //Left-left rotation
