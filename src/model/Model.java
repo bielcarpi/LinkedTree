@@ -65,6 +65,10 @@ public class Model {
         algorithmTree.listAlgorithms();
     }
 
+    public void drawAlgorithmTree() {
+        algorithmTree.drawTree();
+    }
+
     public String removeAlgorithm(int id){
         return algorithmTree.remove(id);
     }

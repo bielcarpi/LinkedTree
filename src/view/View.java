@@ -33,8 +33,9 @@ public class View {
                 C. Llistar algorismes
                 D. Cerca per timestamp (exacta)
                 E. Cerca per timestamp (rang)
+                F. Dibuixar Arbre d'Algorismes
        
-                F. Tornar Enrere
+                G. Tornar Enrere
             
             Quina funcionalitat vols executar?\s""";
 

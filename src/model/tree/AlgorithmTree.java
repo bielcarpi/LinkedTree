@@ -26,9 +26,6 @@ public class AlgorithmTree implements BinaryTree {
 
         for(Algorithm a: algorithms)
             insert(a); //For each algorithm, insert it to the tree
-
-        //Print the tree once it is built
-        rootNode.printTree();
     }
 
     /**
@@ -421,5 +418,12 @@ public class AlgorithmTree implements BinaryTree {
         if (treeNode.getLeftNode() != null){
             inorder(treeNode.getLeftNode());
         }
+    }
+
+    /**
+     * Prints the whole representation of the tree in memory, by stdout
+     */
+    public void drawTree(){
+        rootNode.printTree();
     }
 }

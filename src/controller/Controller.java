@@ -80,9 +80,12 @@ public class Controller {
                         rangeTimestampSearch();
                         continue infiniteLoop;
                     case 'F':
+                        drawAlgorithmTree();
+                        continue infiniteLoop;
+                    case 'G':
                         return;
                     default:
-                        view.printMessageWithoutLine("Error. The value ranges are from [A, F]: ");
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, G]: ");
                         break;
                 }
             } while(true); //While the input is not well-formatted
@@ -322,5 +325,9 @@ public class Controller {
             view.printMessage(path.remove().toPrettyString());
             view.printMessage();
         }
+    }
+
+    private void drawAlgorithmTree(){
+        model.drawAlgorithmTree();
     }
 }
