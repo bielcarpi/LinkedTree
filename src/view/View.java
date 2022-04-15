@@ -18,13 +18,24 @@ public class View {
     private static final String LINKED_TREE_MENU = """
             1. Seguidors (Grafs)
             2. Feed (Arbres)
-            3. A ESPECIFICAR
+            3. Canvas (Arbres R)
             4. A ESPECIFICAR
             
             5. Sortir
             
             Escull una opció:\s""";
 
+    private static final String CANVAS_MENU = """
+            
+                A. Afegir cercle
+                B. Eliminar cercle
+                C. Visualitzar
+                D. Cerca per àrea
+                E. Cerca especial
+                
+                F. Tornar enrere
+            
+            Quina funcionalitat vols executar?\s""";
 
     private static final String FEED_MENU = """
             
@@ -52,7 +63,7 @@ public class View {
 
     private Scanner scanner;
 
-    private static final String INTEGER_EXCEPTION_MESSAGE = """
+    private static final String EXCEPTION_MESSAGE = """
         Error. Introdueix una opció valida:\s""";
 
     public View() {
@@ -98,6 +109,13 @@ public class View {
     }
 
     /**
+     * Prints canvas menu
+     */
+    public void printCanvasMenu() {
+        System.out.print(CANVAS_MENU);
+    }
+
+    /**
      * Metode que demana a l'usuari un enter controlant l'excepcio de Input Mismatch
      * @return l'enter que ha escrit l'usuari
      */
@@ -106,7 +124,23 @@ public class View {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.print(INTEGER_EXCEPTION_MESSAGE);
+                System.out.print(EXCEPTION_MESSAGE);
+            } finally {
+                scanner.nextLine();
+            }
+        }
+    }
+
+    /**
+     * Metode que demana a l'usuari un decimal controlant l'excepcio de Input Mismatch
+     * @return el decimal que ha escrit l'usuari
+     */
+    public float askForFloat() {
+        while (true) {
+            try {
+                return scanner.nextFloat();
+            } catch (InputMismatchException e) {
+                System.out.print(EXCEPTION_MESSAGE);
             } finally {
                 scanner.nextLine();
             }

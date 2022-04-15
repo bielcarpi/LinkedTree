@@ -41,11 +41,20 @@ public class Controller {
                     case 2:
                         // Execute Feed option
                         feedOption();
-                    case 3, 4:
                         continue infiniteLoop;
+
+                    case 3:
+                        // Execute Canvas option
+                        canvasOption();
+                        continue infiniteLoop;
+
+                    case 4:
+                        continue infiniteLoop;
+
                     case 5:
                         view.printMessage("Fins aviat!");
                         return;
+
                     default:
                         view.printMessageWithoutLine("Error. The value ranges are from [1, 5]: ");
                         break;
@@ -55,7 +64,132 @@ public class Controller {
     }
 
     /**
-     * Infinite toop that performs the feed option
+     * Infinite loop that performs the canvas (R Tree) option
+     */
+    private void canvasOption() {
+        infiniteLoop:
+        while(true){
+            view.printCanvasMenu();
+            do{
+                char option = view.askForChar();
+                view.printMessage();
+                view.printMessage();
+                switch (option){
+                    case 'A':
+                        addCircle();
+                        continue infiniteLoop;
+                    case 'B':
+                        removeCircle();
+                        continue infiniteLoop;
+                    case 'C':
+                        visualizePainting();
+                        continue infiniteLoop;
+                    case 'D':
+                        areaSearch();
+                        continue infiniteLoop;
+                    case 'E':
+                        specialSearch();
+                        continue infiniteLoop;
+                    case 'F':
+                        return;
+                    default:
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, G]: ");
+                        break;
+                }
+            } while(true); //While the input is not well-formatted
+        }
+    }
+
+    /**
+     * Method that searches the Circles that are similar and close to add a new Circle there
+     */
+    private void specialSearch() {
+        view.printMessageWithoutLine("Entra la coordenada X del centre del cercle a cercar: ");
+        float x = view.askForFloat();
+        view.printMessageWithoutLine("Entra la coordenada Y del centre del cercle a afegir: ");
+        float y = view.askForFloat();
+        view.printMessageWithoutLine("Entra el radi del cercle a cercar: ");
+        float radius = view.askForFloat();
+        view.printMessageWithoutLine("Entra el color del cercle a cercar: ");
+        String hexColor = view.askForString();
+
+        view.printMessage();
+        if (true/*Cridar a la funcio per fer la Cerca Especial que retorni boolea o string dels cercles*/) {
+            view.printMessage("Els cercles propers i semblants a aquest són:");
+            //Printar els cercles trobats
+        } else {
+            view.printMessage("No s'ha pogut trobar cap cercle similar i a prop d'aquest, torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Method that searches the Circles that are contained in an especific area
+     */
+    private void areaSearch() {
+        view.printMessageWithoutLine("Entra del primer punt del rectangle (X,Y): ");
+        String stringFirstPoint = view.askForString();
+        String[] firstPoint = stringFirstPoint.split(",");
+        view.printMessageWithoutLine("Entra del segon punt del rectangle (X,Y): ");
+        String stringSecondPoint = view.askForString();
+        String[] secondPoint = stringSecondPoint.split(",");
+        view.printMessage();
+        // a la funcio passar --> Integer.parseInt(first/secondPoint[0/1])
+        if (true/*Cridar a la funcio per a fer la Cerca Per Area que retorni int o String dels cercles*/) {
+            view.printMessage("S'han trobat " +  "X"  + " cercles en aquesta àrea:");
+            //Printar els cercles trobats
+        } else {
+            view.printMessage("No hi ha cap cercle en aquesta àrea, torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Method that visualize all the wall painting of Circles
+     */
+    private void visualizePainting() {
+        /*Cridar directament al swing per visualitzar el canvas*/
+        view.printMessage("Generant la visualització del canvas...");
+    }
+
+    /**
+     * Method that removes a Circle at the painting
+     */
+    private void removeCircle() {
+        view.printMessageWithoutLine("Entra la coordenada X del centre del cercle a eliminar: ");
+        float x = view.askForFloat();
+        view.printMessageWithoutLine("Entra la coordenada Y del centre del cercle a eliminar: ");
+        float y = view.askForFloat();
+
+        view.printMessage();
+        if (true/*Cridar a la funcio per Eliminar Cercle que retorni boolea*/) {
+            view.printMessage("El cercle s'ha eliminat correctament del canvas.");
+        } else {
+            view.printMessage("No hi ha cap cercle en aquest punt, torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Method that adds a Circle at the painting
+     */
+    private void addCircle() {
+        view.printMessageWithoutLine("Entra la coordenada X del centre del cercle a afegir: ");
+        float x = view.askForFloat();
+        view.printMessageWithoutLine("Entra la coordenada Y del centre del cercle a afegir: ");
+        float y = view.askForFloat();
+        view.printMessageWithoutLine("Entra el radi del cercle a afegir: ");
+        float radius = view.askForFloat();
+        view.printMessageWithoutLine("Entra el color del cercle a afegir: ");
+        String hexColor = view.askForString();
+
+        view.printMessage();
+        if (true/*Cridar a la funcio per afegir Cercle que retorni boolea*/) {
+            view.printMessage("El cercle s'ha afegit correctament al canvas.");
+        } else {
+            view.printMessage("El cercle no s'ha pogut afegir al canvas, torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Infinite loop that performs the feed (Binary Tree) option
      */
     private void feedOption() {
         infiniteLoop:
@@ -63,6 +197,7 @@ public class Controller {
             view.printFeedMenu();
             do{
                 char option = view.askForChar();
+                view.printMessage();
                 switch (option){
                     case 'A':
                         addAlgorithm();
