@@ -24,7 +24,7 @@ public class ReadRTree {
             currentLine = br.readLine();
             // Tractem l'informació dels cercles
             String[] circleFields = currentLine.split(";");
-            circles[i] = new Circle(Float.parseFloat(circleFields[0]), Float.parseFloat(circleFields[1]),
+            circles[i] = new Circle(new Point(Float.parseFloat(circleFields[0]), Float.parseFloat(circleFields[1])),
                     Float.parseFloat(circleFields[2]), circleFields[3]);
             //Posar en el RTree el cercle aqui???
         }

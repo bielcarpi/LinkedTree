@@ -1,26 +1,21 @@
 package model.rtree;
 
-import model.rtree.interfaces.RTreeNode;
+import model.rtree.interfaces.RTreeElement;
 
-public class Circle implements RTreeNode {
-    private float x;
-    private float y;
+public class Circle implements RTreeElement {
+    private Point point;
     private float radius;
     private String hexColor;
 
-    public Circle(float x, float y, float radius, String hexColor) {
-        this.x = x;
-        this.y = y;
+    public Circle(Point point, float radius, String hexColor) {
+        this.point = point;
         this.radius = radius;
         this.hexColor = hexColor;
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
+    @Override
+    public Point getPoint() {
+        return point;
     }
 
     public float getRadius() {
