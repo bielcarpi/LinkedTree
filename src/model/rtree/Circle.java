@@ -14,4 +14,20 @@ public class Circle implements RTreeNode {
         this.radius = radius;
         this.hexColor = hexColor;
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public String getHexColor() {
+        return hexColor;
+    }
 }

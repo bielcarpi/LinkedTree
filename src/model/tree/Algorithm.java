@@ -60,6 +60,7 @@ public class Algorithm implements BinaryTreeNode {
     public BinaryTreeNode getLeftNode() {
         return leftNode;
     }
+
     @Override
     public BinaryTreeNode getParentNode(){
         return parentNode;
@@ -69,10 +70,12 @@ public class Algorithm implements BinaryTreeNode {
     public void setRightNode(BinaryTreeNode rightNode) {
         this.rightNode = rightNode;
     }
+
     @Override
     public void setLeftNode(BinaryTreeNode leftNode) {
         this.leftNode = leftNode;
     }
+
     @Override
     public void setParentNode(BinaryTreeNode parentNode) {
         this.parentNode = parentNode;
@@ -83,6 +86,7 @@ public class Algorithm implements BinaryTreeNode {
         recursiveUpdateBalancingFactor(this);
         return balancingFactor;
     }
+
     @Override
     public int getBalancingFactor(){
         return balancingFactor;

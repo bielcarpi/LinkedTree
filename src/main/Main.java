@@ -2,8 +2,6 @@ package main;
 
 import controller.Controller;
 import model.Model;
-import model.graph.UserGraph;
-import model.tree.AlgorithmTree;
 import view.View;
 
 import java.io.IOException;

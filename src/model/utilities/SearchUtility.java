@@ -135,6 +135,7 @@ public class SearchUtility {
      * @return The path from nInitial to nFinal
      */
     public static Stack<GraphNode> dijkstra(Graph graph, GraphNode nInitial, GraphNode nFinal){
+        int numberOfNodes = 0;
         graph = graph.clone();
         nInitial = graph.getNode(nInitial);
         nFinal = graph.getNode(nFinal);
@@ -154,6 +155,7 @@ public class SearchUtility {
 
             for (int i = 0; i < adj.length; i++) {
                 if (!adj[i].isVisited()) {
+                    numberOfNodes++; //we increse the number of nodes that we currently evaluate
                     // Cost/Weight
                     newCost = nActual.costToReachNode + graph.getArestaWeight(nActual.node, adj[i]);
 
@@ -204,7 +206,7 @@ public class SearchUtility {
                 break;
             }
         }
-
+        System.out.println("Number of nodes evaluated: " + numberOfNodes);
         return path;
     }
 
