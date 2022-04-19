@@ -3,12 +3,13 @@ package model.rtree;
 public class Rectangle {
     private Point p1; //Bottom left corner
     private Point p2; //Upper right corner
-    private RTreeNode childNode;
+    private RTreeNode currentNode, childNode;
 
-    public Rectangle(Point p1, Point p2, RTreeNode childNode){
+    public Rectangle(Point p1, Point p2, RTreeNode currentNode, RTreeNode childNode){
         this.p1 = p1;
         this.p2 = p2;
 
+        this.currentNode = currentNode;
         this.childNode = childNode;
         childNode.setParentRectangle(this);
     }
@@ -38,8 +39,8 @@ public class Rectangle {
         return childNode;
     }
 
-    public void setChildNode(RTreeNode childNode) {
-        this.childNode = childNode;
+    public RTreeNode getCurrentNode() {
+        return currentNode;
     }
 
     /**
@@ -61,9 +62,17 @@ public class Rectangle {
             }
 
             if (points[i].getX() > xMax) {
-                xMax =
+                xMax = points[i].getX();
+            }
+
+            if (points[i].getY() > yMax) {
+                yMax = points[i].getY();
             }
         }
+        Point[] newPoints = new Point[2];
+        newPoints[0] = new Point(xMin, yMin);
+        newPoints[1] = new Point(xMax, yMax);
+        return newPoints;
     }
 
     /**

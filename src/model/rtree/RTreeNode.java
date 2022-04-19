@@ -2,37 +2,50 @@ package model.rtree;
 
 import model.rtree.interfaces.RTreeElement;
 
+import java.util.ArrayList;
+
 public class RTreeNode {
 
-    private RTreeElement[] arrayElements;
-    private Rectangle[] arrayRectangles;
-    private int currentPosition;
+    private ArrayList<RTreeElement> arrayElements;
+    private ArrayList<Rectangle> arrayRectangles;
+    private final int ORDER;
     private Rectangle parentRectangle;
 
     public RTreeNode(int order, boolean rectangleNode){
-        if(rectangleNode){
-            arrayRectangles = new Rectangle[order + 1];
-        } else {
-            arrayElements = new RTreeElement[order + 1];
-        }
+        ORDER = order;
 
-        currentPosition = -1;
+        if(rectangleNode){
+            arrayRectangles = new ArrayList<>();
+        } else {
+            arrayElements = new ArrayList<>();
+        }
+    }
+
+    public static void putRectangles(Rectangle r1, Rectangle r2, ArrayList<Rectangle> childNodeRectangle) {
+        //TODO
+    }
+
+    public static void putRTreeElements(Rectangle r1, Rectangle r2, ArrayList<RTreeElement> childNodeElements) {
+        //TODO
     }
 
     public boolean insert(RTreeElement element){
         if(arrayElements == null) throw new IllegalArgumentException();
-        currentPosition++;
-        arrayElements[currentPosition] = element;
+        arrayElements.add(element);
 
-        return currentPosition == arrayElements.length;
+        return arrayElements.size() == ORDER;
     }
 
     public boolean insert(Rectangle rectangle){
         if(arrayRectangles == null) throw new IllegalArgumentException();
-        currentPosition++;
-        arrayRectangles[currentPosition] = rectangle;
+        arrayRectangles.add(rectangle);
 
-        return currentPosition == arrayElements.length;
+        return arrayRectangles.size() == ORDER;
+    }
+
+    public boolean remove(Rectangle rectangle){
+        if(arrayRectangles == null) return false;
+        return arrayRectangles.remove(rectangle);
     }
 
     public boolean isRectangleNode(){
@@ -51,25 +64,32 @@ public class RTreeNode {
     public Rectangle getBestRectangle(Point p){
         if(arrayRectangles == null) throw new IllegalArgumentException();
         //Si tenim algun rectangle que el punt quedi a dins, agafem aquell rectangle
-        for(int i = 0; i <= currentPosition; i++){
-            if (p.getX() >= arrayRectangles[i].getP1().getX() && p.getX() <= arrayRectangles[i].getP2().getX() &&
-                p.getY() >= arrayRectangles[i].getP1().getY() && p.getY() <= arrayRectangles[i].getP2().getY()) {
-                return arrayRectangles[i];
+        for(Rectangle r: arrayRectangles){
+            if (p.getX() >= r.getP1().getX() && p.getX() <= r.getP2().getX() &&
+                p.getY() >= r.getP1().getY() && p.getY() <= r.getP2().getY()) {
+                return r;
             }
         }
 
         //Si no, agafem el rectangle que hagi de creixer menys per posar-li el punt
-        int bestRectangle = -1;
+        Rectangle bestRectangle = null;
         float minDiff = Float.MAX_VALUE;
-        for(int i = 0; i <= currentPosition; i++){
-            float currentDiff = arrayRectangles[i].getAreaDiffWithNewPoint(p);
+        for(Rectangle r: arrayRectangles){
+            float currentDiff = r.getAreaDiffWithNewPoint(p);
             if(currentDiff < minDiff){ //If the current rectangle is the best until now, update
                 minDiff = currentDiff;
-                bestRectangle = i;
+                bestRectangle = r;
             }
         }
 
         //Retorna el rectangle que ha de creixer menys per posar-li el punt
-        return arrayRectangles[bestRectangle];
+        return bestRectangle;
+    }
+
+    public ArrayList<Rectangle> getRectangles() {
+        return arrayRectangles;
+    }
+    public ArrayList<RTreeElement> getElements() {
+        return arrayElements;
     }
 }
