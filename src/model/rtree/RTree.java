@@ -1,8 +1,11 @@
 package model.rtree;
 
 import model.rtree.interfaces.RTreeElement;
+import model.tree.Algorithm;
+import model.tree.ReadTree;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RTree {
@@ -10,13 +13,26 @@ public class RTree {
     private final int ORDER;
     private RTreeNode rootNode;
 
-    public RTree(int order){
+    public RTree(int order, String path) throws IOException {
         ORDER = order;
 
         rootNode = new RTreeNode(ORDER, true);
         Rectangle r = new Rectangle(new Point(Float.MIN_NORMAL, Float.MAX_VALUE),
                 new Point(Float.MAX_VALUE, Float.MIN_VALUE), rootNode, new RTreeNode(ORDER, false));
         rootNode.insert(r);
+
+        /**
+         * In the {@link ReadRTree} class, we don't build the RTree, we build it here.
+         * The {@link ReadRTree#getCircles()} returns an array with all the circles in the file, and
+         * we'll insert and build the RTree here.
+         * We know it would be best to build the RTree when reading, but we did it this way to see it more clearly
+         */
+
+        ReadRTree.read(path);
+        Circle[] circles = ReadRTree.getCircles();
+
+        for(Circle c: circles)
+            insert(c); //For each circle, insert it to the RTree
     }
 
     public void insert(RTreeElement node){

@@ -146,7 +146,7 @@ public class Controller {
      * Method that visualize all the wall painting of Circles
      */
     private void visualizePainting() {
-        /*Cridar directament al swing per visualitzar el canvas*/
+        model.visualizeCircles();
         view.printMessage("Generant la visualització del canvas...");
     }
 
@@ -179,13 +179,10 @@ public class Controller {
         float radius = view.askForFloat();
         view.printMessageWithoutLine("Entra el color del cercle a afegir: ");
         String hexColor = view.askForString();
-
         view.printMessage();
-        if (true/*Cridar a la funcio per afegir Cercle que retorni boolea*/) {
-            view.printMessage("El cercle s'ha afegit correctament al canvas.");
-        } else {
-            view.printMessage("El cercle no s'ha pogut afegir al canvas, torna-ho a intentar!");
-        }
+
+        model.addNewCircle(x, y, radius, hexColor);
+        view.printMessage("El cercle s'ha afegit correctament al canvas.");
     }
 
     /**

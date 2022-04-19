@@ -19,7 +19,6 @@ public class AlgorithmTree implements BinaryTree {
          * we'll insert and build the Tree here.
          * We know it would be best to build the Tree when reading, but we did it this way to see it more clearly
          */
-
         ReadTree.read(path);
         Algorithm[] algorithms = ReadTree.getAlgorithms();
         rootNode = algorithms[0]; //Add the root element of the tree

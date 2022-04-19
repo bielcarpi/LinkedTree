@@ -19,23 +19,23 @@ public class Point {
         return y;
     }
 
-    private float evaluateDistance(Point point1, Point point2){
-        float dist = 0;
+    private static float evaluateDistance(Point point1, Point point2){
+        float dist;
         dist = (float) Math.sqrt((point2.x - point1.x)*(point2.x - point1.x) +
                 (point2.y - point1.y)*(point2.y - point1.y));
         return dist;
     }
 
-    public static Point[] getLongestDistance(Point[] points){
+    public static Point[] getLongestDistance(ArrayList<Point> points){
         Point[] fartherPoints = new Point[2];
 
         float currentDistance = 0.0F;
-        for (int i = 0; i < points.length; i++) {
-            for (int j = 0; j < points.length; j++) {
-                if (evaluateDistance(points[i],points[j]) > currentDistance){
-                    fartherPoints[0] = points[i];
-                    fartherPoints[1] = points[j];
-                    currentDistance = evaluateDistance(points[i], points[j]);
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = 0; j < points.size(); j++) {
+                if (evaluateDistance(points.get(i),points.get(j)) > currentDistance){
+                    fartherPoints[0] = points.get(i);
+                    fartherPoints[1] = points.get(j);
+                    currentDistance = evaluateDistance(points.get(i), points.get(j));
                 }
             }
         }

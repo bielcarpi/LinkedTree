@@ -3,6 +3,9 @@ package model;
 import model.graph.Recommendation;
 import model.graph.UserGraph;
 import model.graph.interfaces.GraphNode;
+import model.rtree.Circle;
+import model.rtree.Point;
+import model.rtree.RTree;
 import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
 import model.utilities.ArrayList;
@@ -16,12 +19,15 @@ public class Model {
     private final UserGraph userGraph;
     private final UserGraph dramaGraph;
     private final AlgorithmTree algorithmTree;
+    private final RTree rTree;
 
-    public Model(final String graphFileName, final String dramaFileName, final String treeFileName)
+    public Model(final String graphFileName, final String dramaFileName, final String treeFileName,
+                 final String rTreeFileName, final int rTreeOrder)
             throws IOException {
         userGraph = new UserGraph(graphFileName);
         dramaGraph = new UserGraph(dramaFileName);
         algorithmTree = new AlgorithmTree(treeFileName);
+        rTree = new RTree(rTreeOrder, rTreeFileName);
     }
 
     public Queue<GraphNode> exploreNetwork(){
@@ -71,5 +77,13 @@ public class Model {
 
     public String removeAlgorithm(int id){
         return algorithmTree.remove(id);
+    }
+
+    public void addNewCircle(float x, float y, float radius, String hexColor) {
+        rTree.insert(new Circle(new Point(x, y), radius, hexColor));
+    }
+
+    public void visualizeCircles() {
+        rTree.visualize();
     }
 }
