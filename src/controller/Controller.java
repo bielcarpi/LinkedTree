@@ -3,6 +3,8 @@ package controller;
 import model.Model;
 import model.graph.Recommendation;
 import model.graph.interfaces.GraphNode;
+import model.rtree.Point;
+import model.rtree.interfaces.RTreeElement;
 import model.tree.Algorithm;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
@@ -133,10 +135,18 @@ public class Controller {
         String stringSecondPoint = view.askForString();
         String[] secondPoint = stringSecondPoint.split(",");
         view.printMessage();
+
+        Point[] points = new Point[2];
+        points[0] = new Point(Integer.parseInt(firstPoint[0]), Integer.parseInt(firstPoint[1]));
+        points[1] = new Point(Integer.parseInt(secondPoint[0]), Integer.parseInt(secondPoint[1]));
         // a la funcio passar --> Integer.parseInt(first/secondPoint[0/1])
-        if (true/*Cridar a la funcio per a fer la Cerca Per Area que retorni int o String dels cercles*/) {
-            view.printMessage("S'han trobat " +  "X"  + " cercles en aquesta àrea:");
+        java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
+        if (pointsInArea != null) {
+            view.printMessage("S'han trobat " +  pointsInArea.size()  + " cercles en aquesta àrea:");
             //Printar els cercles trobats
+            for (int i = 0; i < pointsInArea.size(); i++) {
+                view.printMessage(pointsInArea.get(i).toRangeSearchString());
+            }
         } else {
             view.printMessage("No hi ha cap cercle en aquesta àrea, torna-ho a intentar!");
         }

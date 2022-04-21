@@ -6,6 +6,7 @@ import model.graph.interfaces.GraphNode;
 import model.rtree.Circle;
 import model.rtree.Point;
 import model.rtree.RTree;
+import model.rtree.interfaces.RTreeElement;
 import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
 import model.utilities.ArrayList;
@@ -85,5 +86,9 @@ public class Model {
 
     public void visualizeCircles() {
         rTree.visualize();
+    }
+
+    public java.util.ArrayList<RTreeElement> circleRangeSearch(Point[] pointsRangeSearch) {
+        return rTree.makeRangeSearch(pointsRangeSearch);
     }
 }

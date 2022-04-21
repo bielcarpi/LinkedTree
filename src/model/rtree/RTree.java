@@ -106,7 +106,41 @@ public class RTree {
         return parentNode.insert(r2);
     }
 
+    public ArrayList<RTreeElement> makeRangeSearch(Point[] searchingArea) {
+        return rangeSearch(rootNode.getParentRectangle(), new ArrayList<>(), searchingArea);
+    }
 
+    public ArrayList<RTreeElement> rangeSearch(Rectangle actualRectangle, ArrayList<RTreeElement> solutionList, Point[] searchingArea) {
+
+        if (actualRectangle.getChildNode().isRectangleNode()) {
+            ArrayList<Rectangle> actualNode = actualRectangle.getChildNode().getRectangles();
+
+            for (int i = 0; i < actualNode.size() - 1; i++) {
+                if (searchingArea[0].getX() <= actualNode.get(i).getP2().getX() &&
+                        searchingArea[1].getX() >= actualNode.get(i).getP1().getX() &&
+                        searchingArea[1].getY() >= actualNode.get(i).getP1().getY() &&
+                        searchingArea[0].getY() <= actualNode.get(i).getP2().getY()) {
+                    //The Rectangles are overlapping
+                    rangeSearch(actualNode.get(i), solutionList, searchingArea);
+                }
+            }
+        } else {
+                // We are at the point level
+                ArrayList<RTreeElement> lastNode = actualRectangle.getChildNode().getElements();
+
+                for (int i = 0; i < lastNode.size() - 1; i++) {
+                    if (lastNode.get(i).getPoint().getX() >= searchingArea[0].getX() &&
+                            lastNode.get(i).getPoint().getX() <= searchingArea[1].getX() &&
+                            lastNode.get(i).getPoint().getY() >= searchingArea[0].getY() &&
+                            lastNode.get(i).getPoint().getY() <= searchingArea[1].getY()) {
+                        // The Point is inside the area range
+                        solutionList.add(lastNode.get(i));
+                    }
+                }
+            }
+
+        return solutionList;
+    }
 
     
     public void delete(RTreeElement node){

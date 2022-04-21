@@ -2,6 +2,8 @@ package model.rtree;
 
 import model.rtree.interfaces.RTreeElement;
 
+import java.util.Arrays;
+
 public class Circle implements RTreeElement {
     private Point point;
     private float radius;
@@ -16,6 +18,14 @@ public class Circle implements RTreeElement {
     @Override
     public Point getPoint() {
         return point;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toRangeSearchString() {
+        return "\t" + hexColor + " (" + point.getX() + ", " + point.getY() + ") r=" + radius;
     }
 
     public float getRadius() {
