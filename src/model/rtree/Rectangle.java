@@ -1,5 +1,12 @@
 package model.rtree;
 
+/**
+ * The class Rectangle represents a rectangle from the {@link RTree}
+ * <p>It is built upon two points, and will always have a child {@link RTreeNode}
+ *
+ * @see RTree
+ * @see RTreeNode
+ */
 public class Rectangle {
     private Point p1; //Bottom left corner
     private Point p2; //Upper right corner
@@ -79,7 +86,7 @@ public class Rectangle {
      * Returns the difference between the current area and the area that this rectangle
      * would have if a point p were to be inserted
      *
-     * @param p A theoretical point inserted
+     * @param p A theoretical point that were to be inserted
      * @return The difference between the current area and the area that this rectangle
      * would have if a point p were to be inserted
      */

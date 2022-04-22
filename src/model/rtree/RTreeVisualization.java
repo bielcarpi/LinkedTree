@@ -7,6 +7,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The class RTreeVisualization is a {@link JFrame} that, given the root RTreeNode of a RTree,
+ * it will paint its elements (Rectangles & Points) on the frame's panel.
+ *
+ * @see RTree
+ * @see RTreeNode
+ * @see Rectangle
+ * @see Point
+ */
 public class RTreeVisualization extends JFrame{
 
     public RTreeVisualization(RTreeNode rootNode){

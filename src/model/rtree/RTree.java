@@ -16,6 +16,8 @@ public class RTree {
     public RTree(int order, String path) throws IOException {
         ORDER = order;
 
+        //Create the first node (the root node), which will contain a rectangle
+        // that occupies the whole space
         rootNode = new RTreeNode(ORDER, true);
         Rectangle r = new Rectangle(new Point(Float.MIN_NORMAL, Float.MAX_VALUE),
                 new Point(Float.MAX_VALUE, Float.MIN_VALUE), rootNode, new RTreeNode(ORDER, false));
@@ -37,7 +39,7 @@ public class RTree {
 
     public void insert(RTreeElement node){
         RTreeNode currentNode = rootNode;
-        while(currentNode.isRectangleNode()){
+        while(currentNode.isRectangleNode()){ //While we're in a rectangle node, get the next best rectangle
             Rectangle r = currentNode.getBestRectangle(node.getPoint());
             currentNode = r.getChildNode();
         }
@@ -82,8 +84,8 @@ public class RTree {
                 points.add(e.getPoint());
         }
 
-        //Now that we have all the points of the child's, let's calculate the two that are further away
-        Point[] maxDistancePoints = Point.getLongestDistance(points);
+        //Now that we have all the points of the child's, let's calculate the two that are farther away
+        Point[] maxDistancePoints = Point.getFarthestPoints(points);
 
         //With these two points, we'll create the two new rectangles
         Rectangle r1 = new Rectangle(maxDistancePoints[0], maxDistancePoints[0], parentNode,
