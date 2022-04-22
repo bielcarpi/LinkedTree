@@ -50,6 +50,17 @@ public class Rectangle {
         return currentNode;
     }
 
+
+    /**
+     * Returns a point that represents the center of this rectangle
+     * @return A point that represents the rectangle's center
+     */
+    public Point getCenter(){
+        float x = (p2.getX() - p1.getX())/2 + p1.getX();
+        float y = (p1.getY() - p2.getY())/2 + p2.getY();
+        return new Point(x, y);
+    }
+
     /**
      * Given the points that need to be inside a rectangle, the method
      * returns the points p1 and p2 of the rectangle.

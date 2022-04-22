@@ -19,8 +19,8 @@ public class RTree {
         //Create the first node (the root node), which will contain a rectangle
         // that occupies the whole space
         rootNode = new RTreeNode(ORDER, true);
-        Rectangle r = new Rectangle(new Point(Float.MIN_NORMAL, Float.MAX_VALUE),
-                new Point(Float.MAX_VALUE, Float.MIN_VALUE), rootNode, new RTreeNode(ORDER, false));
+        Rectangle r = new Rectangle(new Point(Float.MIN_NORMAL, Float.MIN_VALUE),
+                new Point(Float.MAX_VALUE, Float.MAX_VALUE), rootNode, new RTreeNode(ORDER, false));
         rootNode.insert(r);
 
         /**
@@ -41,6 +41,7 @@ public class RTree {
         RTreeNode currentNode = rootNode;
         while(currentNode.isRectangleNode()){ //While we're in a rectangle node, get the next best rectangle
             Rectangle r = currentNode.getBestRectangle(node.getPoint());
+            System.out.println(r.getP1().getX() + " " + r.getP2().getY());
             currentNode = r.getChildNode();
         }
 
@@ -64,8 +65,19 @@ public class RTree {
      */
     private boolean divideParent(RTreeNode currentNode){
         Rectangle parentRectangle = currentNode.getParentRectangle();
-        RTreeNode parentNode = parentRectangle.getCurrentNode();
-        parentNode.remove(parentRectangle); //Remove the rectangle that had its child node full from the parentNode
+
+        //If the parent rectangle is null, it means we are in the root node.
+        // The root node doesn't have a parent rectangle, so we'll need to create a new parent node.
+        // Else, get the parent node of the parent rectangle
+        RTreeNode parentNode;
+        if(parentRectangle == null){
+            rootNode = new RTreeNode(ORDER, true);
+            parentNode = rootNode;
+        }
+        else{
+            parentNode = parentRectangle.getCurrentNode();
+            parentNode.remove(parentRectangle); //Remove the rectangle that had its child node full from the parentNode
+        }
 
         //Get from the current node (to be deleted, together with its parent), its elements (either elements or rectangles)
         ArrayList<Rectangle> childNodeRectangle = currentNode.getRectangles();
@@ -95,7 +107,6 @@ public class RTree {
 
 
         //Now that we have the rectangles created, we'll need to put the elements we had into them
-        //TODO
         if(childNodeRectangle != null) //If we have rectangles
             RTreeNode.putRectangles(r1, r2, childNodeRectangle);
         else //If we have RTreeElements

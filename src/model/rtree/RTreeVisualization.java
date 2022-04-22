@@ -4,6 +4,8 @@ import model.rtree.interfaces.RTreeElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,15 +18,50 @@ import java.util.Random;
  * @see Rectangle
  * @see Point
  */
-public class RTreeVisualization extends JFrame{
+public class RTreeVisualization extends JFrame {
 
-    public RTreeVisualization(RTreeNode rootNode){
+    private static RTreeVisualization visualization;
+
+    private RTreeVisualization(RTreeNode rootNode){
         super("RTree Visualization");
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowListener() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                visualization = null;
+            }
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
         setSize(780, 480);
         setContentPane(new DrawingPanel(rootNode));
         setVisible(true);
+    }
+
+    /**
+     * Starts the visualization
+     * @param rootNode The RootNode of the RTree to visualize
+     * @return Whether the visualization has started or not. If not, it can mean that it is already
+     * being displayed, or there is some problem with the OS
+     */
+    public static boolean start(RTreeNode rootNode){
+        if(visualization == null){
+            visualization = new RTreeVisualization(rootNode);
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -71,7 +108,7 @@ public class RTreeVisualization extends JFrame{
                 }
             }
         }
-        
+
     }
 }
 

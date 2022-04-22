@@ -34,12 +34,43 @@ public class RTreeNode {
         }
     }
 
+    /**
+     * Given two rectangles and an ArrayList of rectangles, the rectangles of the ArrayList
+     * will be inserted in the rectangle (r1 or r2) that fits best.
+     * <p>The method {@link #getBestRectangle(Point)} will be used, and the point of the Rectangles
+     * in the ArrayList considered will be its center.
+     *
+     * @param r1 The first option to insert the childNodeRectangles
+     * @param r2 The second option to insert the childNodeRectangles
+     * @param childNodeRectangle An ArrayList containing the Rectangles to be inserted in either r1 or r2
+     */
     public static void putRectangles(Rectangle r1, Rectangle r2, ArrayList<Rectangle> childNodeRectangle) {
-        //TODO
+        ArrayList<Rectangle> possibleRectangles = new ArrayList<>();
+        possibleRectangles.add(r1);
+        possibleRectangles.add(r2);
+
+        //For each childNodeRectangle, insert it to either r1 or r2 (the best one)
+        for(Rectangle r: childNodeRectangle)
+            getBestRectangle(r.getCenter(), possibleRectangles).getChildNode().insert(r);
     }
 
+    /**
+     * Given two rectangles and an ArrayList of RTreeElements, the latter ones will be inserted
+     * in the rectangle (r1 or r2) that fits best.
+     * <p>The method {@link #getBestRectangle(Point)} will be used
+     *
+     * @param r1 The first option to insert the childNodeElements
+     * @param r2 The second option to insert the childNodeElements
+     * @param childNodeElements An ArrayList containing the Elements to be inserted in either r1 or r2
+     */
     public static void putRTreeElements(Rectangle r1, Rectangle r2, ArrayList<RTreeElement> childNodeElements) {
-        //TODO
+        ArrayList<Rectangle> possibleRectangles = new ArrayList<>();
+        possibleRectangles.add(r1);
+        possibleRectangles.add(r2);
+
+        //For each childNodeElement, insert it to either r1 or r2 (the best one)
+        for(RTreeElement e: childNodeElements)
+            getBestRectangle(e.getPoint(), possibleRectangles).getChildNode().insert(e);
     }
 
     /**
@@ -89,10 +120,13 @@ public class RTreeNode {
      */
     public Rectangle getBestRectangle(Point p){
         if(arrayRectangles == null) throw new IllegalArgumentException();
+        return getBestRectangle(p, arrayRectangles);
+    }
+    private static Rectangle getBestRectangle(Point p, ArrayList<Rectangle> possibleRectangles){
         //Si tenim algun rectangle que el punt quedi a dins, agafem aquell rectangle
-        for(Rectangle r: arrayRectangles){
+        for(Rectangle r: possibleRectangles){
             if (p.getX() >= r.getP1().getX() && p.getX() <= r.getP2().getX() &&
-                p.getY() >= r.getP1().getY() && p.getY() <= r.getP2().getY()) {
+                    p.getY() >= r.getP1().getY() && p.getY() <= r.getP2().getY()) {
                 return r;
             }
         }
@@ -100,7 +134,7 @@ public class RTreeNode {
         //Si no, agafem el rectangle que hagi de creixer menys per posar-li el punt
         Rectangle bestRectangle = null;
         float minDiff = Float.MAX_VALUE;
-        for(Rectangle r: arrayRectangles){
+        for(Rectangle r: possibleRectangles){
             float currentDiff = r.getAreaDiffWithNewPoint(p);
             if(currentDiff < minDiff){ //If the current rectangle is the best until now, update
                 minDiff = currentDiff;
