@@ -156,8 +156,8 @@ public class Controller {
      * Method that visualize all the wall painting of Circles
      */
     private void visualizePainting() {
-        model.visualizeCircles();
         view.printMessage("Generant la visualització del canvas...");
+        if(!model.visualizeCircles()) view.printMessage("No s'ha pogut generar la visualitzacio. Tanca la finestra de visualitzacio actual per generar-ne una de nova.");
     }
 
     /**

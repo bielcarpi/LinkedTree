@@ -84,8 +84,8 @@ public class Model {
         rTree.insert(new Circle(new Point(x, y), radius, hexColor));
     }
 
-    public void visualizeCircles() {
-        rTree.visualize();
+    public boolean visualizeCircles() {
+        return rTree.visualize();
     }
 
     public java.util.ArrayList<RTreeElement> circleRangeSearch(Point[] pointsRangeSearch) {

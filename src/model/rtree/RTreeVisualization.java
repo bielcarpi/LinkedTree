@@ -4,6 +4,8 @@ import model.rtree.interfaces.RTreeElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -21,8 +23,10 @@ import java.util.Random;
 public class RTreeVisualization extends JFrame {
 
     private static RTreeVisualization visualization;
+    private JButton refreshButton;
+    private DrawingPanel drawingPanel;
 
-    private RTreeVisualization(RTreeNode rootNode){
+    private RTreeVisualization(RTree rTree){
         super("RTree Visualization");
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,19 +49,38 @@ public class RTreeVisualization extends JFrame {
             public void windowDeactivated(WindowEvent e) {}
         });
         setSize(780, 480);
-        setContentPane(new DrawingPanel(rootNode));
+
+        drawingPanel = new DrawingPanel(rTree);
+        refreshButton = new JButton("Refresh Visualization");
+        refreshButton.addActionListener(e -> {
+            drawingPanel.repaint(); //Repaint the drawing panel if user clicks the refresh button
+        });
+
+        JPanel flowPanel = new JPanel(new FlowLayout());
+        flowPanel.setBackground(Color.BLACK);
+        flowPanel.add(refreshButton);
+        getContentPane().setBackground(Color.BLACK);
+        getContentPane().add(flowPanel, BorderLayout.NORTH);
+        getContentPane().add(drawingPanel, BorderLayout.CENTER);
+        setLocationRelativeTo(null);
+        setResizable(false);
         setVisible(true);
     }
 
     /**
      * Starts the visualization
-     * @param rootNode The RootNode of the RTree to visualize
+     * @param rTree The rTree to visualize
      * @return Whether the visualization has started or not. If not, it can mean that it is already
      * being displayed, or there is some problem with the OS
      */
-    public static boolean start(RTreeNode rootNode){
+    public static boolean start(RTree rTree){
         if(visualization == null){
-            visualization = new RTreeVisualization(rootNode);
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    visualization = new RTreeVisualization(rTree);
+                }
+            });
             return true;
         }
 
@@ -67,17 +90,17 @@ public class RTreeVisualization extends JFrame {
 
     private static class DrawingPanel extends JPanel{
 
-        private final RTreeNode rootNode;
+        private final RTree rTree;
         private static final int TRANSPARENCY = 120;
 
-        private DrawingPanel(RTreeNode rootNode){
-            this.rootNode = rootNode;
+        private DrawingPanel(RTree rTree){
+            this.rTree = rTree;
             setBackground(Color.black);
         }
 
         @Override
         public void paint(Graphics g) {
-            paintNode(rootNode, g);
+            paintNode(rTree.getRootNode(), g);
             super.paint(g);
         }
 
@@ -87,6 +110,8 @@ public class RTreeVisualization extends JFrame {
         }
 
         private void paintNode(RTreeNode nodeToPaint, Graphics g){
+            //TODO: Set proper bounds for painting
+
             if(nodeToPaint.isRectangleNode()){
                 ArrayList<Rectangle> rectangles = nodeToPaint.getRectangles();
                 //Paint rectangle, and its child rectangles (and points) recursively

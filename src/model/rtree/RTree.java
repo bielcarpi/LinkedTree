@@ -159,12 +159,11 @@ public class RTree {
     public void delete(RTreeElement node){
     }
 
-    public void visualize(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                RTreeVisualization visualization = new RTreeVisualization(rootNode);
-            }
-        });
+    public boolean visualize(){
+        return RTreeVisualization.start(this);
+    }
+
+    protected RTreeNode getRootNode(){
+        return rootNode;
     }
 }
