@@ -69,8 +69,6 @@ public class RTreeVisualization extends JFrame {
         xAxisScale.setPaintTrack(false);
         xAxisScale.setPaintTicks(true);
         xAxisScale.setPaintLabels(true);
-        xAxisScale.setMajorTickSpacing(50);
-        xAxisScale.setMinorTickSpacing(5);
         xAxisScale.setUI(new CustomSliderUI());
         xAxisScale.setBackground(Color.BLACK);
         xAxisScale.setForeground(Color.GRAY);
@@ -80,8 +78,6 @@ public class RTreeVisualization extends JFrame {
         yAxisScale.setPaintTrack(false);
         yAxisScale.setPaintTicks(true);
         yAxisScale.setPaintLabels(true);
-        yAxisScale.setMajorTickSpacing(50);
-        yAxisScale.setMinorTickSpacing(5);
         yAxisScale.setInverted(true);
         yAxisScale.setUI(new CustomSliderUI());
         yAxisScale.setBackground(Color.BLACK);
@@ -110,8 +106,16 @@ public class RTreeVisualization extends JFrame {
     }
 
     private void updateAxis(){
-        xAxisScale.setMaximum(drawingPanel.currentTotalWidth);
-        yAxisScale.setMaximum(drawingPanel.currentTotalHeight);
+        xAxisScale.setMaximum((int)(drawingPanel.limitBoundaries[1]) + 1);
+        xAxisScale.setMinimum((int)(drawingPanel.limitBoundaries[0]));
+        xAxisScale.setMajorTickSpacing(5);
+        xAxisScale.setMinorTickSpacing(1);
+
+        yAxisScale.setMaximum((int)(drawingPanel.limitBoundaries[3]) + 1);
+        yAxisScale.setMinimum((int)(drawingPanel.limitBoundaries[2]));
+        System.out.println("Minimim Y Axis scale: " + yAxisScale.getMaximum());
+        yAxisScale.setMajorTickSpacing(5);
+        yAxisScale.setMinorTickSpacing(1);
         xAxisLeftBox.setSize(new Dimension(yAxisScale.getWidth(), 0));
         xAxisScale.repaint();
         yAxisScale.repaint();
@@ -151,7 +155,6 @@ public class RTreeVisualization extends JFrame {
         private static final int TRANSPARENCY = 120;
         private final RTree rTree;
         private final RTreeVisualization rTreeVisualization;
-        private int currentTotalWidth, currentTotalHeight;
 
         //We need to have the boundaries of the root node's rectangles in order to scale everything properly
         private float[] limitBoundaries; //0 minX, 1 maxX, 2 minY, 3 maxY
@@ -169,12 +172,10 @@ public class RTreeVisualization extends JFrame {
 
             RTreeNode rootNode = rTree.getRootNode();
             limitBoundaries = rootNode.getLimitBoundaries();
+            rTreeVisualization.updateAxis(); //Update axis on redraw the drawing panel (now that we have the limit boundaries)
 
             final int WIDTH_UNIT = (int)(getSize().width/(limitBoundaries[1] - limitBoundaries[0] + 1));
             final int HEIGHT_UNIT = (int)(getSize().height/(limitBoundaries[3] - limitBoundaries[2] + 1));
-            currentTotalWidth = (int)(WIDTH_UNIT * (limitBoundaries[1] - limitBoundaries[0]));
-            currentTotalHeight = (int)(HEIGHT_UNIT * (limitBoundaries[3] - limitBoundaries[2]));
-            rTreeVisualization.updateAxis(); //Update axis on redraw the drawing panel
 
             //Before painting, scale the canvas with the desired panel boundaries
             // (gotten from the rootNode.getLimitBoundaries()).
