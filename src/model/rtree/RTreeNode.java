@@ -165,4 +165,34 @@ public class RTreeNode {
     public void setParentRectangle(Rectangle parentRectangle) {
         this.parentRectangle = parentRectangle;
     }
+
+
+    /**
+     * Returns the limit boundaries of the rectangles contained in this RTreeNode, in order:
+     * <ol>
+     *     <li>[0] -> minX</li>
+     *     <li>[1] -> maxX</li>
+     *     <li>[2] -> minY</li>
+     *     <li>[3] -> maxY</li>
+     * </ol>
+     * <p>E.g. if the node contains 6 rectangles, the method will return its minX, maxX, minY and maxX
+     * of the zone contained by the rectangles
+     * @return The limit boundaries of the rectangles contained in this RTreeNode
+     */
+    public float[] getLimitBoundaries() {
+        if(arrayRectangles == null) throw new IllegalArgumentException();
+        float minX = Float.MAX_VALUE;
+        float maxX = Float.MIN_VALUE;
+        float minY = Float.MAX_VALUE;
+        float maxY = Float.MIN_VALUE;
+
+        for(Rectangle r: arrayRectangles){
+            if(r.getP1().getX() < minX) minX = r.getP1().getX();
+            if(r.getP2().getX() > maxX) maxX = r.getP2().getX();
+            if(r.getP1().getY() < minY) minY = r.getP1().getY();
+            if(r.getP2().getY() > maxY) maxY = r.getP2().getY();
+        }
+
+        return new float[]{minX, maxX, minY, maxY};
+    }
 }
