@@ -10,7 +10,7 @@ package model.rtree;
 public class Rectangle {
     private Point p1; //Bottom left corner
     private Point p2; //Upper right corner
-    private RTreeNode currentNode, childNode;
+    private final RTreeNode currentNode, childNode; //They won't ever change. If they need to, we'll create a new Rectangle
 
     public Rectangle(Point p1, Point p2, RTreeNode currentNode, RTreeNode childNode){
         this.p1 = p1;
@@ -59,6 +59,33 @@ public class Rectangle {
         float x = (p2.getX() - p1.getX())/2 + p1.getX();
         float y = (p1.getY() - p2.getY())/2 + p2.getY();
         return new Point(x, y);
+    }
+
+    /**
+     * Given a {@link Point}, grow this rectangle to fill it
+     * @param p The point that will now be contained within this rectangle
+     */
+    public void grow(Point p){
+        //If the point is already contained within the rectangle, do nothing
+        if(p.getX() >= p1.getX() && p.getX() <= p2.getX() && p.getY() >= p1.getY() && p.getY() <= p2.getY())
+            return;
+
+        //If not, grow...
+        Point[] points = new Point[]{p1, p2, p};
+        Point[] newRectangle = getRectangle(points);
+        p1 = newRectangle[0];
+        p2 = newRectangle[1];
+    }
+
+    /**
+     * Given a {@link Rectangle}, grow this rectangle to fill it
+     * @param r The rectangle that will now be contained within this rectangle
+     */
+    public void grow(Rectangle r){
+        Point[] points = new Point[]{p1, p2, r.p1, r.p2};
+        Point[] newRectangle = getRectangle(points);
+        p1 = newRectangle[0];
+        p2 = newRectangle[1];
     }
 
     /**

@@ -199,9 +199,11 @@ public class RTreeVisualization extends JFrame {
                 //Paint rectangle, and its child rectangles (and points) recursively
                 for(Rectangle r: rectangles){
                     int width = (int)(r.getP2().getX() - r.getP1().getX());
+                    if(width == 0) width = 1;
                     int height = (int)(r.getP2().getY() - r.getP1().getY());
+                    if(height == 0) height = 1;
                     g.setColor(getRandomColor());
-                    g.fillRect((int)r.getP2().getY(), (int)r.getP1().getX(), width, height);
+                    g.fillRect((int)r.getP1().getX(), (int)r.getP1().getY(), width, height);
 
                     System.out.println("Painting a rectangle -> " + width + "width  "+ height + "height  " + r.getP1().getX() +"x  "+ r.getP2().getY());
                     paintNode(r.getChildNode(), g);

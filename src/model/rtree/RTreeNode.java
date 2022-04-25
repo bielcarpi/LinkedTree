@@ -81,9 +81,10 @@ public class RTreeNode {
      */
     public boolean insert(RTreeElement element){
         if(arrayElements == null) throw new IllegalArgumentException();
+        if(parentRectangle != null) parentRectangle.grow(element.getPoint()); //If we aren't in the root node, grow
         arrayElements.add(element);
 
-        return arrayElements.size() == ORDER;
+        return arrayElements.size() == ORDER + 1;
     }
 
     /**
@@ -94,9 +95,10 @@ public class RTreeNode {
      */
     public boolean insert(Rectangle rectangle){
         if(arrayRectangles == null) throw new IllegalArgumentException();
+        if(parentRectangle != null) parentRectangle.grow(rectangle); //If we aren't in the root node, grow
         arrayRectangles.add(rectangle);
 
-        return arrayRectangles.size() == ORDER;
+        return arrayRectangles.size() == ORDER + 1;
     }
 
     /**

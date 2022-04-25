@@ -35,18 +35,19 @@ public class RTree {
 
         for(Circle c: circles)
             insert(c); //For each circle, insert it to the RTree
+
+        System.out.println("Done");
     }
 
-    public void insert(RTreeElement node){
+    public void insert(RTreeElement element){
         RTreeNode currentNode = rootNode;
         while(currentNode.isRectangleNode()){ //While we're in a rectangle node, get the next best rectangle
-            Rectangle r = currentNode.getBestRectangle(node.getPoint());
-            System.out.println(r.getP1().getX() + " " + r.getP2().getY());
+            Rectangle r = currentNode.getBestRectangle(element.getPoint());
             currentNode = r.getChildNode();
         }
 
         //Once we're out the loop, the currentNode is a RTreeElement node, so we can insert the point
-        boolean full = currentNode.insert(node);
+        boolean full = currentNode.insert(element);
 
         //If the node is full, we need to divide the parent in two rectangle
         // If the node of the parent is full too, do it again! Recursively
@@ -68,7 +69,7 @@ public class RTree {
 
         //If the parent rectangle is null, it means we are in the root node.
         // The root node doesn't have a parent rectangle, so we'll need to create a new parent node.
-        // Else, get the parent node of the parent rectangle
+        // Else, get the node of the parent rectangle
         RTreeNode parentNode;
         if(parentRectangle == null){
             rootNode = new RTreeNode(ORDER, true);
@@ -79,7 +80,7 @@ public class RTree {
             parentNode.remove(parentRectangle); //Remove the rectangle that had its child node full from the parentNode
         }
 
-        //Get from the current node (to be deleted, together with its parent), its elements (either elements or rectangles)
+        //Get from the current node (to be deleted, together with its parent rectangle), its elements (either elements or rectangles)
         ArrayList<Rectangle> childNodeRectangle = currentNode.getRectangles();
         ArrayList<RTreeElement> childNodeElements = currentNode.getElements();
 
