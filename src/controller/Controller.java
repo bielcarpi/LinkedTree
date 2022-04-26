@@ -75,7 +75,6 @@ public class Controller {
             do{
                 char option = view.askForChar();
                 view.printMessage();
-                view.printMessage();
                 switch (option){
                     case 'A':
                         addCircle();
@@ -129,6 +128,7 @@ public class Controller {
      */
     private void areaSearch() {
         view.printMessageWithoutLine("Entra del primer punt del rectangle (X,Y): ");
+        view.askForString();
         String stringFirstPoint = view.askForString();
         String[] firstPoint = stringFirstPoint.split(",");
         view.printMessageWithoutLine("Entra del segon punt del rectangle (X,Y): ");
@@ -139,9 +139,8 @@ public class Controller {
         Point[] points = new Point[2];
         points[0] = new Point(Integer.parseInt(firstPoint[0]), Integer.parseInt(firstPoint[1]));
         points[1] = new Point(Integer.parseInt(secondPoint[0]), Integer.parseInt(secondPoint[1]));
-        // a la funcio passar --> Integer.parseInt(first/secondPoint[0/1])
         java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
-        if (pointsInArea != null) {
+        if (pointsInArea.size() != 0) {
             view.printMessage("S'han trobat " +  pointsInArea.size()  + " cercles en aquesta àrea:");
             //Printar els cercles trobats
             for (int i = 0; i < pointsInArea.size(); i++) {

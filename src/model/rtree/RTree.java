@@ -120,40 +120,50 @@ public class RTree {
         return parentNode.insert(r2);
     }
 
+    /**
+     * Method that searches all the points inside a given area
+     * @param searchingArea the area (rectangle formed by two points) where we are making the rangeSearch
+     * @return the list of points (RTreeElements) that are inside the area searched
+     */
     public ArrayList<RTreeElement> makeRangeSearch(Point[] searchingArea) {
-        return rangeSearch(rootNode.getParentRectangle(), new ArrayList<>(), searchingArea);
+        ArrayList<RTreeElement> solutionList = new ArrayList<>();
+        rangeSearch(rootNode, solutionList, searchingArea);
+        return solutionList;
     }
 
-    public ArrayList<RTreeElement> rangeSearch(Rectangle actualRectangle, ArrayList<RTreeElement> solutionList, Point[] searchingArea) {
+    /*
+     * Method that searches all the points given an area
+     * @param actualNode, the node that we are currently comparing
+     * @param solutionList, the list of points (RTreeElements) that are inside the area
+     * @param searchingArea, the area (rectangle formed by two points) where we are searching the points inside it
+     */
+    private void rangeSearch(RTreeNode actualNode, ArrayList<RTreeElement> solutionList, Point[] searchingArea) {
 
-        if (actualRectangle.getChildNode().isRectangleNode()) {
-            ArrayList<Rectangle> actualNode = actualRectangle.getChildNode().getRectangles();
+        if (actualNode.isRectangleNode()) {
+            ArrayList<Rectangle> actualNodeRec = actualNode.getRectangles();
 
-            for (int i = 0; i < actualNode.size() - 1; i++) {
-                if (searchingArea[0].getX() <= actualNode.get(i).getP2().getX() &&
-                        searchingArea[1].getX() >= actualNode.get(i).getP1().getX() &&
-                        searchingArea[1].getY() >= actualNode.get(i).getP1().getY() &&
-                        searchingArea[0].getY() <= actualNode.get(i).getP2().getY()) {
+            for (int i = 0; i < actualNodeRec.size(); i++) {
+                if (searchingArea[0].getX() <= actualNodeRec.get(i).getP2().getX() &&
+                        searchingArea[1].getX() >= actualNodeRec.get(i).getP1().getX() &&
+                        searchingArea[1].getY() >= actualNodeRec.get(i).getP1().getY() &&
+                        searchingArea[0].getY() <= actualNodeRec.get(i).getP2().getY()) {
                     //The Rectangles are overlapping
-                    rangeSearch(actualNode.get(i), solutionList, searchingArea);
+                    rangeSearch(actualNodeRec.get(i).getChildNode(), solutionList, searchingArea);
                 }
             }
         } else {
-                // We are at the point level
-                ArrayList<RTreeElement> lastNode = actualRectangle.getChildNode().getElements();
-
-                for (int i = 0; i < lastNode.size() - 1; i++) {
-                    if (lastNode.get(i).getPoint().getX() >= searchingArea[0].getX() &&
-                            lastNode.get(i).getPoint().getX() <= searchingArea[1].getX() &&
-                            lastNode.get(i).getPoint().getY() >= searchingArea[0].getY() &&
-                            lastNode.get(i).getPoint().getY() <= searchingArea[1].getY()) {
-                        // The Point is inside the area range
-                        solutionList.add(lastNode.get(i));
-                    }
+            // We are at the point level
+            ArrayList<RTreeElement> lastNode = actualNode.getElements();
+            for (int i = 0; i < lastNode.size(); i++) {
+                if (lastNode.get(i).getPoint().getX() >= searchingArea[0].getX() &&
+                        lastNode.get(i).getPoint().getX() <= searchingArea[1].getX() &&
+                        lastNode.get(i).getPoint().getY() >= searchingArea[0].getY() &&
+                        lastNode.get(i).getPoint().getY() <= searchingArea[1].getY()) {
+                    // The Point is inside the area range
+                    solutionList.add(lastNode.get(i));
                 }
             }
-
-        return solutionList;
+        }
     }
 
     
