@@ -3,6 +3,7 @@ package controller;
 import model.Model;
 import model.graph.Recommendation;
 import model.graph.interfaces.GraphNode;
+import model.rtree.Circle;
 import model.rtree.Point;
 import model.rtree.interfaces.RTreeElement;
 import model.tree.Algorithm;
@@ -114,10 +115,17 @@ public class Controller {
         view.printMessageWithoutLine("Entra el color del cercle a cercar: ");
         String hexColor = view.askForString();
 
+        Circle circle = new Circle(new Point(x, y), radius, hexColor);
+
         view.printMessage();
-        if (true/*Cridar a la funcio per fer la Cerca Especial que retorni boolea o string dels cercles*/) {
+
+        java.util.ArrayList<RTreeElement> magicSearch = model.circleMagicSearch(circle);
+        if (magicSearch.size() != 0) {
             view.printMessage("Els cercles propers i semblants a aquest són:");
             //Printar els cercles trobats
+            for (int i = 0; i < magicSearch.size(); i++) {
+                view.printMessage(magicSearch.get(i).toRangeSearchString());
+            }
         } else {
             view.printMessage("No s'ha pogut trobar cap cercle similar i a prop d'aquest, torna-ho a intentar!");
         }

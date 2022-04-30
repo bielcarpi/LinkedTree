@@ -2,9 +2,9 @@ package model.rtree;
 
 import model.rtree.interfaces.RTreeElement;
 
-import java.util.Arrays;
-
 public class Circle implements RTreeElement {
+    private static final int COLOR_PARAMETER = 10;
+
     private Point point;
     private float radius;
     private String hexColor;
@@ -26,6 +26,33 @@ public class Circle implements RTreeElement {
     @Override
     public String toRangeSearchString() {
         return "\t" + hexColor + " (" + point.getX() + ", " + point.getY() + ") r=" + radius;
+    }
+
+    @Override
+    public boolean esSemblant(int[] rgb) {
+        boolean equal = true;
+        int[] circleColor = getRGBfromHex(hexColor);
+        for (int i = 0; i < 3; i++) {
+            if (Math.abs(circleColor[i] - rgb[i]) > COLOR_PARAMETER){
+                equal = false;
+            }
+        }
+        return equal;
+    }
+
+    @Override
+    public int[] getRGBfromHex(String hex) {
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i < hex.length(); i++) {
+            str.append(hex.charAt(i));
+        }
+        String color = str.toString();
+
+        int[] rgb = new int[3];
+        for (int i = 0; i < 3; i++) {
+            rgb[i] = Integer.parseInt(color.substring(i * 2, i * 2 + 2), 16);
+        }
+        return rgb;
     }
 
     public float getRadius() {

@@ -21,7 +21,7 @@ public class RTree {
         rootNode = new RTreeNode(ORDER, true);
         Rectangle r = new Rectangle(new Point(Float.MIN_NORMAL, Float.MIN_VALUE),
                 new Point(Float.MAX_VALUE, Float.MAX_VALUE), rootNode, new RTreeNode(ORDER, false));
-        rootNode.insert(r);
+        rootNode.insert(r); //Phantom node
 
         /**
          * In the {@link ReadRTree} class, we don't build the RTree, we build it here.
@@ -47,7 +47,7 @@ public class RTree {
         }
 
         //Once we're out the loop, the currentNode is a RTreeElement node, so we can insert the point
-        boolean full = currentNode.insert(element);
+        boolean full = currentNode.insert(element); //true - overflow
 
         //If the node is full, we need to divide the parent in two rectangle
         // If the node of the parent is full too, do it again! Recursively
@@ -131,7 +131,7 @@ public class RTree {
         return solutionList;
     }
 
-    /*
+    /**
      * Method that searches all the points given an area
      * @param actualNode, the node that we are currently comparing
      * @param solutionList, the list of points (RTreeElements) that are inside the area
@@ -166,7 +166,51 @@ public class RTree {
         }
     }
 
-    
+    private float[] getSearchingArea() {
+        float[] values = rootNode.getLimitBoundaries();
+
+        return new float[]{
+                Math.abs(values[0] - values[1]) ,
+                Math.abs(values[2] - values[3])};
+    }
+
+    public ArrayList<RTreeElement> getPointsByProximity(Point centerPoint) {
+        float[] dimensions = getSearchingArea(); //Gets the weight and height of the current rectangle
+
+        //Using the center point we can locate the corners of the rectangle that we want to paint
+        Point[] range = new Point[2];
+
+        //Asignation of the diferent coordenates of the rectangle to paint
+        float minX = dimensions[0]/2 - centerPoint.getX();
+        float maxX = dimensions[0]/2 + centerPoint.getX();
+        float minY = dimensions[1]/2 - centerPoint.getY();
+        float maxY = dimensions[1]/2 + centerPoint.getY();
+
+        //Configuration of the current rectangle
+        range[0] = new Point(minX, minY);
+        range[1] = new Point(maxX, maxY);
+
+        ArrayList<RTreeElement> area = makeRangeSearch(range);
+        return area;
+    }
+
+    public ArrayList<RTreeElement> getPointsBySimilarity(Circle circle) {
+        ArrayList<RTreeElement> solutions = new ArrayList<>();
+
+        ArrayList<RTreeElement> proximity = getPointsByProximity(circle.getPoint());
+
+        int[] color = circle.getRGBfromHex(circle.getHexColor());
+
+        for (int i = 0; i < proximity.size(); i++) {
+            if (proximity.get(i).esSemblant(color)){
+                solutions.add(proximity.get(i));
+            }
+        }
+
+        return solutions;
+    }
+
+
     public void delete(RTreeElement node){
     }
 

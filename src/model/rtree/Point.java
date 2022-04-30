@@ -19,6 +19,14 @@ public class Point {
         return y;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     /**
      * Given an ArrayList of {@link Point}, this method returns the two points
      * that are farther away.
@@ -41,6 +49,13 @@ public class Point {
         }
         return fartherPoints;
     }
+
+    /**
+     * Method that evaluates the distance between two points
+     * @param point1 First point
+     * @param point2 Second point
+     * @return The module of the vector that represents the absolute distance between the two points
+     */
     private static float evaluateDistance(Point point1, Point point2){
         return (float) Math.sqrt((point2.x - point1.x)*(point2.x - point1.x) +
                 (point2.y - point1.y)*(point2.y - point1.y));

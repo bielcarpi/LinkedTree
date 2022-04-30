@@ -91,4 +91,8 @@ public class Model {
     public java.util.ArrayList<RTreeElement> circleRangeSearch(Point[] pointsRangeSearch) {
         return rTree.makeRangeSearch(pointsRangeSearch);
     }
+
+    public java.util.ArrayList<RTreeElement> circleMagicSearch(Circle circle) {
+        return rTree.getPointsBySimilarity(circle);
+    }
 }
