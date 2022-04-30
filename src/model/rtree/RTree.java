@@ -1,10 +1,7 @@
 package model.rtree;
 
 import model.rtree.interfaces.RTreeElement;
-import model.tree.Algorithm;
-import model.tree.ReadTree;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -169,6 +166,31 @@ public class RTree {
         }
     }
 
+    /**
+     * Method that searches the node where contains the point we are searching
+     * @param actualNode, the node that we are currently comparing
+     * @param searchingPoint, the point that we are searching
+     */
+    private RTreeNode pointNodeSearch(RTreeNode actualNode, Point searchingPoint) {
+        if (actualNode.isRectangleNode()) {
+            ArrayList<Rectangle> actualNodeRec = actualNode.getRectangles();
+
+            for (int i = 0; i < actualNodeRec.size(); i++) {
+                if (searchingPoint.getX() >= actualNodeRec.get(i).getP1().getX() &&
+                        searchingPoint.getX() <= actualNodeRec.get(i).getP2().getX() &&
+                        searchingPoint.getY() >= actualNodeRec.get(i).getP1().getY() &&
+                        searchingPoint.getY() <= actualNodeRec.get(i).getP2().getY()) {
+                    // The Point is inside the rectangle
+                    pointNodeSearch(actualNodeRec.get(i).getChildNode(), searchingPoint);
+                }
+            }
+        }
+
+        // We are at the point level
+        return actualNode;
+
+    }
+
     private float[] getSearchingArea() {
         float[] values = rootNode.getLimitBoundaries();
 
@@ -202,7 +224,7 @@ public class RTree {
 
         ArrayList<RTreeElement> proximity = getPointsByProximity(circle.getPoint());
 
-        int[] color = circle.getRGBfromHex(circle.getHexColor());
+        int[] color = circle.getRGBFromHex(circle.getHexColor());
 
         for (int i = 0; i < proximity.size(); i++) {
             if (proximity.get(i).esSemblant(color)){
@@ -214,15 +236,37 @@ public class RTree {
     }
 
 
-    public void delete(RTreeElement node){
+    public boolean delete(Point pointToRemove){
+        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove);
+        ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
+        boolean found = false;
+
+        for (int i = 0; i < elements.size(); i++) {
+            if (pointToRemove.equals(elements.get(i).getPoint())) {
+                found = true;
+                // We found the node we were searching, and we delete it
+                elements.get(i).setPoint(null);
+
+                // We see if the node fulfill the minimum capacity
+                if (makesUnderFlow(nodeWithThePoint)) {
+                    // reinsert the points that are on the nodeWithThePoint
+                    // TODO: fer funcio per reinsertar els punts que es troben al node
+                } else {
+                    // We check if the size of the new rectangle can be reduced
+                    // TODO: fer funcio recursiva per fer el resize del rectangle
+                }
+            }
+        }
+
+        return found;
     }
 
-    private boolean makesUnderflow(RTreeNode node){
-        ArrayList<RTreeElement> array = node.getElements();
+    private boolean makesUnderFlow(RTreeNode node){
+        ArrayList<RTreeElement> elements = node.getElements();
         int size = 0;
 
-        for (int i = 0; i < array.size(); i++) {
-            if (array.get(i).getPoint() == null){
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).getPoint() != null){
                 size++;
             }
         }

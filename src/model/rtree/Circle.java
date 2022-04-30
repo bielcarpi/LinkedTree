@@ -20,6 +20,11 @@ public class Circle implements RTreeElement {
         return point;
     }
 
+    @Override
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -31,7 +36,7 @@ public class Circle implements RTreeElement {
     @Override
     public boolean esSemblant(int[] rgb) {
         boolean equal = true;
-        int[] circleColor = getRGBfromHex(hexColor);
+        int[] circleColor = getRGBFromHex(hexColor);
         for (int i = 0; i < 3; i++) {
             if (Math.abs(circleColor[i] - rgb[i]) > COLOR_PARAMETER){
                 equal = false;
@@ -41,7 +46,7 @@ public class Circle implements RTreeElement {
     }
 
     @Override
-    public int[] getRGBfromHex(String hex) {
+    public int[] getRGBFromHex(String hex) {
         StringBuilder str = new StringBuilder();
         for (int i = 1; i < hex.length(); i++) {
             str.append(hex.charAt(i));

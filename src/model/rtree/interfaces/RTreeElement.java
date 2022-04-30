@@ -5,6 +5,8 @@ import model.rtree.Point;
 public interface RTreeElement {
     Point getPoint();
 
+    void setPoint(Point point);
+
     String toRangeSearchString();
 
     /**
@@ -12,7 +14,7 @@ public interface RTreeElement {
      * @param hex String with the representation of the hex format color.
      * @return Array of integers with the representation of the rgb format color.
      */
-    int[] getRGBfromHex(String hex);
+    int[] getRGBFromHex(String hex);
 
     boolean esSemblant(int[] rgb);
 }

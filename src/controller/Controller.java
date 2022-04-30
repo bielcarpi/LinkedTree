@@ -12,6 +12,8 @@ import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;
 
+import java.text.DecimalFormat;
+
 
 public class Controller {
 
@@ -135,18 +137,18 @@ public class Controller {
      * Method that searches the Circles that are contained in an especific area
      */
     private void areaSearch() {
-        view.printMessageWithoutLine("Entra del primer punt del rectangle (X,Y): ");
+        view.printMessageWithoutLine("Entra del primer punt del rectangle (X;Y): ");
         view.askForString();
         String stringFirstPoint = view.askForString();
         String[] firstPoint = stringFirstPoint.split(",");
-        view.printMessageWithoutLine("Entra del segon punt del rectangle (X,Y): ");
+        view.printMessageWithoutLine("Entra del segon punt del rectangle (X;Y): ");
         String stringSecondPoint = view.askForString();
         String[] secondPoint = stringSecondPoint.split(",");
         view.printMessage();
 
         Point[] points = new Point[2];
-        points[0] = new Point(Integer.parseInt(firstPoint[0]), Integer.parseInt(firstPoint[1]));
-        points[1] = new Point(Integer.parseInt(secondPoint[0]), Integer.parseInt(secondPoint[1]));
+        points[0] = new Point(Float.parseFloat(firstPoint[0]), Float.parseFloat(firstPoint[1]));
+        points[1] = new Point(Float.parseFloat(secondPoint[0]), Float.parseFloat(secondPoint[1]));
         java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
         if (pointsInArea.size() != 0) {
             view.printMessage("S'han trobat " +  pointsInArea.size()  + " cercles en aquesta àrea:");
@@ -177,7 +179,7 @@ public class Controller {
         float y = view.askForFloat();
 
         view.printMessage();
-        if (true/*Cridar a la funcio per Eliminar Cercle que retorni boolea*/) {
+        if (model.removePoint(new Point(x, y))) {
             view.printMessage("El cercle s'ha eliminat correctament del canvas.");
         } else {
             view.printMessage("No hi ha cap cercle en aquest punt, torna-ho a intentar!");

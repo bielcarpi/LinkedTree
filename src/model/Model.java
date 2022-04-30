@@ -84,6 +84,10 @@ public class Model {
         rTree.insert(new Circle(new Point(x, y), radius, hexColor));
     }
 
+    public boolean removePoint(Point point) {
+        return rTree.delete(point);
+    }
+
     public boolean visualizeCircles() {
         return rTree.visualize();
     }
