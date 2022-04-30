@@ -152,6 +152,7 @@ public class RTreeNode {
     public ArrayList<Rectangle> getRectangles() {
         return arrayRectangles;
     }
+
     public ArrayList<RTreeElement> getElements() {
         return arrayElements;
     }

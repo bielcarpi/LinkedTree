@@ -15,5 +15,4 @@ public interface RTreeElement {
     int[] getRGBfromHex(String hex);
 
     boolean esSemblant(int[] rgb);
-
 }

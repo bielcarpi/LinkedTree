@@ -13,8 +13,11 @@ public class RTree {
     private final int ORDER;
     private RTreeNode rootNode;
 
+    private final int MINIMUM_NODE_SIZE;
+
     public RTree(int order, String path) throws IOException {
         ORDER = order;
+        MINIMUM_NODE_SIZE = (order * 30)/100;
 
         //Create the first node (the root node), which will contain a rectangle
         // that occupies the whole space
@@ -212,6 +215,24 @@ public class RTree {
 
 
     public void delete(RTreeElement node){
+    }
+
+    private boolean makesUnderflow(RTreeNode node){
+        ArrayList<RTreeElement> array = node.getElements();
+        int size = 0;
+
+        for (int i = 0; i < array.size(); i++) {
+            if (array.get(i).getPoint() == null){
+                size++;
+            }
+        }
+        //We consider that the underflow is produced when the array of nodes has less that its 30% of capacity.
+        if (size < MINIMUM_NODE_SIZE){
+            return true; //There is an underflow of elements
+        } else {
+            return false; //There isn't underflow of elements
+        }
+
     }
 
     public boolean visualize(){
