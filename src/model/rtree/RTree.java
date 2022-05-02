@@ -254,26 +254,29 @@ public class RTree {
 
 
     public boolean delete(Point pointToRemove){
-        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove);
-        ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
+        ArrayList<RTreeElement> elements = new ArrayList<>();
+        Point[] points = new Point[2];
+        points[0] = pointToRemove;
+        points[1] = pointToRemove;
+        rangeSearch(rootNode, elements, points);
         boolean found = false;
+        if (elements.size() != 0) {
+            RTreeElement elementToRemove = elements.get(0);
+            found = true;
+            // We found the node we were searching, and we delete it
+            elementToRemove.setPoint(null);
 
-        for (int i = 0; i < elements.size(); i++) {
-            if (pointToRemove.equals(elements.get(i).getPoint())) {
-                found = true;
-                // We found the node we were searching, and we delete it
-                elements.get(i).setPoint(null);
-
-                // We see if the node fulfill the minimum capacity
-                if (makesUnderFlow(nodeWithThePoint)) {
-                    // reinsert the points that are on the nodeWithThePoint
-                    // TODO: fer funcio per reinsertar els punts que es troben al node
-                } else {
-                    // We check if the size of the new rectangle can be reduced
-                    // TODO: fer funcio recursiva per fer el resize del rectangle
-                }
+            // We see if the node fulfill the minimum capacity
+            if (makesUnderFlow(elementToRemove.ge)) {
+                // reinsert the points that are on the nodeWithThePoint
+                // TODO: fer funcio per reinsertar els punts que es troben al node
+            } else {
+                // We check if the size of the new rectangle can be reduced
+                // TODO: fer funcio recursiva per fer el resize del rectangle
             }
         }
+
+
 
         return found;
     }
