@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,7 +25,7 @@ import java.util.Random;
  */
 public class RTreeVisualization extends JFrame {
 
-    private static final int WIDTH = 780, HEIGHT = 480;
+    private static final int WIDTH = 1080, HEIGHT = 720;
     private static RTreeVisualization visualization;
     private final DrawingPanel drawingPanel;
     private JSlider xAxisScale, yAxisScale;
@@ -58,7 +61,7 @@ public class RTreeVisualization extends JFrame {
         drawingPanel = new DrawingPanel(rTree, this);
         JButton refreshButton = new JButton("Refresh Visualization");
         refreshButton.addActionListener(e -> {
-            drawingPanel.repaint(); //Repaint the drawing panel if user clicks the refresh button (axis will be updated too)
+            drawingPanel.drawTree(); //Repaint the drawing panel if user clicks the refresh button (axis will be updated too)
         });
 
         JPanel flowPanel = new JPanel(new FlowLayout());
@@ -103,6 +106,10 @@ public class RTreeVisualization extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+
+        //Draw the tree
+        updateAxis();
+        //drawingPanel.drawTree();
     }
 
     private void updateAxis(){
@@ -155,9 +162,11 @@ public class RTreeVisualization extends JFrame {
         private static final int TRANSPARENCY = 120;
         private final RTree rTree;
         private final RTreeVisualization rTreeVisualization;
+        private BufferedImage bufferedImage;
 
         //We need to have the boundaries of the root node's rectangles in order to scale everything properly
-        private float[] limitBoundaries; //0 minX, 1 maxX, 2 minY, 3 maxY
+        private float[] limitBoundaries = new float[]{0, 100, 0, 100}; //0 minX, 1 maxX, 2 minY, 3 maxY
+        private float WIDTH_UNIT, HEIGHT_UNIT;
 
         private DrawingPanel(RTree rTree, RTreeVisualization visualization){
             this.rTree = rTree;
@@ -165,31 +174,40 @@ public class RTreeVisualization extends JFrame {
             setBackground(Color.black);
         }
 
-        @Override
-        public void paintComponent(Graphics gr) {
-            super.paintComponent(gr);
-            Graphics2D g = (Graphics2D) gr;
-
+        public void drawTree(){
             RTreeNode rootNode = rTree.getRootNode();
             limitBoundaries = rootNode.getLimitBoundaries();
             rTreeVisualization.updateAxis(); //Update axis on redraw the drawing panel (now that we have the limit boundaries)
 
-            final int WIDTH_UNIT = (int)(getSize().width/(limitBoundaries[1] - limitBoundaries[0] + 1));
-            final int HEIGHT_UNIT = (int)(getSize().height/(limitBoundaries[3] - limitBoundaries[2] + 1));
+            bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = bufferedImage.createGraphics();
 
-            //Before painting, scale the canvas with the desired panel boundaries
-            // (gotten from the rootNode.getLimitBoundaries()).
-            AffineTransform transform = AffineTransform.getScaleInstance(WIDTH_UNIT, HEIGHT_UNIT);
 
+            WIDTH_UNIT = getSize().width/(limitBoundaries[1] - limitBoundaries[0] + 1);
+            HEIGHT_UNIT = getSize().height/(limitBoundaries[3] - limitBoundaries[2] + 1);
+
+            //Before painting, translate the canvas
             final float xTranslation = -limitBoundaries[0];
             final float yTranslation = -limitBoundaries[2];
-            transform.concatenate(AffineTransform.getTranslateInstance((int)xTranslation, (int)yTranslation));
+            AffineTransform transform = AffineTransform.getTranslateInstance((int)(xTranslation * WIDTH_UNIT), (int)(yTranslation * HEIGHT_UNIT));
 
-            //Apply scaling and translation to the canvas
-            g.transform(transform);
+            //Apply translation to the canvas
+            g2.transform(transform);
 
             //Pain all the nodes
-            paintNode(rTree.getRootNode(), g);
+            paintNode(rTree.getRootNode(), g2);
+
+
+            //Once everything is painted, call repaint()
+            g2.dispose();
+            this.repaint();
+        }
+
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if(bufferedImage != null) g.drawImage(bufferedImage, 0, 0, null);
         }
 
 
@@ -198,14 +216,13 @@ public class RTreeVisualization extends JFrame {
                 ArrayList<Rectangle> rectangles = nodeToPaint.getRectangles();
                 //Paint rectangle, and its child rectangles (and points) recursively
                 for(Rectangle r: rectangles){
-                    int width = (int)(r.getP2().getX() - r.getP1().getX());
+                    float width = r.getP2().getX() - r.getP1().getX();
                     if(width == 0) width = 1;
-                    int height = (int)(r.getP2().getY() - r.getP1().getY());
+                    float height = r.getP2().getY() - r.getP1().getY();
                     if(height == 0) height = 1;
                     g.setColor(getRandomColor());
-                    g.fillRect((int)r.getP1().getX(), (int)r.getP1().getY(), width, height);
+                    fillRect(r.getP1().getX(), r.getP1().getY(), width, height, g);
 
-                    System.out.println("Painting a rectangle -> " + width + "width  "+ height + "height  " + r.getP1().getX() +"x  "+ r.getP2().getY());
                     paintNode(r.getChildNode(), g);
                 }
             }
@@ -214,10 +231,25 @@ public class RTreeVisualization extends JFrame {
                 ArrayList<RTreeElement> elements = nodeToPaint.getElements();
                 for(RTreeElement e: elements){
                     g.setColor(getRandomColor());
-                    g.fillOval((int)e.getPoint().getX(), (int)e.getPoint().getY(), 1, 1);
-                    System.out.println("Painting an oval -> " + e.getPoint().getX() +"x  "+ e.getPoint().getY());
+                    fillOval(e.getPoint().getX(), e.getPoint().getY(), g);
                 }
             }
+        }
+
+        private void fillRect(float x, float y, float width, float height, Graphics2D g){
+            //Fills a Rectangle with own coordinate system
+            g.fillRect((int)(x * WIDTH_UNIT), (int)(y * HEIGHT_UNIT), (int)(width * WIDTH_UNIT), (int)(height * HEIGHT_UNIT));
+            System.out.println("Painting a rectangle -> " + width + "width  "+ height + "height  " + x +"x  "+ y);
+        }
+
+        private void fillOval(float x, float y, Graphics2D g){
+            //Fills an Oval with own coordinate system
+            int width;
+            if(WIDTH_UNIT > 70) width = 12;
+            else if(WIDTH_UNIT > 8) width = 5;
+            else width = 3;
+
+            g.fillOval((int)(x*WIDTH_UNIT - width/2), (int)(y*HEIGHT_UNIT - width/2), width, width);
         }
 
         private Color getRandomColor(){
