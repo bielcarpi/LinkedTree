@@ -109,7 +109,7 @@ public class RTreeVisualization extends JFrame {
 
         //Draw the tree
         updateAxis();
-        //drawingPanel.drawTree();
+        drawingPanel.drawTree();
     }
 
     private void updateAxis(){
@@ -217,11 +217,16 @@ public class RTreeVisualization extends JFrame {
                 //Paint rectangle, and its child rectangles (and points) recursively
                 for(Rectangle r: rectangles){
                     float width = r.getP2().getX() - r.getP1().getX();
-                    if(width == 0) width = 1;
                     float height = r.getP2().getY() - r.getP1().getY();
-                    if(height == 0) height = 1;
                     g.setColor(getRandomColor());
-                    fillRect(r.getP1().getX(), r.getP1().getY(), width, height, g);
+                    if(width == 0 && height == 0)
+                        fillRect(r.getP1().getX() - 0.12f, r.getP1().getY() - 0.12f, 0.25f, 0.25f, g);
+                    else if(width == 0)
+                        fillRect(r.getP1().getX() - 0.12f, r.getP1().getY(), 0.25f, height, g);
+                    else if(height == 0)
+                        fillRect(r.getP1().getX(), r.getP1().getY() - 0.12f, width, 0.25f, g);
+                    else
+                        fillRect(r.getP1().getX(), r.getP1().getY(), width, height, g);
 
                     paintNode(r.getChildNode(), g);
                 }
