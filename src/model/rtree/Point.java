@@ -1,7 +1,5 @@
 package model.rtree;
 
-import java.util.ArrayList;
-
 public class Point {
     private float x;
     private float y;
@@ -19,7 +17,21 @@ public class Point {
         return y;
     }
 
-    public static float evaluateDistance(Point point1, Point point2){
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    /**
+     * Method that evaluates the distance between two points
+     * @param point1 First point
+     * @param point2 Second point
+     * @return The module of the vector that represents the absolute distance between the two points
+     */
+    private static float evaluateDistance(Point point1, Point point2){
         return (float) Math.sqrt((point2.x - point1.x)*(point2.x - point1.x) +
                 (point2.y - point1.y)*(point2.y - point1.y));
     }

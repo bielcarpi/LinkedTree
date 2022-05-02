@@ -179,6 +179,7 @@ public class RTreeNode {
     public ArrayList<Rectangle> getRectangles() {
         return arrayRectangles;
     }
+
     public ArrayList<RTreeElement> getElements() {
         return arrayElements;
     }
@@ -224,4 +225,5 @@ public class RTreeNode {
 
         return new float[]{minX, maxX, minY, maxY};
     }
+
 }
