@@ -120,7 +120,6 @@ public class RTreeVisualization extends JFrame {
 
         yAxisScale.setMaximum((int)(drawingPanel.limitBoundaries[3]) + 1);
         yAxisScale.setMinimum((int)(drawingPanel.limitBoundaries[2]));
-        System.out.println("Minimim Y Axis scale: " + yAxisScale.getMaximum());
         yAxisScale.setMajorTickSpacing(5);
         yAxisScale.setMinorTickSpacing(1);
         xAxisLeftBox.setSize(new Dimension(yAxisScale.getWidth(), 0));

@@ -99,6 +99,37 @@ public class Rectangle {
     }
 
     /**
+     * Shrink the rectangle given the new points of it
+     * @param points The new points of this Rectangle
+     */
+    public void shrinkWithPoints(ArrayList<RTreeElement> points){
+        //If the point doesn't mark a boundary of the Rectangle, do nothing
+        Point[] possiblePoints = new Point[points.size()];
+        for(int i = 0; i < possiblePoints.length; i++) possiblePoints[i] = points.get(i).getPoint();
+
+        Point[] newRectangle = getRectangle(possiblePoints);
+        p1 = newRectangle[0];
+        p2 = newRectangle[1];
+    }
+
+    /**
+     * Shrink the rectangle given the new rectangles of it
+     * @param rectangles The new rectangles contained in this Rectangle
+     */
+    public void shrinkWithRectangles(ArrayList<Rectangle> rectangles){
+        Point[] possiblePoints = new Point[rectangles.size() * 2];
+        for(int i = 0, k = 0; i < rectangles.size(); i++, k++){
+            possiblePoints[k] = rectangles.get(i).getP1();
+            possiblePoints[++k] = rectangles.get(i).getP2();
+        }
+
+        Point[] newRectangle = getRectangle(possiblePoints);
+        p1 = newRectangle[0];
+        p2 = newRectangle[1];
+    }
+
+
+    /**
      * Given the points that need to be inside a rectangle, the method
      * returns the points p1 and p2 of the rectangle.
      *

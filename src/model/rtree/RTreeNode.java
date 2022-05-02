@@ -135,7 +135,38 @@ public class RTreeNode {
      */
     public boolean remove(Rectangle rectangle){
         if(arrayRectangles == null) return false;
-        return arrayRectangles.remove(rectangle);
+        arrayRectangles.remove(rectangle);
+
+        Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
+        //Shrink recursively all the parent rectangles
+        while(parent != null){
+            parent.shrinkWithRectangles(parent.getChildNode().getRectangles());
+            parent = parent.getCurrentNode().getParentRectangle();
+        }
+
+        return true;
+    }
+
+    /**
+     * Removes an Element from this RTreeNode
+     * @param element A reference to the element to be removed
+     * @return Whether the element has been removed or not
+     */
+    public boolean remove(RTreeElement element){
+        if(arrayElements == null) return false;
+        arrayElements.remove(element);
+
+        Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
+        parent.shrinkWithPoints(arrayElements);
+
+        parent = parent.getCurrentNode().getParentRectangle();
+        //Shrink recursively all the parent rectangles
+        while(parent != null){
+            parent.shrinkWithRectangles(parent.getChildNode().getRectangles());
+            parent = parent.getCurrentNode().getParentRectangle();
+        }
+
+        return true;
     }
 
     /**

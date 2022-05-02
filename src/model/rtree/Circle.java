@@ -6,8 +6,8 @@ public class Circle implements RTreeElement {
     private static final int COLOR_PARAMETER = 10;
 
     private Point point;
-    private float radius;
-    private String hexColor;
+    private final float radius;
+    private final String hexColor;
 
     public Circle(Point point, float radius, String hexColor) {
         this.point = point;

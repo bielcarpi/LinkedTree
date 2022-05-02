@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class RTree {
 
-    private final int ORDER;
     private RTreeNode rootNode;
 
     private final int MINIMUM_NODE_SIZE;
+    private final int ORDER;
 
     public RTree(int order, String path) throws IOException {
         ORDER = order;
@@ -78,6 +78,7 @@ public class RTree {
         else{
             parentNode = parentRectangle.getCurrentNode();
             parentNode.remove(parentRectangle); //Remove the rectangle that had its child node full from the parentNode
+            //TODO: A resize is necessary once a rectangle has been removed. Call shrink()
         }
 
         //Get from the current node (to be deleted, together with its parent rectangle), its elements (either elements or rectangles)
@@ -189,7 +190,6 @@ public class RTree {
 
         // We are at the point level
         return actualNode;
-
     }
 
     /**
@@ -261,17 +261,26 @@ public class RTree {
 
         for (int i = 0; i < elements.size(); i++) {
             if (pointToRemove.equals(elements.get(i).getPoint())) {
+                //If we find the point we want to delete, delete it
                 found = true;
-                // We found the node we were searching, and we delete it
-                elements.get(i).setPoint(null);
+
+                nodeWithThePoint.remove(elements.get(i));
 
                 // We see if the node fulfill the minimum capacity
-                if (makesUnderFlow(nodeWithThePoint)) {
-                    // reinsert the points that are on the nodeWithThePoint
-                    // TODO: fer funcio per reinsertar els punts que es troben al node
-                } else {
-                    // We check if the size of the new rectangle can be reduced
-                    // TODO: fer funcio recursiva per fer el resize del rectangle
+                boolean underflow = makesUnderflow(nodeWithThePoint);
+                if(underflow){
+                    while (underflow) {
+                        // reinsert the points that are on the nodeWithThePoint
+                    /*
+                    nodeWithThePoint.getParentRectangle().getCurrentNode().remove(nodeWithThePoint.getParentRectangle());
+                    for(RTreeElement e: elements)
+                        insert(e);
+                     */
+                        //TODO: Make it work for both elements and rectangles
+
+                        nodeWithThePoint = nodeWithThePoint.getParentRectangle().getCurrentNode();
+                        underflow = makesUnderflow(nodeWithThePoint);
+                    }
                 }
             }
         }
@@ -279,23 +288,20 @@ public class RTree {
         return found;
     }
 
-    private boolean makesUnderFlow(RTreeNode node){
-        ArrayList<RTreeElement> elements = node.getElements();
-        int size = 0;
 
-        for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i).getPoint() != null){
-                size++;
-            }
-        }
-        //We consider that the underflow is produced when the array of nodes has less that its 30% of capacity.
-        if (size < MINIMUM_NODE_SIZE){
-            return true; //There is an underflow of elements
-        } else {
-            return false; //There isn't underflow of elements
+    private boolean makesUnderflow(RTreeNode node){
+        return false;
+        //We consider that the underflow is produced when the array of nodes has equal or less that its 30% of capacity.
+        /*
+        if(node.isRectangleNode()){
+            return node.getRectangles().size() <= MINIMUM_NODE_SIZE;
         }
 
+        return node.getElements().size() <= MINIMUM_NODE_SIZE;
+         */
     }
+
+
 
     public boolean visualize(){
         return RTreeVisualization.start(this);

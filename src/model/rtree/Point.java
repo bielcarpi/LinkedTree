@@ -1,8 +1,8 @@
 package model.rtree;
 
 public class Point {
-    private float x;
-    private float y;
+    private final float x;
+    private final float y;
 
     public Point(float x, float y){
         this.x = x;
@@ -17,14 +17,6 @@ public class Point {
         return y;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
     /**
      * Method that evaluates the distance between two points
      * @param point1 First point
@@ -36,4 +28,11 @@ public class Point {
                 (point2.y - point1.y)*(point2.y - point1.y));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return Float.compare(point.x, x) == 0 && Float.compare(point.y, y) == 0;
+    }
 }
