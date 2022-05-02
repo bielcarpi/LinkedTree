@@ -191,6 +191,10 @@ public class RTree {
 
     }
 
+    /**
+     * Method that gets the current area that we want to paint depending on the dataset we're working with.
+     * @return Array of float with the representation of the weight and height of the rectangle to paint.
+     */
     private float[] getSearchingArea() {
         float[] values = rootNode.getLimitBoundaries();
 
@@ -199,6 +203,13 @@ public class RTree {
                 Math.abs(values[2] - values[3])};
     }
 
+    /**
+     * Method that evaluates the limit of the rectangle to paint (considering the dimensions obtained in the
+     * getSearchingArea function) and locates in the space having the point introduced by parameter as the
+     * center of the current rectangle.
+     * @param centerPoint Current point with the representation of the center of the rectangle
+     * @return Array of elements representing the points which are located inside that rectangle
+     */
     public ArrayList<RTreeElement> getPointsByProximity(Point centerPoint) {
         float[] dimensions = getSearchingArea(); //Gets the weight and height of the current rectangle
 
@@ -219,6 +230,12 @@ public class RTree {
         return area;
     }
 
+    /**
+     * Method that evaluates if the points obtained in the getSearchByProximity function have similar
+     * color to the one introduced in the circle by parameter.
+     * @param circle Circle introduced by the user to locate the painting area.
+     * @return Array of elements which must be painted after passing the proximity and similarity filter.
+     */
     public ArrayList<RTreeElement> getPointsBySimilarity(Circle circle) {
         ArrayList<RTreeElement> solutions = new ArrayList<>();
 
