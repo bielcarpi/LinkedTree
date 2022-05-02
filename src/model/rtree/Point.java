@@ -31,7 +31,7 @@ public class Point {
      * @param point2 Second point
      * @return The module of the vector that represents the absolute distance between the two points
      */
-    private static float evaluateDistance(Point point1, Point point2){
+    public static float evaluateDistance(Point point1, Point point2){
         return (float) Math.sqrt((point2.x - point1.x)*(point2.x - point1.x) +
                 (point2.y - point1.y)*(point2.y - point1.y));
     }

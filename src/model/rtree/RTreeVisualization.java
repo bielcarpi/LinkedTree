@@ -244,7 +244,6 @@ public class RTreeVisualization extends JFrame {
         private void fillRect(float x, float y, float width, float height, Graphics2D g){
             //Fills a Rectangle with own coordinate system
             g.fillRect((int)(x * WIDTH_UNIT), (int)(y * HEIGHT_UNIT), (int)(width * WIDTH_UNIT), (int)(height * HEIGHT_UNIT));
-            System.out.println("Painting a rectangle -> " + width + "width  "+ height + "height  " + x +"x  "+ y);
         }
 
         private void fillOval(float x, float y, Graphics2D g){
