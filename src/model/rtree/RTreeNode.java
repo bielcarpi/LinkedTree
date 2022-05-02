@@ -42,16 +42,26 @@ public class RTreeNode {
      *
      * @param r1 The first option to insert the childNodeRectangles
      * @param r2 The second option to insert the childNodeRectangles
+     * @param r1Builder The rectangle that constructed r1 (to be inserted directly into r1)
+     * @param r2Builder The rectangle that constructed r2 (to be inserted directly into r2)
      * @param childNodeRectangle An ArrayList containing the Rectangles to be inserted in either r1 or r2
      */
-    public static void putRectangles(Rectangle r1, Rectangle r2, ArrayList<Rectangle> childNodeRectangle) {
+    public static void putRectangles(Rectangle r1, Rectangle r2, Rectangle r1Builder, Rectangle r2Builder, ArrayList<Rectangle> childNodeRectangle) {
         ArrayList<Rectangle> possibleRectangles = new ArrayList<>();
         possibleRectangles.add(r1);
         possibleRectangles.add(r2);
 
+        r1.getChildNode().insert(r1Builder);
+        r1Builder.setCurrentNode(r1.getChildNode());
+        r2.getChildNode().insert(r2Builder);
+        r2Builder.setCurrentNode(r2.getChildNode());
+
         //For each childNodeRectangle, insert it to either r1 or r2 (the best one)
-        for(Rectangle r: childNodeRectangle)
-            getBestRectangle(r.getCenter(), possibleRectangles).getChildNode().insert(r);
+        for(Rectangle r: childNodeRectangle){
+            Rectangle bestRectangle = getBestRectangle(r.getCenter(), possibleRectangles);
+            bestRectangle.getChildNode().insert(r);
+            r.setCurrentNode(bestRectangle.getChildNode());
+        }
     }
 
     /**
@@ -61,12 +71,17 @@ public class RTreeNode {
      *
      * @param r1 The first option to insert the childNodeElements
      * @param r2 The second option to insert the childNodeElements
+     * @param r1ElementBuilder The element that constructed r1 (to be inserted directly into r1)
+     * @param r2ElementBuilder The element that constructed r2 (to be inserted directly into r2)
      * @param childNodeElements An ArrayList containing the Elements to be inserted in either r1 or r2
      */
-    public static void putRTreeElements(Rectangle r1, Rectangle r2, ArrayList<RTreeElement> childNodeElements) {
+    public static void putRTreeElements(Rectangle r1, Rectangle r2, RTreeElement r1ElementBuilder, RTreeElement r2ElementBuilder, ArrayList<RTreeElement> childNodeElements) {
         ArrayList<Rectangle> possibleRectangles = new ArrayList<>();
         possibleRectangles.add(r1);
         possibleRectangles.add(r2);
+
+        r1.getChildNode().insert(r1ElementBuilder);
+        r2.getChildNode().insert(r2ElementBuilder);
 
         //For each childNodeElement, insert it to either r1 or r2 (the best one)
         for(RTreeElement e: childNodeElements)
@@ -81,7 +96,13 @@ public class RTreeNode {
      */
     public boolean insert(RTreeElement element){
         if(arrayElements == null) throw new IllegalArgumentException();
-        if(parentRectangle != null) parentRectangle.grow(element.getPoint()); //If we aren't in the root node, grow
+
+        Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
+        //Grow recursively all the parent rectangles
+        while(parent != null){
+            parent.grow(element.getPoint()); //If we aren't in the root node, grow
+            parent = parent.getCurrentNode().getParentRectangle();
+        }
         arrayElements.add(element);
 
         return arrayElements.size() == ORDER + 1;
@@ -95,7 +116,13 @@ public class RTreeNode {
      */
     public boolean insert(Rectangle rectangle){
         if(arrayRectangles == null) throw new IllegalArgumentException();
-        if(parentRectangle != null) parentRectangle.grow(rectangle); //If we aren't in the root node, grow
+
+        Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
+        //Grow recursively all the parent rectangles
+        while(parent != null){
+            parent.grow(rectangle); //If we aren't in the root node, grow
+            parent = parent.getCurrentNode().getParentRectangle();
+        }
         arrayRectangles.add(rectangle);
 
         return arrayRectangles.size() == ORDER + 1;

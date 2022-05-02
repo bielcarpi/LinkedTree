@@ -1,5 +1,10 @@
 package model.rtree;
 
+
+import model.rtree.interfaces.RTreeElement;
+
+import java.util.ArrayList;
+
 /**
  * The class Rectangle represents a rectangle from the {@link RTree}
  * <p>It is built upon two points, and will always have a child {@link RTreeNode}
@@ -10,7 +15,8 @@ package model.rtree;
 public class Rectangle {
     private Point p1; //Bottom left corner
     private Point p2; //Upper right corner
-    private final RTreeNode currentNode, childNode; //They won't ever change. If they need to, we'll create a new Rectangle
+    private final RTreeNode childNode;
+    private RTreeNode currentNode;
 
     public Rectangle(Point p1, Point p2, RTreeNode currentNode, RTreeNode childNode){
         this.p1 = p1;
@@ -48,6 +54,10 @@ public class Rectangle {
 
     public RTreeNode getCurrentNode() {
         return currentNode;
+    }
+
+    public void setCurrentNode(RTreeNode node){
+        this.currentNode = node;
     }
 
 
@@ -132,5 +142,44 @@ public class Rectangle {
         Point[] newRectanglePoints = getRectangle(new Point[]{p1, p2, p});
         return getArea(newRectanglePoints[0], newRectanglePoints[1]) - getArea(p1, p2);
     }
+
+
+    public static Rectangle[] getFarthestRectangles(ArrayList<Rectangle> rectangles){
+        Rectangle[] farthestRectangles = new Rectangle[2];
+        float farthestDistance = 0.0f, currentDistance;
+
+        for(Rectangle r1: rectangles){
+            for(Rectangle r2: rectangles){
+                currentDistance = Point.evaluateDistance(r1.getCenter(), r2.getCenter());
+                if(currentDistance > farthestDistance){
+                    farthestRectangles[0] = r1;
+                    farthestRectangles[1] = r2;
+                    farthestDistance = currentDistance;
+                }
+            }
+        }
+
+        return farthestRectangles;
+    }
+
+
+    public static RTreeElement[] getFarthestElements(ArrayList<RTreeElement> elements){
+        RTreeElement[] farthestElements = new RTreeElement[2];
+        float farthestDistance = 0.0f, currentDistance;
+
+        for(RTreeElement e1: elements){
+            for(RTreeElement e2: elements){
+                currentDistance = Point.evaluateDistance(e1.getPoint(), e2.getPoint());
+                if(currentDistance > farthestDistance){
+                    farthestElements[0] = e1;
+                    farthestElements[1] = e2;
+                    farthestDistance = currentDistance;
+                }
+            }
+        }
+
+        return farthestElements;
+    }
+
 
 }

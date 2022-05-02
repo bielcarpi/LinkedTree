@@ -81,37 +81,38 @@ public class RTree {
         }
 
         //Get from the current node (to be deleted, together with its parent rectangle), its elements (either elements or rectangles)
-        ArrayList<Rectangle> childNodeRectangle = currentNode.getRectangles();
+        ArrayList<Rectangle> childNodeRectangles = currentNode.getRectangles();
         ArrayList<RTreeElement> childNodeElements = currentNode.getElements();
 
-        ArrayList<Point> points = new ArrayList<>(); //We need to get the two points with max distance,
-                                                     // in order to create the new two rectangles
-        if(childNodeRectangle != null){ //If we have rectangles
-            for(Rectangle r: childNodeRectangle){
-                points.add(r.getP1());
-                points.add(r.getP2());
-            }
+        Rectangle r1, r2;
+        if(childNodeRectangles != null){ //If we have rectangles
+            Rectangle[] farthestRectangles = Rectangle.getFarthestRectangles(childNodeRectangles);
+
+            //With these two rectangles, we'll create the two new rectangles
+            r1 = new Rectangle(farthestRectangles[0].getP1(), farthestRectangles[0].getP2(), parentNode,
+                    new RTreeNode(ORDER, true));
+            r2 = new Rectangle(farthestRectangles[1].getP1(), farthestRectangles[1].getP2(), parentNode,
+                    new RTreeNode(ORDER, true));
+
+            //Now that we have the rectangles created, we'll need to put the elements we had into them
+            childNodeRectangles.remove(farthestRectangles[0]);
+            childNodeRectangles.remove(farthestRectangles[1]);
+            RTreeNode.putRectangles(r1, r2, farthestRectangles[0], farthestRectangles[1], childNodeRectangles);
         }
         else{ //If we have RTreeElements
-            for(RTreeElement e: childNodeElements)
-                points.add(e.getPoint());
+            RTreeElement[] farthestElements = Rectangle.getFarthestElements(childNodeElements);
+
+            //With these two elements, we'll create the two new rectangles
+            r1 = new Rectangle(farthestElements[0].getPoint(), farthestElements[0].getPoint(), parentNode,
+                    new RTreeNode(ORDER, false));
+            r2 = new Rectangle(farthestElements[1].getPoint(), farthestElements[1].getPoint(), parentNode,
+                    new RTreeNode(ORDER, false));
+
+            //Now that we have the rectangles created, we'll need to put the elements we had into them
+            childNodeElements.remove(farthestElements[0]);
+            childNodeElements.remove(farthestElements[1]);
+            RTreeNode.putRTreeElements(r1, r2, farthestElements[0], farthestElements[1], childNodeElements);
         }
-
-        //Now that we have all the points of the child's, let's calculate the two that are farther away
-        Point[] maxDistancePoints = Point.getFarthestPoints(points);
-
-        //With these two points, we'll create the two new rectangles
-        Rectangle r1 = new Rectangle(maxDistancePoints[0], maxDistancePoints[0], parentNode,
-                new RTreeNode(ORDER, childNodeRectangle != null));
-        Rectangle r2 = new Rectangle(maxDistancePoints[1], maxDistancePoints[1], parentNode,
-                new RTreeNode(ORDER, childNodeRectangle != null));
-
-
-        //Now that we have the rectangles created, we'll need to put the elements we had into them
-        if(childNodeRectangle != null) //If we have rectangles
-            RTreeNode.putRectangles(r1, r2, childNodeRectangle);
-        else //If we have RTreeElements
-            RTreeNode.putRTreeElements(r1, r2, childNodeElements);
 
 
         //Finally, insert the two new rectangles into the node
