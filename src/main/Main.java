@@ -8,12 +8,12 @@ import java.io.IOException;
 
 public class Main {
 
+    //Filenames
     private static final String FILE_GRAPH_NAME = "graphXL.paed";
     private static final String FILE_DRAMA_NAME = "dagXXL.paed";
     private static final String FILE_TREE_NAME = "treeS.paed";
     private static final String FILE_R_TREE_NAME = "rtreeXS.paed";
     private static final int R_TREE_ORDER = 3;
-
 
     public static void main(String[] args){
         try{

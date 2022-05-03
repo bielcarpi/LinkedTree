@@ -193,7 +193,11 @@ public class Rectangle {
         return farthestRectangles;
     }
 
-
+    /**
+     * Method that get the two farthest points of an array of elements (points)
+     * @param elements the array of elements to compare
+     * @return the two farthest elements of the array
+     */
     public static RTreeElement[] getFarthestElements(ArrayList<RTreeElement> elements){
         RTreeElement[] farthestElements = new RTreeElement[2];
         float farthestDistance = 0.0f, currentDistance;

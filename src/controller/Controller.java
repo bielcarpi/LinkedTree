@@ -125,8 +125,8 @@ public class Controller {
         if (magicSearch.size() != 0) {
             view.printMessage("Els cercles propers i semblants a aquest són:");
             //Printar els cercles trobats
-            for (int i = 0; i < magicSearch.size(); i++) {
-                view.printMessage(magicSearch.get(i).toRangeSearchString());
+            for (RTreeElement search : magicSearch) {
+                view.printMessage(search.toRangeSearchString());
             }
         } else {
             view.printMessage("No s'ha pogut trobar cap cercle similar i a prop d'aquest, torna-ho a intentar!");
@@ -137,27 +137,32 @@ public class Controller {
      * Method that searches the Circles that are contained in an especific area
      */
     private void areaSearch() {
-        view.printMessageWithoutLine("Entra del primer punt del rectangle (X;Y): ");
+        view.printMessageWithoutLine("Entra del primer punt del rectangle (X,Y): ");
         view.askForString();
         String stringFirstPoint = view.askForString();
         String[] firstPoint = stringFirstPoint.split(",");
-        view.printMessageWithoutLine("Entra del segon punt del rectangle (X;Y): ");
+        view.printMessageWithoutLine("Entra del segon punt del rectangle (X,Y): ");
         String stringSecondPoint = view.askForString();
         String[] secondPoint = stringSecondPoint.split(",");
         view.printMessage();
 
         Point[] points = new Point[2];
-        points[0] = new Point(Float.parseFloat(firstPoint[0]), Float.parseFloat(firstPoint[1]));
-        points[1] = new Point(Float.parseFloat(secondPoint[0]), Float.parseFloat(secondPoint[1]));
-        java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
-        if (pointsInArea.size() != 0) {
-            view.printMessage("S'han trobat " +  pointsInArea.size()  + " cercles en aquesta àrea:");
-            //Printar els cercles trobats
-            for (int i = 0; i < pointsInArea.size(); i++) {
-                view.printMessage(pointsInArea.get(i).toRangeSearchString());
+        try {
+            points[0] = new Point(Float.parseFloat(firstPoint[0]), Float.parseFloat(firstPoint[1]));
+            points[1] = new Point(Float.parseFloat(secondPoint[0]), Float.parseFloat(secondPoint[1]));
+            java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
+            if (pointsInArea.size() != 0) {
+                view.printMessage("S'han trobat " + pointsInArea.size() + " cercles en aquesta àrea:");
+                //Printar els cercles trobats
+                for (int i = 0; i < pointsInArea.size(); i++) {
+                    view.printMessage(pointsInArea.get(i).toRangeSearchString());
+                }
+            } else {
+                view.printMessage("No hi ha cap cercle en aquesta àrea. Torna-ho a intentar!");
             }
-        } else {
-            view.printMessage("No hi ha cap cercle en aquesta àrea, torna-ho a intentar!");
+        } catch (Exception e) {
+            view.printMessage("No s'ha pogut fer parse d'aquest número correctament. " +
+                    "\nTorna-ho a intentar posant-ho en format enter1.decimal1,enter2.decimal2");
         }
     }
 
@@ -166,7 +171,7 @@ public class Controller {
      */
     private void visualizePainting() {
         view.printMessage("Generant la visualització del canvas...");
-        if(!model.visualizeCircles()) view.printMessage("No s'ha pogut generar la visualitzacio. Tanca la finestra de visualitzacio actual per generar-ne una de nova.");
+        if(!model.visualizeCircles()) view.printMessage("No s'ha pogut generar la visualització. Tanca la finestra de visualització actual per generar-ne una de nova.");
     }
 
     /**
@@ -478,6 +483,9 @@ public class Controller {
         }
     }
 
+    /**
+     * (Extra) Method that draws in console the AlgorithmTree
+     */
     private void drawAlgorithmTree(){
         model.drawAlgorithmTree();
     }

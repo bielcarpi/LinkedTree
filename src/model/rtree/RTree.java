@@ -172,6 +172,7 @@ public class RTree {
      * Method that searches the node where contains the point we are searching
      * @param actualNode, the node that we are currently comparing
      * @param searchingPoint, the point that we are searching
+     * @return the RTreeNode of points where the searchingPoint is contained
      */
     private RTreeNode pointNodeSearch(RTreeNode actualNode, Point searchingPoint) {
         if (actualNode.isRectangleNode()) {
@@ -253,13 +254,17 @@ public class RTree {
         return solutions;
     }
 
-
+    /**
+     * Method that implements the deletion of a given point
+     * @param pointToRemove the point we want to remove
+     * @return true if the point has correctly deleted and false if not
+     */
     public boolean delete(Point pointToRemove){
         RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove);
         ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
         boolean found = false;
 
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 0; i < elements.size() && !found; i++) {
             if (pointToRemove.equals(elements.get(i).getPoint())) {
                 //If we find the point we want to delete, delete it
                 found = true;
@@ -288,7 +293,11 @@ public class RTree {
         return found;
     }
 
-
+    /**
+     * Method that checks if a node has fewer elements than the minimum elements established
+     * @param node the node we are checking
+     * @return true if the node has fewer elements than the minimum elements established and false if not
+     */
     private boolean makesUnderflow(RTreeNode node){
         return false;
         //We consider that the underflow is produced when the array of nodes has equal or less that its 30% of capacity.
@@ -302,7 +311,10 @@ public class RTree {
     }
 
 
-
+    /**
+     * Method that does the visualization of the rTree in swing
+     * @return
+     */
     public boolean visualize(){
         return RTreeVisualization.start(this);
     }
