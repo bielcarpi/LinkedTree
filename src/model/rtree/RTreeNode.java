@@ -137,12 +137,14 @@ public class RTreeNode {
         if(arrayRectangles == null) return false;
         arrayRectangles.remove(rectangle);
 
+        /*
         Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
         //Shrink recursively all the parent rectangles
         while(parent != null){
             parent.shrinkWithRectangles(parent.getChildNode().getRectangles());
             parent = parent.getCurrentNode().getParentRectangle();
         }
+         */
 
         return true;
     }

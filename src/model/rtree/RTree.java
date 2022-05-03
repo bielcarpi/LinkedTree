@@ -183,13 +183,16 @@ public class RTree {
                         searchingPoint.getY() >= actualNodeRec.get(i).getP1().getY() &&
                         searchingPoint.getY() <= actualNodeRec.get(i).getP2().getY()) {
                     // The Point is inside the rectangle
-                    pointNodeSearch(actualNodeRec.get(i).getChildNode(), searchingPoint);
+                    return pointNodeSearch(actualNodeRec.get(i).getChildNode(), searchingPoint);
                 }
             }
-        }
 
-        // We are at the point level
-        return actualNode;
+            return null;
+        }
+        else{
+            // We are at the point level
+            return actualNode;
+        }
     }
 
     /**
@@ -240,8 +243,9 @@ public class RTree {
     public ArrayList<RTreeElement> getPointsBySimilarity(Circle circle) {
         ArrayList<RTreeElement> solutions = new ArrayList<>();
 
-        ArrayList<RTreeElement> proximity = getPointsByProximity(circle.getPoint());
+        return getPointsByProximity(circle.getPoint());
 
+        /*
         int[] color = circle.getRGBFromHex(circle.getHexColor());
 
         for (int i = 0; i < proximity.size(); i++) {
@@ -251,6 +255,7 @@ public class RTree {
         }
 
         return solutions;
+         */
     }
 
 
