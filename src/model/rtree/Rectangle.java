@@ -118,9 +118,10 @@ public class Rectangle {
      */
     public void shrinkWithRectangles(ArrayList<Rectangle> rectangles){
         Point[] possiblePoints = new Point[rectangles.size() * 2];
-        for(int i = 0, k = 0; i < rectangles.size(); i++, k++){
-            possiblePoints[k] = rectangles.get(i).getP1();
-            possiblePoints[++k] = rectangles.get(i).getP2();
+        int i = 0;
+        for(Rectangle r: rectangles){
+            possiblePoints[i++] = r.getP1();
+            possiblePoints[i++] = r.getP2();
         }
 
         Point[] newRectangle = getRectangle(possiblePoints);
