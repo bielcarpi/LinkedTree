@@ -19,7 +19,7 @@ public class View {
             1. Seguidors (Grafs)
             2. Feed (Arbres)
             3. Canvas (Arbres R)
-            4. A ESPECIFICAR
+            4. Anuncis (Taules)
             
             5. Sortir
             
@@ -61,6 +61,17 @@ public class View {
             
             Quina funcionalitat vols executar?\s""";
 
+    private static final String ADVERTISEMENT_MENU = """
+                           
+                A. Afegir empresa
+                B. Eliminar empresa
+                C. Consultar empresa
+                D. Histograma per dies
+                
+                E. Tornar enrere
+                
+            Quina funcionalitat vols executar?\s""";
+
     private Scanner scanner;
 
     private static final String EXCEPTION_MESSAGE = """
@@ -93,6 +104,14 @@ public class View {
     public void printMessage(){
         System.out.println();
     }
+
+    /**
+     * Prints advertisement menu
+     */
+    public void printAdvertisementMenu() {
+        System.out.print(ADVERTISEMENT_MENU);
+    }
+
 
     /**
      * Prints the followers menu

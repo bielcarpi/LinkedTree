@@ -7,6 +7,8 @@ import model.rtree.Circle;
 import model.rtree.Point;
 import model.rtree.RTree;
 import model.rtree.interfaces.RTreeElement;
+import model.table.Advertisment;
+import model.table.ReadTable;
 import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
 import model.utilities.ArrayList;
@@ -22,13 +24,23 @@ public class Model {
     private final AlgorithmTree algorithmTree;
     private final RTree rTree;
 
+    private Advertisment[] table;
+
     public Model(final String graphFileName, final String dramaFileName, final String treeFileName,
-                 final String rTreeFileName, final int rTreeOrder)
+                 final String rTreeFileName, final int rTreeOrder, final String path)
             throws IOException {
         userGraph = new UserGraph(graphFileName);
         dramaGraph = new UserGraph(dramaFileName);
         algorithmTree = new AlgorithmTree(treeFileName);
         rTree = new RTree(rTreeOrder, rTreeFileName);
+
+        try {
+            ReadTable.read(path);
+            table = new Advertisment[ReadTable.getAdvertisment().length];
+            table = ReadTable.getAdvertisment();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Queue<GraphNode> exploreNetwork(){
@@ -98,5 +110,14 @@ public class Model {
 
     public java.util.ArrayList<RTreeElement> circleMagicSearch(Circle circle) {
         return rTree.getPointsBySimilarity(circle);
+    }
+
+    public Advertisment[] loadAdvertisement(String path) {
+        try {
+            ReadTable.read(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ReadTable.getAdvertisment();
     }
 }

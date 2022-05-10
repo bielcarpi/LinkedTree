@@ -54,10 +54,11 @@ public class Controller {
                         continue infiniteLoop;
 
                     case 4:
+                        advertisementOption();
                         continue infiniteLoop;
 
                     case 5:
-                        view.printMessage("Fins aviat!");
+                        view.printMessage("Aturant LinkedTree...\n");
                         return;
 
                     default:
@@ -65,6 +66,100 @@ public class Controller {
                         break;
                 }
             } while (option < 1 || option > 6);
+        }
+    }
+
+    /**
+     * Infinite loop that performs the advertisement (Hash) option
+     */
+    private void advertisementOption() {
+        infiniteLoop:
+        while(true){
+            view.printAdvertisementMenu();
+            do{
+                char option = view.askForChar();
+                view.askForString();
+                switch (option){
+                    case 'A':
+                        addCompany();
+                        continue infiniteLoop;
+                    case 'B':
+                        removeCompany();
+                        continue infiniteLoop;
+                    case 'C':
+                        consultCompany();
+                        continue infiniteLoop;
+                    case 'D':
+                        showHistogram();
+                        continue infiniteLoop;
+                    case 'E':
+                        return;
+                    default:
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, E]: ");
+                        break;
+                }
+            } while(true); //While the input is not well-formatted
+        }
+    }
+
+    /**
+     * Method that shows the histogram of the advertisements (HashMap)
+     */
+    private void showHistogram() {
+        view.printMessage();
+        view.printMessage("Generant histograma...");
+        //cridar a la funcio swing per generar histograma
+    }
+
+    /**
+     * Method that consults a company advertisement (HashMap)
+     */
+    private void consultCompany() {
+        view.printMessage();
+        view.printMessageWithoutLine("Entra el nom de l'empresa a consultar: ");
+        String companyName = view.askForString();
+        view.printMessage();
+
+        if (true/*cridar a la funció que afegeix anunci*/) {
+            //.toPrettyString
+        } else {
+            view.printMessage("No s'ha pogut consultar l'anunci en el sistema gestor. Torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Method that removes an advertisement to a company (HashMap)
+     */
+    private void removeCompany() {
+        view.printMessage();
+        view.printMessageWithoutLine("Entra el nom de l'empresa a eliminar: ");
+        String companyName = view.askForString();
+        view.printMessage();
+
+        if (true/*cridar a la funció que afegeix anunci*/) {
+            view.printMessage("L'empresa s'ha eliminat correctament del sistema gestor d'anuncis.");
+        } else {
+            view.printMessage("No s'ha pogut eliminar l'anunci del sistema gestor. Torna-ho a intentar!");
+        }
+    }
+
+    /**
+     * Method that adds an advertisement to a company (HashMap)
+     */
+    private void addCompany() {
+        view.printMessage();
+        view.printMessageWithoutLine("Entra el nom de l'empresa a afegir: ");
+        String companyName = view.askForString();
+        view.printMessageWithoutLine("Entra el dia de la setmana en el que està interessada: ");
+        String day = view.askForString();
+        view.printMessageWithoutLine("Entra el preu que pot pagar, en euros: ");
+        int cost = view.askForInteger();
+        view.printMessage();
+
+        if (true/*cridar a la funció que afegeix anunci*/) {
+            view.printMessage("L'empresa s'ha afegit correctament al sistema gestor d'anuncis.");
+        } else {
+            view.printMessage("No s'ha pogut afegir l'anunci al sistema gestor. Torna-ho a intentar!");
         }
     }
 
@@ -97,7 +192,7 @@ public class Controller {
                     case 'F':
                         return;
                     default:
-                        view.printMessageWithoutLine("Error. The value ranges are from [A, G]: ");
+                        view.printMessageWithoutLine("Error. The value ranges are from [A, F]: ");
                         break;
                 }
             } while(true); //While the input is not well-formatted
