@@ -1,11 +1,11 @@
 package model.table;
 
-public class Advertisment {
+public class Advertisement {
     private String name; //key of the hash
     private String date;
     private int price;
 
-    public Advertisment(String name, String date, int price) {
+    public Advertisement(String name, String date, int price) {
         this.name = name;
         this.date = date;
         this.price = price;
@@ -20,5 +20,14 @@ public class Advertisment {
     }
     public int getPrice() {
         return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Advertisement{" +
+                "name='" + name + '\'' +
+                ", date='" + date + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

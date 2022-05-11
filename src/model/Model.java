@@ -7,7 +7,9 @@ import model.rtree.Circle;
 import model.rtree.Point;
 import model.rtree.RTree;
 import model.rtree.interfaces.RTreeElement;
-import model.table.Advertisment;
+import model.table.Advertisement;
+import model.table.AdvertisementHistogram;
+import model.table.HashMap;
 import model.table.ReadTable;
 import model.tree.Algorithm;
 import model.tree.AlgorithmTree;
@@ -23,24 +25,20 @@ public class Model {
     private final UserGraph dramaGraph;
     private final AlgorithmTree algorithmTree;
     private final RTree rTree;
-
-    private Advertisment[] table;
+    private final HashMap<String, Advertisement> hashMap;
 
     public Model(final String graphFileName, final String dramaFileName, final String treeFileName,
-                 final String rTreeFileName, final int rTreeOrder, final String path)
+                 final String rTreeFileName, final int rTreeOrder, final String hashMapFileName)
             throws IOException {
         userGraph = new UserGraph(graphFileName);
         dramaGraph = new UserGraph(dramaFileName);
         algorithmTree = new AlgorithmTree(treeFileName);
         rTree = new RTree(rTreeOrder, rTreeFileName);
+        hashMap = new HashMap<>();
 
-        try {
-            ReadTable.read(path);
-            table = new Advertisment[ReadTable.getAdvertisment().length];
-            table = ReadTable.getAdvertisment();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ReadTable.read(hashMapFileName);
+        Advertisement[] ads = ReadTable.getAdvertisment();
+        for(Advertisement a: ads) hashMap.put(a.getName(), a);
     }
 
     public Queue<GraphNode> exploreNetwork(){
@@ -112,12 +110,21 @@ public class Model {
         return rTree.getPointsBySimilarity(circle);
     }
 
-    public Advertisment[] loadAdvertisement(String path) {
-        try {
-            ReadTable.read(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ReadTable.getAdvertisment();
+
+    public Advertisement getAdvertisement(String key){
+        return hashMap.get(key);
+    }
+
+    public boolean removeAdvertisement(String key){
+        return hashMap.remove(key);
+    }
+
+    public void addAdvertisement(String companyName, String weekDay, int cost){
+        Advertisement a = new Advertisement(companyName, weekDay, cost);
+        hashMap.put(a.getName(), a);
+    }
+
+    public boolean showAdvertisementHistogram(){
+        return AdvertisementHistogram.start(hashMap);
     }
 }

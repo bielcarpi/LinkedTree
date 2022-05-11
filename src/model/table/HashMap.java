@@ -12,7 +12,7 @@ public class HashMap<K, T> {
     private static final int DEFAULT_CAPACITY = 500;
 
     public HashMap(){
-        internalArray = new ArrayList<>[DEFAULT_CAPACITY];
+        internalArray = new ArrayList[DEFAULT_CAPACITY];
         filledPositions = 0;
     }
 

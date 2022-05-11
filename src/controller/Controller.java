@@ -6,13 +6,12 @@ import model.graph.interfaces.GraphNode;
 import model.rtree.Circle;
 import model.rtree.Point;
 import model.rtree.interfaces.RTreeElement;
+import model.table.Advertisement;
 import model.tree.Algorithm;
 import model.utilities.ArrayList;
 import model.utilities.Queue;
 import model.utilities.Stack;
 import view.View;
-
-import java.text.DecimalFormat;
 
 
 public class Controller {
@@ -108,7 +107,8 @@ public class Controller {
     private void showHistogram() {
         view.printMessage();
         view.printMessage("Generant histograma...");
-        //cridar a la funcio swing per generar histograma
+        if(!model.showAdvertisementHistogram())
+            view.printMessage("L'histograma ja s'esta visualitzant!");
     }
 
     /**
@@ -117,13 +117,13 @@ public class Controller {
     private void consultCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a consultar: ");
-        String companyName = view.askForString();
+        Advertisement ad = model.getAdvertisement(view.askForString());
         view.printMessage();
 
-        if (true/*cridar a la funció que afegeix anunci*/) {
-            //.toPrettyString
+        if (ad != null) {
+            view.printMessage(ad.toString());
         } else {
-            view.printMessage("No s'ha pogut consultar l'anunci en el sistema gestor. Torna-ho a intentar!");
+            view.printMessage("L'empresa introduida no existeix! Torna-ho a intentar.");
         }
     }
 
@@ -133,13 +133,13 @@ public class Controller {
     private void removeCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a eliminar: ");
-        String companyName = view.askForString();
+        boolean success = model.removeAdvertisement(view.askForString());
         view.printMessage();
 
-        if (true/*cridar a la funció que afegeix anunci*/) {
+        if (success) {
             view.printMessage("L'empresa s'ha eliminat correctament del sistema gestor d'anuncis.");
         } else {
-            view.printMessage("No s'ha pogut eliminar l'anunci del sistema gestor. Torna-ho a intentar!");
+            view.printMessage("L'empresa introduida no exiteix! Torna-ho a intentar.");
         }
     }
 
@@ -156,11 +156,8 @@ public class Controller {
         int cost = view.askForInteger();
         view.printMessage();
 
-        if (true/*cridar a la funció que afegeix anunci*/) {
-            view.printMessage("L'empresa s'ha afegit correctament al sistema gestor d'anuncis.");
-        } else {
-            view.printMessage("No s'ha pogut afegir l'anunci al sistema gestor. Torna-ho a intentar!");
-        }
+        model.addAdvertisement(companyName, day, cost);
+        view.printMessage("L'empresa s'ha afegit correctament al sistema gestor d'anuncis.");
     }
 
     /**
