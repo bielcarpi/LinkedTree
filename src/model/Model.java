@@ -39,6 +39,7 @@ public class Model {
         ReadTable.read(hashMapFileName);
         Advertisement[] ads = ReadTable.getAdvertisment();
         for(Advertisement a: ads) hashMap.put(a.getName(), a);
+        System.out.printf("test");
     }
 
     public Queue<GraphNode> exploreNetwork(){
