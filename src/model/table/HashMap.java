@@ -3,7 +3,6 @@ package model.table;
 import model.utilities.Tuple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The class HashMap implements basic functionality of a Hash Table
@@ -19,7 +18,7 @@ public class HashMap<K, V> {
 
     private ArrayList<Tuple<K, V>>[] internalArray; //Each position of the array has an arraylist
     private int filledPositions; //The positions of the array that have been filled with an arraylist
-    private static final int DEFAULT_CAPACITY = 500;
+    private static final int DEFAULT_CAPACITY = 64; //Can only be po2!!
 
     /**
      * Default Constructor.
@@ -58,7 +57,10 @@ public class HashMap<K, V> {
         for(Tuple<K, V> entry: internalArray[position]){
             if(entry.getFirst().equals(key)){
                 internalArray[position].remove(entry);
-                filledPositions--;
+                if(internalArray[position].isEmpty()){ //If there are no more values on that node
+                    internalArray[position] = null; //Delete the arrayList (GC)
+                    filledPositions--;
+                }
                 return true;
             }
         }
@@ -95,17 +97,54 @@ public class HashMap<K, V> {
         return values;
     }
 
+    private ArrayList<Tuple<K, V>> getAllValuesAsTuple(){
+        ArrayList<Tuple<K, V>> values = new ArrayList<>();
+        for(ArrayList<Tuple<K, V>> entry: internalArray) {
+            if (entry != null)
+                values.addAll(entry);
+        }
+
+        return values;
+    }
+
 
     private int getHash(K key){
         String stringKey = key.toString();
-        //TODO: Make hash & return it
-        return 0;
+        //Our hashing algorithm will sum half the letters of the string and multiply it by the other half
+        long firstHalf = getInt(stringKey.substring(0, stringKey.length()/2));
+        long secondHalf = getInt(stringKey.substring(stringKey.length()/2 + 1));
+        long hash = firstHalf * secondHalf;
+
+        //Now, in order to ensure our hash is between the internal array's possible values, we'll
+        // have the po2 of the current value and obtain its log(R) central bits (being R the internal array length)
+        hash = hash * hash;
+        int bits = (int)(Math.log(internalArray.length) / Math.log(2));
+        int movingPositions = Long.SIZE/2 - bits/2;
+        hash = hash << movingPositions;
+        hash = hash >>> movingPositions;
+        hash = hash >>> movingPositions;
+
+        return (int)hash; //Return the hash
+    }
+
+    private int getInt(String s){
+        //Given a String, it returns the sum of all its characters in ASCII
+        int sum = 0;
+        for(int i = 0; i < s.length(); i++)
+            sum += s.charAt(i);
+
+        return sum;
     }
 
 
     private void checkGrowing(){
-        //If the filledPositions are more than the 70% of the array length, increase the internal array by 50%
-        if(filledPositions * 70/100 > internalArray.length)
-            internalArray = Arrays.copyOf(internalArray, internalArray.length * 150/100);
+        //If the filledPositions are more than the 70% of the array length, increase the internal array by 100%
+        if(filledPositions > internalArray.length * 70.0/100.0){
+            ArrayList<Tuple<K, V>> values = getAllValuesAsTuple();
+            internalArray = new ArrayList[internalArray.length * 2];
+
+            //Now that we have expanded the internal array, let's re-calculate positions for all the elements we had
+            for(Tuple<K, V> t: values) put(t.getFirst(), t.getLast());
+        }
     }
 }
