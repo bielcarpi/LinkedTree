@@ -80,7 +80,6 @@ public class RTree {
         else{
             parentNode = parentRectangle.getCurrentNode();
             parentNode.remove(parentRectangle); //Remove the rectangle that had its child node full from the parentNode
-            //TODO: A resize is necessary once a rectangle has been removed. Call shrink()
         }
 
         //Get from the current node (to be deleted, together with its parent rectangle), its elements (either elements or rectangles)
@@ -186,7 +185,8 @@ public class RTree {
                         searchingPoint.getY() >= actualNodeRec.get(i).getP1().getY() &&
                         searchingPoint.getY() <= actualNodeRec.get(i).getP2().getY()) {
                     // The Point is inside the rectangle
-                    return pointNodeSearch(actualNodeRec.get(i).getChildNode(), searchingPoint);
+                    RTreeNode result = pointNodeSearch(actualNodeRec.get(i).getChildNode(), searchingPoint);
+                    if(result != null) return result;
                 }
             }
 
@@ -276,35 +276,36 @@ public class RTree {
     public boolean delete(Point pointToRemove){
         RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null
         ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
-        boolean found = false;
 
-        for (int i = 0; i < elements.size() && !found; i++) {
+        for (int i = 0; i < elements.size(); i++) {
             if (pointToRemove.equals(elements.get(i).getPoint())) {
                 //If we find the point we want to delete, delete it
-                found = true;
-
                 nodeWithThePoint.remove(elements.get(i));
 
                 // We check if the node fulfills the minimum capacity
                 boolean underflow = makesUnderflow(nodeWithThePoint);
+
+                //If the node makes underflow, reinsert all its elements
                 if(underflow){
                     while (underflow) {
-                        // reinsert the points that are on the nodeWithThePoint
-                    /*
-                    nodeWithThePoint.getParentRectangle().getCurrentNode().remove(nodeWithThePoint.getParentRectangle());
-                    for(RTreeElement e: elements)
-                        insert(e);
-                     */
-                        //TODO: Make it work for both elements and rectangles
+                        //Reinsert the points that are left on the nodeWithThePoint
+                        nodeWithThePoint.getParentRectangle().getCurrentNode().remove(nodeWithThePoint.getParentRectangle());
+                        for(RTreeElement e: elements)
+                            insert(e);
 
-                        nodeWithThePoint = nodeWithThePoint.getParentRectangle().getCurrentNode();
-                        underflow = makesUnderflow(nodeWithThePoint);
+                        //We should make this process recursive (and check if underflow now occurs on the upper node, but that would
+                        // imply being able to insert rectangles in the RTree. For the moment, we won't implement that feature).
+                        //nodeWithThePoint = nodeWithThePoint.getParentRectangle().getCurrentNode();
+                        //underflow = makesUnderflow(nodeWithThePoint);
+                        underflow = false;
                     }
                 }
+
+                return true; //Return we found and deleted it
             }
         }
 
-        return found;
+        return false; //Return we weren't able to found it
     }
 
     /**
@@ -313,21 +314,18 @@ public class RTree {
      * @return true if the node has fewer elements than the minimum elements established and false if not
      */
     private boolean makesUnderflow(RTreeNode node){
-        return false;
         //We consider that the underflow is produced when the array of nodes has equal or less that its 30% of capacity.
-        /*
         if(node.isRectangleNode()){
             return node.getRectangles().size() <= MINIMUM_NODE_SIZE;
         }
 
         return node.getElements().size() <= MINIMUM_NODE_SIZE;
-         */
     }
 
 
     /**
      * Method that does the visualization of the rTree in swing
-     * @return
+     * @return Whether the visualization has started or not
      */
     public boolean visualize(){
         return RTreeVisualization.start(this);
