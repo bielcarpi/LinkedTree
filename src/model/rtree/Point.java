@@ -35,4 +35,12 @@ public class Point {
         Point point = (Point) o;
         return Float.compare(point.x, x) == 0 && Float.compare(point.y, y) == 0;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

@@ -137,14 +137,14 @@ public class RTreeNode {
         if(arrayRectangles == null) return false;
         arrayRectangles.remove(rectangle);
 
-        /*
         Rectangle parent = parentRectangle; //Current parent rectangle of this RTreeNode
+        if(parent != null && parent.getChildNode().getRectangles().isEmpty()) return true; //There can be the case where we want to remove a rectangle that is alone on its node. In that case, there is no need to shrink
+
         //Shrink recursively all the parent rectangles
         while(parent != null){
             parent.shrinkWithRectangles(parent.getChildNode().getRectangles());
             parent = parent.getCurrentNode().getParentRectangle();
         }
-         */
 
         return true;
     }
