@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
@@ -158,7 +156,7 @@ public class RTreeVisualization extends JFrame {
 
     private static class DrawingPanel extends JPanel{
 
-        private static final int TRANSPARENCY = 120;
+        private static final int TRANSPARENCY = 80;
         private final RTree rTree;
         private final RTreeVisualization rTreeVisualization;
         private BufferedImage bufferedImage;
@@ -234,7 +232,7 @@ public class RTreeVisualization extends JFrame {
                 //Paint points of the RTreeElement
                 ArrayList<RTreeElement> elements = nodeToPaint.getElements();
                 for(RTreeElement e: elements){
-                    g.setColor(getRandomColor());
+                    g.setColor(getRandomColor(255));
                     fillOval(e.getPoint().getX(), e.getPoint().getY(), g);
                 }
             }
@@ -258,6 +256,11 @@ public class RTreeVisualization extends JFrame {
         private Color getRandomColor(){
             Random r = new Random();
             return new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), TRANSPARENCY);
+        }
+
+        private Color getRandomColor(int transparency){
+            Random r = new Random();
+            return new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), transparency);
         }
     }
 }

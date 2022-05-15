@@ -274,7 +274,7 @@ public class RTree {
      * @return true if the point has correctly deleted and false if not
      */
     public boolean delete(Point pointToRemove){
-        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove);
+        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null
         ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
         boolean found = false;
 
@@ -285,7 +285,7 @@ public class RTree {
 
                 nodeWithThePoint.remove(elements.get(i));
 
-                // We see if the node fulfill the minimum capacity
+                // We check if the node fulfills the minimum capacity
                 boolean underflow = makesUnderflow(nodeWithThePoint);
                 if(underflow){
                     while (underflow) {

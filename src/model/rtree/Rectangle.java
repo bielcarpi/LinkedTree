@@ -138,6 +138,9 @@ public class Rectangle {
      * @return The points p1 and p2 of the rectangle
      */
     public static Point[] getRectangle(Point[] points){
+        if(points == null || points.length == 0){
+            System.out.println("Hey");
+        }
         float xMin  = Float.MAX_VALUE, yMin = Float.MAX_VALUE, xMax = Float.MIN_VALUE, yMax = Float.MIN_VALUE;
         for(int i = 0; i < points.length; i++) {
             if (points[i].getX() < xMin) {
