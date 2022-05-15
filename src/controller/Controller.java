@@ -117,14 +117,19 @@ public class Controller {
     private void consultCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a consultar: ");
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         Advertisement ad = model.getAdvertisement(view.askForString());
+        long timeAfter = System.nanoTime();
         view.printMessage();
 
         if (ad != null) {
-            view.printMessage(ad.toString());
+            view.printMessage(ad.toPrettyString());
         } else {
             view.printMessage("L'empresa introduida no existeix! Torna-ho a intentar.");
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -133,7 +138,10 @@ public class Controller {
     private void removeCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a eliminar: ");
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         boolean success = model.removeAdvertisement(view.askForString());
+        long timeAfter = System.nanoTime();
         view.printMessage();
 
         if (success) {
@@ -141,6 +149,8 @@ public class Controller {
         } else {
             view.printMessage("L'empresa introduida no exiteix! Torna-ho a intentar.");
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -156,8 +166,13 @@ public class Controller {
         int cost = view.askForInteger();
         view.printMessage();
 
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         model.addAdvertisement(companyName, day, cost);
+        long timeAfter = System.nanoTime();
         view.printMessage("L'empresa s'ha afegit correctament al sistema gestor d'anuncis.");
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**

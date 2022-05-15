@@ -30,4 +30,10 @@ public class Advertisement {
                 ", price=" + price +
                 '}';
     }
+
+    public String toPrettyString() {
+        return "Nom: " + name +
+                "\nDia: " + date +
+                "\nPreu: " + price + "€";
+    }
 }
