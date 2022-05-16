@@ -121,7 +121,11 @@ public class Controller {
 
         view.printMessage();
 
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         java.util.ArrayList<RTreeElement> magicSearch = model.circleMagicSearch(circle);
+        long timeAfter = System.nanoTime();
+
         if (magicSearch.size() != 0) {
             view.printMessage("Els cercles propers i semblants a aquest són:");
             //Printar els cercles trobats
@@ -131,17 +135,19 @@ public class Controller {
         } else {
             view.printMessage("No s'ha pogut trobar cap cercle similar i a prop d'aquest, torna-ho a intentar!");
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
      * Method that searches the Circles that are contained in an especific area
      */
     private void areaSearch() {
-        view.printMessageWithoutLine("Entra del primer punt del rectangle (X,Y): ");
+        view.printMessageWithoutLine("Entra el primer punt del rectangle (X,Y): ");
         view.askForString();
         String stringFirstPoint = view.askForString();
         String[] firstPoint = stringFirstPoint.split(",");
-        view.printMessageWithoutLine("Entra del segon punt del rectangle (X,Y): ");
+        view.printMessageWithoutLine("Entra el segon punt del rectangle (X,Y): ");
         String stringSecondPoint = view.askForString();
         String[] secondPoint = stringSecondPoint.split(",");
         view.printMessage();
@@ -150,7 +156,12 @@ public class Controller {
         try {
             points[0] = new Point(Float.parseFloat(firstPoint[0]), Float.parseFloat(firstPoint[1]));
             points[1] = new Point(Float.parseFloat(secondPoint[0]), Float.parseFloat(secondPoint[1]));
+
+            // We mesure the algorithm execution time
+            long timeBefore = System.nanoTime();
             java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
+            long timeAfter = System.nanoTime();
+
             if (pointsInArea.size() != 0) {
                 view.printMessage("S'han trobat " + pointsInArea.size() + " cercles en aquesta àrea:");
                 //Printar els cercles trobats
@@ -160,6 +171,8 @@ public class Controller {
             } else {
                 view.printMessage("No hi ha cap cercle en aquesta àrea. Torna-ho a intentar!");
             }
+
+            System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
         } catch (Exception e) {
             view.printMessage("No s'ha pogut fer parse d'aquest número correctament. " +
                     "\nTorna-ho a intentar posant-ho en format enter1.decimal1,enter2.decimal2");
