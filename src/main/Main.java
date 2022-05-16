@@ -14,7 +14,7 @@ public class Main {
     private static final String FILE_TREE_NAME = "treeS.paed";
     private static final String FILE_R_TREE_NAME = "rtreeS.paed";
     private static final int R_TREE_ORDER = 3;
-    private static final String FILE_HASHMAP_NAME = "tablesXS.paed";
+    private static final String FILE_HASHMAP_NAME = "tablesXXL.paed";
 
     public static void main(String[] args){
         try{
