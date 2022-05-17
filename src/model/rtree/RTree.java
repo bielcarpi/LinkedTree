@@ -266,7 +266,9 @@ public class RTree {
      * @return true if the point has correctly deleted and false if not
      */
     public boolean delete(Point pointToRemove){
-        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null
+        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null (only if the point introduced is out of root boundaries)
+        if(nodeWithThePoint == null) return false;
+
         ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
 
         for (int i = 0; i < elements.size(); i++) {
