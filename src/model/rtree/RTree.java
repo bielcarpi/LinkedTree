@@ -205,10 +205,6 @@ public class RTree {
     private float[] getSearchingArea() {
         float[] values = rootNode.getLimitBoundaries();
 
-        System.out.println("Limits MIN: X:" + values[0] + ", Y:" + values[2]);
-        System.out.println("Limits MAX: X:" + values[1] + ", Y:" + values[3]);
-        System.out.println("Dimensions: " + Math.abs(values[0] - values[1])/10 + ", " + Math.abs(values[2] - values[3])/10);
-
         return new float[]{
                 Math.abs(values[0] - values[1])/CRITERIA ,
                 Math.abs(values[2] - values[3])/CRITERIA};
@@ -238,11 +234,7 @@ public class RTree {
         range[0] = new Point(minX, minY);
         range[1] = new Point(maxX, maxY);
 
-        System.out.println("Punt 0: " + range[0].getX() + ", " + range[0].getY());
-        System.out.println("Punt 1: " + range[1].getX() + ", " + range[1].getY());
-
         ArrayList<RTreeElement> area = makeRangeSearch(range);
-        System.out.println("Resultats: " + area.size());
         return area;
     }
 
@@ -274,7 +266,9 @@ public class RTree {
      * @return true if the point has correctly deleted and false if not
      */
     public boolean delete(Point pointToRemove){
-        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null
+        RTreeNode nodeWithThePoint = pointNodeSearch(rootNode, pointToRemove); //Can never be null (only if the point introduced is out of root boundaries)
+        if(nodeWithThePoint == null) return false;
+
         ArrayList<RTreeElement> elements = nodeWithThePoint.getElements();
 
         for (int i = 0; i < elements.size(); i++) {
