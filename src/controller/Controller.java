@@ -117,9 +117,10 @@ public class Controller {
     private void consultCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a consultar: ");
+        String companyName = view.askForString();
         // We mesure the algorithm execution time
         long timeBefore = System.nanoTime();
-        Advertisement ad = model.getAdvertisement(view.askForString());
+        Advertisement ad = model.getAdvertisement(companyName);
         long timeAfter = System.nanoTime();
         view.printMessage();
 
@@ -138,9 +139,10 @@ public class Controller {
     private void removeCompany() {
         view.printMessage();
         view.printMessageWithoutLine("Entra el nom de l'empresa a eliminar: ");
+        String companyName = view.askForString();
         // We mesure the algorithm execution time
         long timeBefore = System.nanoTime();
-        boolean success = model.removeAdvertisement(view.askForString());
+        boolean success = model.removeAdvertisement(companyName);
         long timeAfter = System.nanoTime();
         view.printMessage();
 
