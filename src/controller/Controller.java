@@ -137,6 +137,7 @@ public class Controller {
         }
 
         System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        System.out.println("PUNTS TROBATS: " + magicSearch.size());
     }
 
     /**
@@ -173,6 +174,7 @@ public class Controller {
             }
 
             System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+            System.out.println("PUNTS TROBATS: " + pointsInArea.size());
         } catch (Exception e) {
             view.printMessage("No s'ha pogut fer parse d'aquest número correctament. " +
                     "\nTorna-ho a intentar posant-ho en format enter1.decimal1,enter2.decimal2");
@@ -197,11 +199,16 @@ public class Controller {
         float y = view.askForFloat();
 
         view.printMessage();
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         if (model.removePoint(new Point(x, y))) {
             view.printMessage("El cercle s'ha eliminat correctament del canvas.");
         } else {
             view.printMessage("No hi ha cap cercle en aquest punt, torna-ho a intentar!");
         }
+
+        long timeAfter = System.nanoTime();
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -218,8 +225,13 @@ public class Controller {
         String hexColor = view.askForString();
         view.printMessage();
 
+        // We mesure the algorithm execution time
+        long timeBefore = System.nanoTime();
         model.addNewCircle(x, y, radius, hexColor);
+        long timeAfter = System.nanoTime();
         view.printMessage("El cercle s'ha afegit correctament al canvas.");
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
