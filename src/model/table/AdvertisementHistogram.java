@@ -5,8 +5,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
@@ -60,7 +65,7 @@ public class AdvertisementHistogram extends JFrame {
         setSize(WIDTH, HEIGHT);
 
 
-        DefaultPieDataset dataset = createDataset();
+        DefaultCategoryDataset dataset = createDataset();
         JFreeChart chart = createChart(dataset);
         ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setFillZoomRectangle(true);
@@ -85,8 +90,8 @@ public class AdvertisementHistogram extends JFrame {
     }
 
 
-    private DefaultPieDataset createDataset() {
-        DefaultPieDataset dataset = new DefaultPieDataset();
+    private DefaultCategoryDataset createDataset() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         ArrayList<Advertisement> values = hashMap.getAllValues();
         int monday = 0, tuesday = 0, wednesday = 0, thursday = 0, friday = 0, saturday = 0, sunday = 0;
@@ -102,28 +107,26 @@ public class AdvertisementHistogram extends JFrame {
             }
         }
 
-        dataset.setValue("Monday", monday);
-        dataset.setValue("Tuesday", tuesday);
-        dataset.setValue("Wednesday", wednesday);
-        dataset.setValue("Thursday", thursday);
-        dataset.setValue("Friday", friday);
-        dataset.setValue("Saturday", saturday);
-        dataset.setValue("Sunday", sunday);
+        dataset.setValue(monday, "Day of the Week", "Monday");
+        dataset.setValue(tuesday, "Day of the Week", "Tuesday");
+        dataset.setValue(wednesday, "Day of the Week", "Wednesday");
+        dataset.setValue(thursday, "Day of the Week", "Thursday");
+        dataset.setValue(friday, "Day of the Week", "Friday");
+        dataset.setValue(saturday, "Day of the Week", "Saturday");
+        dataset.setValue(sunday, "Day of the Week", "Sunday");
         return dataset;
     }
 
-    private JFreeChart createChart(DefaultPieDataset dataset) {
-        JFreeChart chart = ChartFactory.createPieChart3D(
-                "Companies interested in Publishing Ads by Day", dataset, true, true, false);
+    private JFreeChart createChart(DefaultCategoryDataset dataset) {
+        //Create the chart
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Companies interested in Publishing Ads by Day", "Day of the Week", "Num of Companies",
+                dataset, PlotOrientation.VERTICAL, true, true, false);
 
         chart.addSubtitle(new TextTitle("Pie histogram created using data in the HashMap"));
-        PiePlot3D plot = (PiePlot3D) chart.getPlot();
-        plot.setForegroundAlpha(0.8f);
-        plot.setInteriorGap(0.1f);
-
-        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
-                "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
-        plot.setLabelGenerator(gen);
+        chart.setBorderVisible(true);
+        chart.setElementHinting(true);
+        chart.removeLegend();
 
         return chart;
     }
