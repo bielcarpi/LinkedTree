@@ -163,8 +163,8 @@ public class HashMap<K, V> {
 
         mitjaObjectesPerPosicio = mitjaObjectesPerPosicio / filledPositions;
 
-        System.out.println("Filled Positions -> " + filledPositions);
-        System.out.println("Total Positions -> " + totalPositions);
-        System.out.println("Mitja d'objectes per cada posicio ->" + mitjaObjectesPerPosicio);
+        // System.out.println("Filled Positions -> " + filledPositions);
+        // System.out.println("Total Positions -> " + totalPositions);
+        // System.out.println("Mitja d'objectes per cada posicio ->" + mitjaObjectesPerPosicio);
     }
 }

@@ -123,7 +123,7 @@ public class AdvertisementHistogram extends JFrame {
                 "Companies interested in Publishing Ads by Day", "Day of the Week", "Num of Companies",
                 dataset, PlotOrientation.VERTICAL, true, true, false);
 
-        chart.addSubtitle(new TextTitle("Pie histogram created using data in the HashMap"));
+        chart.addSubtitle(new TextTitle("histogram created using data in the HashMap"));
         chart.setBorderVisible(true);
         chart.setElementHinting(true);
         chart.removeLegend();

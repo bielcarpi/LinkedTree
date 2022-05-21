@@ -57,7 +57,7 @@ public class Controller {
                         continue infiniteLoop;
 
                     case 5:
-                        view.printMessage("Aturant LinkedTree...\n");
+                        view.printMessage("\nAturant LinkedTree...\n");
                         return;
 
                     default:
@@ -119,9 +119,9 @@ public class Controller {
         view.printMessageWithoutLine("Entra el nom de l'empresa a consultar: ");
         String companyName = view.askForString();
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         Advertisement ad = model.getAdvertisement(companyName);
-        long timeAfter = System.nanoTime();
+        // long timeAfter = System.nanoTime();
         view.printMessage();
 
         if (ad != null) {
@@ -130,7 +130,7 @@ public class Controller {
             view.printMessage("L'empresa introduida no existeix! Torna-ho a intentar.");
         }
 
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -141,9 +141,9 @@ public class Controller {
         view.printMessageWithoutLine("Entra el nom de l'empresa a eliminar: ");
         String companyName = view.askForString();
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         boolean success = model.removeAdvertisement(companyName);
-        long timeAfter = System.nanoTime();
+        // long timeAfter = System.nanoTime();
         view.printMessage();
 
         if (success) {
@@ -152,7 +152,7 @@ public class Controller {
             view.printMessage("L'empresa introduida no exiteix! Torna-ho a intentar.");
         }
 
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -169,12 +169,12 @@ public class Controller {
         view.printMessage();
 
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         model.addAdvertisement(companyName, day, cost);
-        long timeAfter = System.nanoTime();
+        // long timeAfter = System.nanoTime();
         view.printMessage("L'empresa s'ha afegit correctament al sistema gestor d'anuncis.");
 
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -231,12 +231,12 @@ public class Controller {
         view.printMessage();
 
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         java.util.ArrayList<RTreeElement> magicSearch = model.circleMagicSearch(circle);
-        long timeAfter = System.nanoTime();
+        // long timeAfter = System.nanoTime();
 
         if (magicSearch.size() != 0) {
-            view.printMessage("Els cercles propers i semblants a aquest són:");
+            view.printMessage("Els cercles propers i semblants a aquest són:\n");
             //Printar els cercles trobats
             for (RTreeElement search : magicSearch) {
                 view.printMessage(search.toRangeSearchString());
@@ -245,8 +245,8 @@ public class Controller {
             view.printMessage("No s'ha pogut trobar cap cercle similar i a prop d'aquest, torna-ho a intentar!");
         }
 
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
-        System.out.println("PUNTS TROBATS: " + magicSearch.size());
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // System.out.println("PUNTS TROBATS: " + magicSearch.size());
     }
 
     /**
@@ -268,12 +268,12 @@ public class Controller {
             points[1] = new Point(Float.parseFloat(secondPoint[0]), Float.parseFloat(secondPoint[1]));
 
             // We mesure the algorithm execution time
-            long timeBefore = System.nanoTime();
+            // long timeBefore = System.nanoTime();
             java.util.ArrayList<RTreeElement> pointsInArea = model.circleRangeSearch(points);
-            long timeAfter = System.nanoTime();
+            // long timeAfter = System.nanoTime();
 
             if (pointsInArea.size() != 0) {
-                view.printMessage("S'han trobat " + pointsInArea.size() + " cercles en aquesta àrea:");
+                view.printMessage("S'han trobat " + pointsInArea.size() + " cercles en aquesta àrea:\n");
                 //Printar els cercles trobats
                 for (int i = 0; i < pointsInArea.size(); i++) {
                     view.printMessage(pointsInArea.get(i).toRangeSearchString());
@@ -282,8 +282,8 @@ public class Controller {
                 view.printMessage("No hi ha cap cercle en aquesta àrea. Torna-ho a intentar!");
             }
 
-            System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
-            System.out.println("PUNTS TROBATS: " + pointsInArea.size());
+            // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+            // System.out.println("PUNTS TROBATS: " + pointsInArea.size());
         } catch (Exception e) {
             view.printMessage("No s'ha pogut fer parse d'aquest número correctament. " +
                     "\nTorna-ho a intentar posant-ho en format enter1.decimal1,enter2.decimal2");
@@ -309,15 +309,15 @@ public class Controller {
 
         view.printMessage();
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         if (model.removePoint(new Point(x, y))) {
             view.printMessage("El cercle s'ha eliminat correctament del canvas.");
         } else {
             view.printMessage("No hi ha cap cercle en aquest punt, torna-ho a intentar!");
         }
 
-        long timeAfter = System.nanoTime();
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // long timeAfter = System.nanoTime();
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -335,12 +335,12 @@ public class Controller {
         view.printMessage();
 
         // We mesure the algorithm execution time
-        long timeBefore = System.nanoTime();
+        // long timeBefore = System.nanoTime();
         model.addNewCircle(x, y, radius, hexColor);
-        long timeAfter = System.nanoTime();
+        // long timeAfter = System.nanoTime();
         view.printMessage("El cercle s'ha afegit correctament al canvas.");
 
-        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
+        // System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -404,8 +404,9 @@ public class Controller {
             ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
 
             if (solutionAlgorithms.size() != 0) {
+                view.printMessage("\nS'han trobat " + solutionAlgorithms.size() + " algorismes en aquest rang...\n");
                 for (int i = 0; i < solutionAlgorithms.size(); i++) {
-                    view.printMessage(solutionAlgorithms.get(i).timestampSearchString());
+                    view.printMessage(solutionAlgorithms.get(i).toPrettyString());
                 }
 
             } else {
@@ -434,14 +435,14 @@ public class Controller {
      * Method that removes an algorithm in the system
      */
     private void removeAlgorithm() {
-        view.printMessageWithoutLine("\nIdentificador de l'algorisme: ");
+        view.printMessageWithoutLine("Identificador de l'algorisme: ");
         int id = view.askForInteger();
 
         String removedNode = model.removeAlgorithm(id);
         if (removedNode != null) {
-            view.printMessage("L'algorisme de " + removedNode + " s'ha eliminat correctament!");
+            view.printMessage("\nL'algorisme de " + removedNode + " s'ha eliminat correctament del feed.");
         } else {
-            view.printMessage("L'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
+            view.printMessage("\nL'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
         }
     }
 
@@ -547,7 +548,7 @@ public class Controller {
             return;
         }
 
-        view.printMessage("Potser t'interessa seguir els seguents comptes:");
+        view.printMessage("\nPotser t'interessa seguir els seguents comptes:");
         view.printMessage();
 
         for(Recommendation r: recommendations){
@@ -562,10 +563,10 @@ public class Controller {
      * Method that shows the right way followers to contextualize drama
      */
     private void contextualizeDrama() {
-        view.printMessage("Llegint el dataset de drama...");
+        view.printMessage("\nLlegint el dataset de drama...");
         Stack<GraphNode> dramaNodesTopo = model.contextualizeDrama(); //Get Drama nodes in topo order
 
-        view.printMessage("Pots posar-te al dia de la polèmica en el següent ordre:");
+        view.printMessage("\nPots posar-te al dia de la polèmica en el següent ordre:\n");
         while(!dramaNodesTopo.isEmpty()){
             GraphNode n = dramaNodesTopo.remove();
             view.printMessage(n.dramaToString());

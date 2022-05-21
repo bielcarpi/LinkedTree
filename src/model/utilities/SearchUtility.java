@@ -206,7 +206,7 @@ public class SearchUtility {
                 break;
             }
         }
-        System.out.println("Number of nodes evaluated: " + numberOfNodes);
+        // System.out.println("Number of nodes evaluated: " + numberOfNodes);
         return path;
     }
 
