@@ -131,7 +131,7 @@ public class HashMap<K, V> {
         //Given a String, it returns the sum of all its characters in ASCII
         int sum = 0;
         for(int i = 0; i < s.length(); i++)
-            sum += s.charAt(i);
+            sum += s.charAt(i) << i;
 
         return sum;
     }
@@ -146,5 +146,25 @@ public class HashMap<K, V> {
             //Now that we have expanded the internal array, let's re-calculate positions for all the elements we had
             for(Tuple<K, V> t: values) put(t.getFirst(), t.getLast());
         }
+    }
+
+
+    public void printInternalStats(){
+        int filledPositions = 0;
+        int totalPositions = internalArray.length;
+        double mitjaObjectesPerPosicio = 0;
+
+        for(int i = 0; i < internalArray.length; i++){
+            if(internalArray[i] != null){
+                filledPositions++;
+                mitjaObjectesPerPosicio += internalArray[i].size();
+            }
+        }
+
+        mitjaObjectesPerPosicio = mitjaObjectesPerPosicio / filledPositions;
+
+        System.out.println("Filled Positions -> " + filledPositions);
+        System.out.println("Total Positions -> " + totalPositions);
+        System.out.println("Mitja d'objectes per cada posicio ->" + mitjaObjectesPerPosicio);
     }
 }
