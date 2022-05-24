@@ -398,11 +398,14 @@ public class Controller {
         view.printMessageWithoutLine("Timestamp màxim a cercar: ");
         int maxTimestamp = view.askForInteger();
         view.printMessage();
+        long timeBefore = 1, timeAfter = -1;
+
         if (maxTimestamp < minTimestamp) {
             view.printMessage("El timestamp màxim no pot ser més petit que el mínim.");
         } else {
+            timeBefore = System.nanoTime();
             ArrayList<Algorithm> solutionAlgorithms = model.searchByRangeTimestamp(minTimestamp, maxTimestamp);
-
+            timeAfter = System.nanoTime();
             if (solutionAlgorithms.size() != 0) {
                 view.printMessage("\nS'han trobat " + solutionAlgorithms.size() + " algorismes en aquest rang...\n");
                 for (int i = 0; i < solutionAlgorithms.size(); i++) {
@@ -413,6 +416,8 @@ public class Controller {
                 view.printMessage("No s'ha trobat cap algorisme per aquest rang de timestamps!");
             }
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -421,7 +426,10 @@ public class Controller {
     private void timestampSearch() {
         view.printMessageWithoutLine("Timestamp a cercar: ");
         int timestamp = view.askForInteger();
+        long timeBefore = System.nanoTime();
         Algorithm solutionAlgorithm = model.searchByTimestamp(timestamp);
+        long timeAfter = System.nanoTime();
+
         view.printMessage();
 
         if (solutionAlgorithm != null) {
@@ -429,6 +437,8 @@ public class Controller {
         } else {
             view.printMessage("No s'ha trobat cap algorisme per aquest timestamp!");
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -438,12 +448,16 @@ public class Controller {
         view.printMessageWithoutLine("Identificador de l'algorisme: ");
         int id = view.askForInteger();
 
+        long timeBefore = System.nanoTime();
         String removedNode = model.removeAlgorithm(id);
+        long timeAfter = System.nanoTime();
         if (removedNode != null) {
             view.printMessage("\nL'algorisme de " + removedNode + " s'ha eliminat correctament del feed.");
         } else {
             view.printMessage("\nL'algorisme no s'ha pogut eliminar del feed perquè no existeix!");
         }
+
+        System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
     }
 
     /**
@@ -464,8 +478,12 @@ public class Controller {
         if(model.algorithmExists(id)) {
             view.printMessage("\nL'algorisme no s'ha pogut afegir al feed perquè ja existeix!");
         } else {
+            long timeBefore = System.nanoTime();
             model.addNewAlgorithm(id, name, language, cost, timestamp);
+            long timeAfter = System.nanoTime();
             view.printMessage("\nL'algorisme ha estat correctament afegit al  feed.");
+
+            System.out.println("\nTIME: " + (timeAfter-timeBefore)/1000.0 + " us");
         }
     }
 

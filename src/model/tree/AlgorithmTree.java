@@ -48,7 +48,7 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getLeftNode() == null){
                 parentNode.setLeftNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
-                //balanceTree(nodeToInsert);
+                balanceTree(nodeToInsert);
             }
             else insertImplementation(parentNode.getLeftNode(), nodeToInsert);
         }
@@ -56,7 +56,7 @@ public class AlgorithmTree implements BinaryTree {
             if(parentNode.getRightNode() == null){
                 parentNode.setRightNode(nodeToInsert);
                 nodeToInsert.setParentNode(parentNode);
-                //balanceTree(nodeToInsert);
+                balanceTree(nodeToInsert);
             }
             else insertImplementation(parentNode.getRightNode(), nodeToInsert);
         }
