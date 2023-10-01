@@ -1,5 +1,12 @@
-/Graphs
+/Graphs/treeXXL.paed
+/Graphs/tablesXXL.paed
+/Graphs/rtreeXXL.paed
+/Graphs/dagXXL.paed
+/Graphs/graphXXL.paed
 .DS_Store
+paed-2122-s2-g1.iml
+out/
+.idea/
 
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 # User-specific stuff
